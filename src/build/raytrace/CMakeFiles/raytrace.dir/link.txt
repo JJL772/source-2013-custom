@@ -1,0 +1,2 @@
+/usr/bin/ar qc raytrace.a  CMakeFiles/raytrace.dir/raytrace.cpp.o CMakeFiles/raytrace.dir/trace2.cpp.o CMakeFiles/raytrace.dir/trace3.cpp.o
+/usr/bin/ranlib raytrace.a

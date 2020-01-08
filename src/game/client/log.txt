@@ -1,0 +1,5 @@
+---- compiledcaptionswap.cpp ----
+---- language.cpp ----
+---- randoverride.cpp ----
+---- c_vote_controller.cpp ----
+---- achievementmgr.cpp ----
