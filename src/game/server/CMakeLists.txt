@@ -6,7 +6,7 @@
 project(server C CXX)
 
 # Platform specific sources 
-set(WINDOWS_SRCS		"${ROOT}/public/haptics/haptic_utils.cpp"
+set(WINDOWS_SRCS		"${ROOT}//public/haptics/haptic_utils.cpp"
 
 )
 set(POSIX_SRCS	)
@@ -554,6 +554,7 @@ set(SRCS
 			"TemplateEntities.cpp"
 			"TemplateEntities.h"
 			"tempmonster.cpp"
+			"monstermaker.cpp"
 			"tesla.cpp"
 			"${ROOT_DIR}/game/shared/test_ehandle.cpp"
 			"test_proxytoggle.cpp"
@@ -897,11 +898,260 @@ set(SRCS
 			"entity_tools_server.cpp"
 			"toolframework_server.cpp"
 			"toolframework_server.h"
+hl2/ai_allymanager.cpp 
+    hl2/ai_behavior_actbusy.cpp 
+    hl2/ai_behavior_functank.cpp 
+    hl2/ai_behavior_holster.cpp 
+    hl2/ai_behavior_police.cpp 
+    hl2/ai_goal_police.cpp 
+    hl2/ai_spotlight.cpp 
+    hl2/antlion_dust.cpp
+    hl2/antlion_maker.cpp 
+    hl2/ar2_explosion.cpp 
+    hl2/basehlcombatweapon.cpp 
+    hl2/cbasehelicopter.cpp 
+    hl2/cbasespriteprojectile.cpp 
+    hl2/citadel_effects.cpp 
+    hl2/combine_mine.cpp 
+    hl2/env_alyxemp.cpp 
+    hl2/env_headcrabcanister.cpp 
+    hl2/env_speaker.cpp 
+    hl2/env_starfield.cpp 
+    hl2/Func_Monitor.cpp 
+    hl2/func_recharge.cpp 
+    hl2/func_tank.cpp 
+    hl2/grenade_ar2.cpp 
+    hl2/grenade_beam.cpp
+    hl2/grenade_bugbait.cpp 
+    hl2/grenade_frag.cpp 
+    hl2/grenade_homer.cpp 
+    hl2/grenade_pathfollower.cpp 
+    hl2/hl2_ai_network.cpp 
+    hl2/hl2_eventlog.cpp 
+    hl2/hl2_player.cpp 
+    hl2/hl2_playerlocaldata.cpp 
+    hl2/hl2_triggers.cpp 
+    hl2/hl_playermove.cpp
+    hl2/info_teleporter_countdown.cpp 
+    hl2/item_ammo.cpp 
+    hl2/item_battery.cpp 
+    hl2/item_dynamic_resupply.cpp 
+    hl2/item_healthkit.cpp 
+    hl2/item_itemcrate.cpp 
+    hl2/item_suit.cpp 
+    hl2/look_door.cpp 
+    hl2/monster_dummy.cpp 
+    hl2/npc_alyx.cpp 
+    hl2/npc_antlion.cpp 
+    hl2/npc_antlionguard.cpp 
+    hl2/npc_apcdriver.cpp 
+    hl2/npc_attackchopper.cpp 
+    hl2/npc_barnacle.cpp 
+    hl2/npc_barney.cpp 
+    hl2/npc_basescanner.cpp 
+    hl2/npc_BaseZombie.cpp 
+    hl2/npc_breen.cpp 
+    hl2/npc_bullseye.cpp 
+    hl2/npc_citizen17.cpp 
+    hl2/npc_combine.cpp 
+    hl2/npc_combinecamera.cpp 
+    hl2/npc_combinedropship.cpp 
+    hl2/npc_combinegunship.cpp 
+    hl2/npc_combines.cpp 
+    hl2/npc_cranedriver.cpp 
+    hl2/npc_crow.cpp 
+    hl2/npc_dog.cpp 
+    hl2/npc_eli.cpp 
+    hl2/npc_enemyfinder.cpp 
+    hl2/npc_fisherman.cpp 
+    hl2/npc_gman.cpp 
+    hl2/npc_headcrab.cpp 
+    hl2/npc_ichthyosaur.cpp 
+    hl2/npc_kleiner.cpp 
+    hl2/npc_launcher.cpp 
+    hl2/npc_manhack.cpp 
+    hl2/npc_metropolice.cpp 
+    hl2/npc_missiledefense.cpp 
+    hl2/npc_monk.cpp 
+    hl2/npc_mossman.cpp 
+    hl2/npc_playercompanion.cpp 
+    hl2/npc_PoisonZombie.cpp 
+    hl2/npc_rollermine.cpp 
+    hl2/npc_scanner.cpp 
+    hl2/npc_stalker.cpp 
+    hl2/npc_strider.cpp 
+    hl2/npc_turret_ceiling.cpp 
+    hl2/npc_turret_floor.cpp 
+    hl2/npc_turret_ground.cpp 
+    hl2/npc_vortigaunt_episodic.cpp 
+    hl2/npc_zombie.cpp 
+    hl2/point_apc_controller.cpp 
+    hl2/prop_combine_ball.cpp 
+    hl2/prop_thumper.cpp 
+    hl2/proto_sniper.cpp 
+    hl2/rotorwash.cpp 
+    hl2/script_intro.cpp 
+    hl2/te_gaussexplosion.cpp 
+    hl2/vehicle_airboat.cpp 
+    hl2/vehicle_apc.cpp 
+    hl2/vehicle_crane.cpp 
+    hl2/vehicle_prisoner_pod.cpp 
+    hl2/vehicle_viewcontroller.cpp 
+    hl2/weapon_annabelle.cpp 
+    hl2/weapon_bugbait.cpp 
+    hl2/weapon_cguard.cpp 
+    hl2/weapon_flaregun.cpp 
+    hl2mp/grenade_satchel.cpp 
+    hl2mp/grenade_tripmine.cpp 
+    hl2mp/hl2mp_bot_temp.cpp 
+    hl2mp/hl2mp_client.cpp 
+    hl2mp/hl2mp_cvars.cpp 
+    hl2mp/hl2mp_gameinterface.cpp 
+    hl2mp/hl2mp_player.cpp 
+    hl2mp/te_hl2mp_shotgun_shot.cpp 
+    hltvdirector.cpp 
+    ${ROOT}/game/shared/achievementmgr.cpp 
+    ${ROOT}/game/shared/achievements_hlx.cpp 
+    ${ROOT}/game/shared/achievement_saverestore.cpp 
+    ${ROOT}/game/shared/activitylist.cpp 
+    ${ROOT}/game/shared/ammodef.cpp 
+    ${ROOT}/game/shared/animation.cpp 
+    ${ROOT}/game/shared/baseachievement.cpp 
+    ${ROOT}/game/shared/basecombatcharacter_shared.cpp 
+    ${ROOT}/game/shared/basecombatweapon_shared.cpp 
+    ${ROOT}/game/shared/baseentity_shared.cpp 
+    ${ROOT}/game/shared/basegrenade_shared.cpp 
+    ${ROOT}/game/shared/baseparticleentity.cpp 
+    ${ROOT}/game/shared/baseplayer_shared.cpp 
+    ${ROOT}/game/shared/baseprojectile.cpp 
+    ${ROOT}/game/shared/baseviewmodel_shared.cpp 
+    ${ROOT}/game/shared/base_playeranimstate.cpp 
+    ${ROOT}/game/shared/beam_shared.cpp 
+    ${ROOT}/game/shared/collisionproperty.cpp 
+    ${ROOT}/game/shared/death_pose.cpp 
+    ${ROOT}/game/shared/debugoverlay_shared.cpp 
+    ${ROOT}/game/shared/decals.cpp 
+    ${ROOT}/game/shared/effect_dispatch_data.cpp 
+    ${ROOT}/game/shared/ehandle.cpp 
+    ${ROOT}/game/shared/entitylist_base.cpp 
+    ${ROOT}/game/shared/EntityParticleTrail_Shared.cpp 
+    ${ROOT}/game/shared/env_detail_controller.cpp 
+    ${ROOT}/game/shared/env_wind_shared.cpp 
+    ${ROOT}/game/shared/eventlist.cpp 
+    ${ROOT}/game/shared/func_ladder.cpp 
+    ${ROOT}/game/shared/gamemovement.cpp 
+    ${ROOT}/game/shared/gamerules.cpp 
+    ${ROOT}/game/shared/gamerules_register.cpp 
+    ${ROOT}/game/shared/GameStats.cpp 
+    ${ROOT}/game/shared/gamestringpool.cpp 
+    ${ROOT}/game/shared/gamevars_shared.cpp 
+    ${ROOT}/game/shared/hintmessage.cpp 
+    ${ROOT}/game/shared/hintsystem.cpp 
+    ${ROOT}/game/shared/hl2/basehlcombatweapon_shared.cpp 
+    ${ROOT}/game/shared/hl2/env_headcrabcanister_shared.cpp 
+    ${ROOT}/game/shared/hl2/hl2_gamerules.cpp 
+    ${ROOT}/game/shared/hl2/hl2_usermessages.cpp 
+    ${ROOT}/game/shared/hl2/hl_gamemovement.cpp 
+    ${ROOT}/game/shared/hl2/survival_gamerules.cpp 
+    ${ROOT}/game/shared/hl2mp/hl2mp_gamerules.cpp 
+    ${ROOT}/game/shared/hl2mp/hl2mp_player_shared.cpp 
+    ${ROOT}/game/shared/hl2mp/hl2mp_weapon_parse.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_357.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_ar2.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_crossbow.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_crowbar.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_frag.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_hl2mpbase.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_hl2mpbasebasebludgeon.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_hl2mpbasehlmpcombatweapon.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_hl2mpbase_machinegun.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_physcannon.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_pistol.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_rpg.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_shotgun.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_slam.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_smg1.cpp 
+    ${ROOT}/game/shared/hl2mp/weapon_stunstick.cpp 
+    ${ROOT}/game/shared/igamesystem.cpp 
+    ${ROOT}/game/shared/interval.cpp 
+    ${ROOT}/game/shared/mapentities_shared.cpp 
+    ${ROOT}/game/shared/ModelSoundsCache.cpp 
+    ${ROOT}/game/shared/movevars_shared.cpp 
+    ${ROOT}/game/shared/mp_shareddefs.cpp 
+    ${ROOT}/game/shared/multiplay_gamerules.cpp 
+    ${ROOT}/game/shared/obstacle_pushaway.cpp 
+    ${ROOT}/game/shared/particlesystemquery.cpp 
+    ${ROOT}/game/shared/particle_parse.cpp 
+    ${ROOT}/game/shared/physics_main_shared.cpp 
+    ${ROOT}/game/shared/physics_saverestore.cpp 
+    ${ROOT}/game/shared/physics_shared.cpp 
+    ${ROOT}/game/shared/point_bonusmaps_accessor.cpp 
+    ${ROOT}/game/shared/point_posecontroller.cpp 
+    ${ROOT}/game/shared/precache_register.cpp 
+    ${ROOT}/game/shared/predictableid.cpp 
+    ${ROOT}/game/shared/predicted_viewmodel.cpp 
+    ${ROOT}/game/shared/props_shared.cpp 
+    ${ROOT}/game/shared/querycache.cpp 
+    ${ROOT}/game/shared/ragdoll_shared.cpp 
+    ${ROOT}/game/shared/rope_helpers.cpp 
+    ${ROOT}/game/shared/saverestore.cpp 
+    ${ROOT}/game/shared/SceneCache.cpp 
+    ${ROOT}/game/shared/sceneentity_shared.cpp 
+    ${ROOT}/game/shared/script_intro_shared.cpp 
+    ${ROOT}/game/shared/sequence_Transitioner.cpp 
+    ${ROOT}/game/shared/sheetsimulator.cpp 
+    ${ROOT}/game/shared/simtimer.cpp 
+    ${ROOT}/game/shared/singleplay_gamerules.cpp 
+    ${ROOT}/game/shared/SoundEmitterSystem.cpp 
+    ${ROOT}/game/shared/soundenvelope.cpp 
+    ${ROOT}/game/shared/Sprite.cpp 
+    ${ROOT}/game/shared/SpriteTrail.cpp 
+    ${ROOT}/game/shared/studio_shared.cpp 
+    ${ROOT}/game/shared/takedamageinfo.cpp 
+    ${ROOT}/game/shared/teamplayroundbased_gamerules.cpp 
+    ${ROOT}/game/shared/teamplay_gamerules.cpp 
+    ${ROOT}/game/shared/teamplay_round_timer.cpp 
+    ${ROOT}/game/shared/test_ehandle.cpp 
+    ${ROOT}/game/shared/usercmd.cpp 
+    ${ROOT}/game/shared/usermessages.cpp 
+    ${ROOT}/game/shared/util_shared.cpp 
+    ${ROOT}/game/shared/vehicle_viewblend_shared.cpp 
+    ${ROOT}/game/shared/voice_gamemgr.cpp 
+    ${ROOT}/game/shared/weapon_parse.cpp 
+    ${ROOT}/game/shared/weapon_proficiency.cpp 
+    nav_mesh_factory.cpp
+    team_train_watcher.cpp
+    nav_mesh.cpp
+    nav_node.cpp
+    nav_area.cpp
+    nav_colors.cpp
+    nav_edit.cpp
+    nav_entities.cpp
+    nav_file.cpp
+    nav_generate.cpp
+    nav_ladder.cpp
+    nav_merge.cpp
+    nav_simplify.cpp
+    team_control_point_master.cpp
+    team_control_point_round.cpp
+    team_objectiveresource.cpp
+    team_spawnpoint.cpp
+    team_control_point.cpp
+    trigger_area_capture.cpp
+    #trigger_portal.cpp # WE dont need this?
+    
 )
 
 # Preprocessor defs
-set(DEFINES	-DGAME_DLL -DVECTOR -DVERSION_SAFE_STEAM_API_INTERFACES -DPROTECTED_THINGS_ENABLE
-	-DHL2_DLL -DHL2MP)
+set(DEFINES	-DGAME_DLL 
+	-DVECTOR 
+	-DVERSION_SAFE_STEAM_API_INTERFACES 
+	-DHL2_DLL 
+	-DHL2MP
+	-DPROJECTDIR=${CMAKE_CURRENT_SOURCE_DIR}
+	-DVPCGAMECAPS=HL2MP
+	-DUSE_NAV_MESH
+	)
 
 # Platform-specific preprocessor defines
 set(WIN32_DEFINES	)	
@@ -923,19 +1173,9 @@ set(WIN64_LINK_DIRS		)
 set(POSIX32_LINK_DIRS	)
 set(POSIX64_LINK_DIRS	)
 
-# Generic libs to link against
-set(LINK_LIBS
-)
-# Platform specific link libs
-set(WINDOWS_LINK_LIBS tier3.lib tier2.lib choreoobjects.lib dmxloader.lib matsys_controls.lib particles.lib 
-	vtf.lib bitmap.lib winmm.lib)
-set(WIN32_LINK_LIBS		)
-set(WIN64_LINK_LIBS		)
-set(POSIX_LINK_LIBS	rt tier3.a tier2.a choreoobjects.a dmxloader.a matsys_controls.a particles.a
-	vtf.a bitmap.a libcrypto.a libcurl.a libcurlssl.a libz.a)
 
 # Generic include dirs
-set(INCLUDE_DIRS		${PUBLIC_INCLUDE}/tier1 ${PUBLIC_INCLUDE}/tier0 ${ROOT}/game/shared/hl2 ${ROOT}/game/shared/hl2 ${ROOT}/game/server/hl2 ${ROOT}/game/server/hl2mp
+set(INCLUDE_DIRS		${PUBLIC_INCLUDE}/tier1 ${PUBLIC_INCLUDE}/tier0 ${ROOT}//game/shared/hl2 ${ROOT}//game/shared/hl2 ${ROOT}//game/server/hl2 ${ROOT}//game/server/hl2mp
 	${SRCDIR}/game/shared/hl2mp ${SRCDIR}/game/shared ${SRCDIR}/utils/common ${SRCDIR}/game/shared/econ ${SRCDIR}/game/server/NextBot ${SRCDIR}/game/server)
 
 # Other projects this depends on
@@ -961,3 +1201,73 @@ set(STATIC_LIB 0)
 
 # Include this to handle all the defines
 include(${CMAKESCRIPTS_DIR}/library-base.cmake)
+
+# Links dirs to search for link libs in
+set(LINK_DIRS 			)
+set(WINDOWS_LINK_DIRS	)
+set(POSIX_LINK_DIRS		${PUBLIC_LIB}/linux32/ ${COMMON_LIB}/linux32/)
+set(WIN32_LINK_DIRS		)
+set(WIN64_LINK_DIRS		)
+set(POSIX32_LINK_DIRS	)
+set(POSIX64_LINK_DIRS	)
+
+# Other static libs we need 
+set(WINDOWS_LINK_LIBS tier3.lib tier2.lib choreoobjects.lib dmxloader.lib matsys_controls.lib particles.lib 
+	vtf.lib bitmap.lib vgui_controls.lib)
+
+set(WINDOWS_LINK_LIBS
+	tier1
+	${ROOT}//lib/public/libprotobuf.lib 
+	${ROOT}//lib/public/bitmap.lib 
+	${ROOT}//lib/public/choreoobjects.lib 
+	mathlib
+	${ROOT}//lib/public/matsys_controls.lib  
+	${ROOT}//lib/public/particles.lib 
+	${ROOT}//lib/public/dmxloader.lib 
+	${ROOT}//lib/public/tier2.lib 
+	${ROOT}//lib/public/tier3.lib 
+	${ROOT}//lib/public/vtf.lib 
+	${ROOT}//lib/common/libcrypto.lib 
+	${ROOT}//lib/public/libz.lib 
+	${ROOT}//lib/common/libcurl.lib
+	vstdlib 
+	steam_api
+	tier0)
+
+set(POSIX_LINK_LIBS rt 
+	pthread
+	dl
+	m
+	#mathlib
+	tier0
+	tier1
+	${ROOT}//lib/public/linux32/libprotobuf.a
+	${ROOT}//lib/public/linux32/bitmap.a 
+	${ROOT}//lib/public/linux32/choreoobjects.a 
+	mathlib
+	${ROOT}//lib/public/linux32/matsys_controls.a 
+	${ROOT}//lib/public/linux32/particles.a 
+	${ROOT}//lib/public/linux32/dmxloader.a
+	tier1
+	${ROOT}//lib/public/linux32/tier2.a 
+	${ROOT}//lib/public/linux32/tier3.a 
+	${ROOT}//lib/public/linux32/vtf.a 
+	${ROOT}//lib/common/linux32/libcrypto.a
+	${ROOT}//lib/public/linux32/libz.a
+	${ROOT}//lib/common/linux32/libcurl.a
+	${ROOT}//lib/common/linux32/libcurlssl.a
+	${ROOT}//lib/common/linux32/libssl.a
+	tier0
+	vstdlib 
+	#SDL2 
+	steam_api
+	mathlib
+	tier0)
+
+if(DEFINED WINDOWS)
+	target_link_libraries(server ${WINDOWS_LINK_LIBS})
+endif(DEFINED WINDOWS)
+
+if(DEFINED POSIX)
+	target_link_libraries(server ${POSIX_LINK_LIBS})
+endif(DEFINED POSIX)

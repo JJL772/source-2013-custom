@@ -3,8 +3,14 @@
 # Common Directories for CMake
 #
 #
-set(LIBCOMMON		${ROOT_DIR}/lib/common/linux32)
-set(LIBPUBLIC		${ROOT_DIR}/lib/public/linux32)
+if(POSIX)
+	set(LIBCOMMON		${ROOT_DIR}/lib/common/linux32)
+	set(LIBPUBLIC		${ROOT_DIR}/lib/public/linux32)
+elseif(WIN32)
+	set(LIBCOMMON		${ROOT_DIR}/lib/common)
+	set(LIBPUBLIC		${ROOT_DIR}/lib/public)
+endif(POSIX)
+
 set(THIRDPARTY_DIR 	${ROOT_DIR}/thirdparty)
 
 set(PUBLIC_INCLUDE	${ROOT_DIR}/public)

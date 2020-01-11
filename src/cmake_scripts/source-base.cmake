@@ -45,8 +45,14 @@ if(USE_AVX)
 endif(USE_AVX)
 
 if(DEFINED POSIX OR UNIX_CROSS)
+	# NO undefined in shared libs
+	set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined ${CMAKE_SHARED_LINKER_FLAGS}")
+	
 	set(CMAKE_LINK_FLAGS "${CMAKE_LINK_FLAGS} -lc")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive -Wno-narrowing -Wno-enum-compare -Wno-format-security -Wno-multichar")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive -Wno-invalid-offsetof -Wno-enum-compare -Wno-format-security -Wno-multichar")
+	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0)
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-narrowing")
+	endif()
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fpermissive -Wno-narrowing -Wno-enum-compare -Wno-format-security -Wno-multichar")
 	if(DEFINED POSIX64)
 		set(CMAKE_LINK_FLAGS "${CMAKE_LINK_FLAGS} -l:ld-linux-x86_64.so.2")

@@ -32,7 +32,7 @@ option(CLANG "Enables the use of the clang toolchain instead of the default GNU 
 
 # Definitions that should always be enabled
 add_definitions(-DFRAME_POINTER_OMISSION_DISABLED -DRAD_TELEMETRY_DISABLED)
-
+add_definitions(-DVERSION_SAFE_STEAM_API_INTERFACES -UDPROTECTED_THINGS_DISABLE -DPROTECTED_THINGS_DISABLE)
 
 set(MINGW32_TOOLCHAIN "${CMAKE_HOME_DIRECTORY}/cmake_scripts/toolchain-win32-mingw.cmake")
 set(MINGW64_TOOLCHAIN "${CMAKE_HOME_DIRECTORY}/cmake_scripts/toolchain-win64-mingw.cmake")
@@ -98,7 +98,7 @@ if(DEFINED CMAKE_HOST_WIN32 OR UNIX_CROSS)
 	set(WINDOWS_BUILD 1)
 	set(WINDOWS 1)
 	if(NOT UNIX_CROSS)
-		add_definitions(-D_DLL_EXT=".dll")
+		add_definitions(-D_DLL_EXT=.dll -D_EXTERNAL_DLL_EXT=.dll)
 	endif(NOT UNIX_CROSS)
 	if(BUILD_64BIT)
 		if(UNIX_CROSS)
@@ -138,8 +138,20 @@ endif(DEFINED CMAKE_HOST_WIN32 OR UNIX_CROSS)
 if(DEFINED CMAKE_HOST_UNIX AND NOT UNIX_CROSS)
 	set(POSIX 1)
 	set(LINUX 1)
-	add_definitions(-D_DLL_EXT=".so")
-	add_definitions(-DLINUX -D_LINUX -DPOSIX -D_POSIX)
+	add_definitions(-D_DLL_EXT=.so -D_EXTERNAL_DLL_EXT=.so)
+	add_definitions(-DLINUX -D_LINUX -DPOSIX -D_POSIX -DSOURCE1=1)
+	# Common defs for all unix builds
+	add_definitions(
+		-DUSE_SDL 
+		-DUSE_WEBM_FOR_REPLAY 
+		-DGNUC 
+		-DVPROF_LEVEL=1
+		-DNO_HOOK_MALLOC
+		-DNO_MALLOC_OVERRIDE
+		-DVPCGAMECAPS=HL2MP 
+		-DGL_GLEXT_PROTOTYPES 
+		-DDX_TO_GL_ABSTRACTION
+	)
 	if(NOT CLANG_BUILD)
 		add_definitions(-DGNUC -DCOMPILER_GCC)
 	endif(NOT CLANG_BUILD)
@@ -196,12 +208,7 @@ add_subdirectory(vgui2/vgui_controls)
 add_subdirectory(game/client)
 add_subdirectory(game/server)
 
-if(DEFINED WINDOWS_BUILD OR UNIX_CROSS)
-	add_subdirectory(materialsystem/shaderapidx9)
-	add_subdirectory(vgui2/vgui_surfacelib)
-	add_subdirectory(vgui2/vgui_controls)
-	add_subdirectory(vgui2/src)
-	add_subdirectory(hammer)
-	add_subdirectory(hammer_launcher)
-endif(DEFINED WINDOWS_BUILD OR UNIX_CROSS)
-
+# Install targets
+install(TARGETS client server 
+	RUNTIME DESTINATION bin
+	LIBRARY DESTINATION bin)

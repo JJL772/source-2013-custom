@@ -7,7 +7,8 @@ project(client C CXX)
 
 # Platform specific sources 
 set(WINDOWS_SRCS		"${ROOT}/public/haptics/haptic_utils.cpp"
-)
+						"${ROOT}/public/tier0/memoverride.cpp")
+
 set(POSIX_SRCS	)
 set(SRCS
 	"${ROOT}/game/client/hl2/C_Func_Monitor.cpp"
@@ -439,70 +440,70 @@ set(SRCS
 		"fx_sparks.cpp"
 		"particlesphererenderer.cpp"
 		"smoke_fog_overlay.cpp"
-			"c_team_objectiveresource.cpp"
-			"c_team_objectiveresource.h"
-			"c_team_train_watcher.cpp"
-			"c_team_train_watcher.h"
-			"hud_voicestatus.cpp"
-			"${ROOT}/game/shared/predicted_viewmodel.cpp"
-			"${ROOT}/game/shared/predicted_viewmodel.h"
-			"${ROOT}/game/shared/teamplay_round_timer.cpp"
-			"${ROOT}/game/shared/teamplay_round_timer.h"
- 				"${ROOT}/game/client/episodic/c_vort_charge_token.cpp"
-				"${ROOT}/game/shared/hl2/basehlcombatweapon_shared.cpp"
-				"${ROOT}/game/client/hl2/c_antlion_dust.cpp"
-				"${ROOT}/game/client/hl2/c_ar2_explosion.cpp"
-				"${ROOT}/game/client/hl2/c_barnacle.cpp"
-				"${ROOT}/game/client/hl2/c_barney.cpp"
-				"${ROOT}/game/client/hl2/c_basehelicopter.cpp"
-				"${ROOT}/game/client/hl2/c_basehelicopter.h"
-				"${ROOT}/game/client/hl2/c_basehlcombatweapon.cpp"
-				"${ROOT}/game/client/hl2/c_basehlcombatweapon.h"
-				"${ROOT}/game/client/hl2/c_basehlplayer.cpp"
-				"${ROOT}/game/client/hl2/c_basehlplayer.h"
-				"${ROOT}/game/client/hl2/c_citadel_effects.cpp"
-				"${ROOT}/game/client/hl2/c_corpse.cpp"
-				"${ROOT}/game/client/hl2/c_corpse.h"
-				"${ROOT}/game/client/hl2/c_env_alyxtemp.cpp"
-				"${ROOT}/game/client/hl2/c_env_headcrabcanister.cpp"
-				"${ROOT}/game/client/hl2/c_env_starfield.cpp"
-				"${ROOT}/game/client/hl2/c_func_tankmortar.cpp"
-				"${ROOT}/game/client/hl2/c_hl2_playerlocaldata.cpp"
-				"${ROOT}/game/client/hl2/c_hl2_playerlocaldata.h"
-				"${ROOT}/game/client/hl2/c_info_teleporter_countdown.cpp"
-				"${ROOT}/game/client/hl2/c_npc_antlionguard.cpp"
-				"${ROOT}/game/client/hl2/c_npc_combinegunship.cpp"
-				"${ROOT}/game/client/hl2/c_npc_manhack.cpp"
-				"${ROOT}/game/client/hl2/c_npc_rollermine.cpp"
-				"${ROOT}/game/client/hl2/c_plasma_beam_node.cpp"
-				"${ROOT}/game/client/hl2/c_prop_combine_ball.cpp"
-				"${ROOT}/game/client/hl2/c_prop_combine_ball.h"
-				"${ROOT}/game/client/hl2/c_rotorwash.cpp"
-				"${ROOT}/game/client/hl2/c_script_intro.cpp"
-				"${ROOT}/game/shared/script_intro_shared.cpp"
-				"${ROOT}/game/client/hl2/c_strider.cpp"
-				"${ROOT}/game/client/hl2/c_te_concussiveexplosion.cpp"
-				"${ROOT}/game/client/hl2/c_te_flare.cpp"
-				"${ROOT}/game/client/hl2/c_thumper_dust.cpp"
-				"${ROOT}/game/client/hl2/c_vehicle_airboat.cpp"
-				"${ROOT}/game/client/hl2/c_vehicle_cannon.cpp"
-				"${ROOT}/game/client/hl2/c_vehicle_crane.cpp"
-				"${ROOT}/game/client/hl2/c_vehicle_crane.h"
-				"${ROOT}/game/client/hl2/c_vehicle_prisoner_pod.cpp"
-				"${ROOT}/game/client/hl2/c_weapon__stubs_hl2.cpp"
-				"${ROOT}/game/client/hl2/c_weapon_crossbow.cpp"
-				"${ROOT}/game/shared/hl2/env_headcrabcanister_shared.cpp"
-				"${ROOT}/game/shared/hl2/env_headcrabcanister_shared.h"
-				"${ROOT}/game/client/hl2/fx_antlion.cpp"
-				"${ROOT}/game/client/hl2/fx_bugbait.cpp"
-				"${ROOT}/game/client/hl2/fx_hl2_impacts.cpp"
-				"${ROOT}/game/client/hl2/fx_hl2_tracers.cpp"
-				"${ROOT}/game/client/hl2/hl2_clientmode.cpp"
-				"${ROOT}/game/shared/hl2/hl2_gamerules.cpp"
-				"${ROOT}/game/shared/hl2/hl2_shareddefs.h"
-				"${ROOT}/game/shared/hl2/hl2_usermessages.cpp"
-				"${ROOT}/game/shared/hl2/hl_gamemovement.cpp"
-				"${ROOT}/game/client/hl2/hl_in_main.cpp"
+		"c_team_objectiveresource.cpp"
+		"c_team_objectiveresource.h"
+		"c_team_train_watcher.cpp"
+		"c_team_train_watcher.h"
+		"hud_voicestatus.cpp"
+		"${ROOT}/game/shared/predicted_viewmodel.cpp"
+		"${ROOT}/game/shared/predicted_viewmodel.h"
+		"${ROOT}/game/shared/teamplay_round_timer.cpp"
+		"${ROOT}/game/shared/teamplay_round_timer.h"
+ 		"${ROOT}/game/client/episodic/c_vort_charge_token.cpp"
+		"${ROOT}/game/shared/hl2/basehlcombatweapon_shared.cpp"
+		"${ROOT}/game/client/hl2/c_antlion_dust.cpp"
+		"${ROOT}/game/client/hl2/c_ar2_explosion.cpp"
+		"${ROOT}/game/client/hl2/c_barnacle.cpp"
+		"${ROOT}/game/client/hl2/c_barney.cpp"
+		"${ROOT}/game/client/hl2/c_basehelicopter.cpp"
+		"${ROOT}/game/client/hl2/c_basehelicopter.h"
+		"${ROOT}/game/client/hl2/c_basehlcombatweapon.cpp"
+		"${ROOT}/game/client/hl2/c_basehlcombatweapon.h"
+		"${ROOT}/game/client/hl2/c_basehlplayer.cpp"
+		"${ROOT}/game/client/hl2/c_basehlplayer.h"
+		"${ROOT}/game/client/hl2/c_citadel_effects.cpp"
+		"${ROOT}/game/client/hl2/c_corpse.cpp"
+		"${ROOT}/game/client/hl2/c_corpse.h"
+		"${ROOT}/game/client/hl2/c_env_alyxtemp.cpp"
+		"${ROOT}/game/client/hl2/c_env_headcrabcanister.cpp"
+		"${ROOT}/game/client/hl2/c_env_starfield.cpp"
+		"${ROOT}/game/client/hl2/c_func_tankmortar.cpp"
+		"${ROOT}/game/client/hl2/c_hl2_playerlocaldata.cpp"
+		"${ROOT}/game/client/hl2/c_hl2_playerlocaldata.h"
+		"${ROOT}/game/client/hl2/c_info_teleporter_countdown.cpp"
+		"${ROOT}/game/client/hl2/c_npc_antlionguard.cpp"
+		"${ROOT}/game/client/hl2/c_npc_combinegunship.cpp"
+		"${ROOT}/game/client/hl2/c_npc_manhack.cpp"
+		"${ROOT}/game/client/hl2/c_npc_rollermine.cpp"
+		"${ROOT}/game/client/hl2/c_plasma_beam_node.cpp"
+		"${ROOT}/game/client/hl2/c_prop_combine_ball.cpp"
+		"${ROOT}/game/client/hl2/c_prop_combine_ball.h"
+		"${ROOT}/game/client/hl2/c_rotorwash.cpp"
+		"${ROOT}/game/client/hl2/c_script_intro.cpp"
+		"${ROOT}/game/shared/script_intro_shared.cpp"
+		"${ROOT}/game/client/hl2/c_strider.cpp"
+		"${ROOT}/game/client/hl2/c_te_concussiveexplosion.cpp"
+		"${ROOT}/game/client/hl2/c_te_flare.cpp"
+		"${ROOT}/game/client/hl2/c_thumper_dust.cpp"
+		"${ROOT}/game/client/hl2/c_vehicle_airboat.cpp"
+		"${ROOT}/game/client/hl2/c_vehicle_cannon.cpp"
+		"${ROOT}/game/client/hl2/c_vehicle_crane.cpp"
+		"${ROOT}/game/client/hl2/c_vehicle_crane.h"
+		"${ROOT}/game/client/hl2/c_vehicle_prisoner_pod.cpp"
+		"${ROOT}/game/client/hl2/c_weapon__stubs_hl2.cpp"
+		"${ROOT}/game/client/hl2/c_weapon_crossbow.cpp"
+		"${ROOT}/game/shared/hl2/env_headcrabcanister_shared.cpp"
+		"${ROOT}/game/shared/hl2/env_headcrabcanister_shared.h"
+		"${ROOT}/game/client/hl2/fx_antlion.cpp"
+		"${ROOT}/game/client/hl2/fx_bugbait.cpp"
+		"${ROOT}/game/client/hl2/fx_hl2_impacts.cpp"
+		"${ROOT}/game/client/hl2/fx_hl2_tracers.cpp"
+		"${ROOT}/game/client/hl2/hl2_clientmode.cpp"
+		"${ROOT}/game/shared/hl2/hl2_gamerules.cpp"
+		"${ROOT}/game/shared/hl2/hl2_shareddefs.h"
+		"${ROOT}/game/shared/hl2/hl2_usermessages.cpp"
+		"${ROOT}/game/shared/hl2/hl_gamemovement.cpp"
+		"${ROOT}/game/client/hl2/hl_in_main.cpp"
 				"${ROOT}/game/client/hl2/hl_prediction.cpp"
 				"${ROOT}/game/client/hl2/hud_ammo.cpp"
 				"${ROOT}/game/client/hl2/hud_battery.cpp"
@@ -570,11 +571,26 @@ set(SRCS
 				"entity_client_tools.cpp"
 				"toolframework_client.cpp"
 				"toolframework_client.h"
+	game_controls/basemodelpanel.cpp 
+    game_controls/basemodel_panel.cpp 
+    game_controls/baseviewport.cpp 
+    game_controls/ClientScoreBoardDialog.cpp
+    game_controls/commandmenu.cpp 
+    game_controls/IconPanel.cpp 
+    game_controls/intromenu.cpp 
+    game_controls/MapOverview.cpp 
+    game_controls/NavProgress.cpp 
+    game_controls/SpectatorGUI.cpp
+    game_controls/teammenu.cpp 
+    game_controls/vguitextwindow.cpp 
+    #${ROOT}/public/tier0/memoverride.cpp
 )
 
 # Preprocessor defs
-set(DEFINES	-DNO_STRING_T -DCLIENT_DLL -DVECTOR -DVERSION_SAFE_STEAM_API_INTERFACES -DPROTECTED_THINGS_ENABLE -Dstrncpy=use_Q_strncpy_instead
-	-D_snprintf=use_Q_snprintf_instead -DUSE_WEBM_FOR_REPLAY -DHL2_CLIENT_DLL -DHL2MP -DUSE_SDL)
+set(DEFINES -DNO_STRING_T -DCLIENT_DLL -DVECTOR -DVERSION_SAFE_STEAM_API_INTERFACES -Dstrncpy=use_Q_strncpy_instead
+	-D_snprintf=use_Q_snprintf_instead -DHL2_CLIENT_DLL -DHL2MP
+	-DVPCGAMECAPS=HL2MP -DPROJECTDIR=${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 # Platform-specific preprocessor defines
 set(WIN32_DEFINES	)	
@@ -597,33 +613,13 @@ set(POSIX32_LINK_DIRS	)
 set(POSIX64_LINK_DIRS	)
 
 # Generic libs to link against
-set(LINK_LIBS
-)
-# Platform specific link libs
-set(WINDOWS_LINK_LIBS tier3.lib tier2.lib choreoobjects.lib dmxloader.lib matsys_controls.lib particles.lib 
-	vtf.lib bitmap.lib)
-set(WIN32_LINK_LIBS		)
-set(WIN64_LINK_LIBS		)
-#set(POSIX32_LINK_LIBS	rt tier3.a tier2.a )
-set(POSIX_LINK_LIBS	rt tier3.a tier2.a choreoobjects.a dmxloader.a matsys_controls.a particles.a
-	vtf.a bitmap.a libcrypto.a libcurl.a libcurlssl.a libz.a)
+#set(LINK_LIBS)
 
 # Generic include dirs
 set(INCLUDE_DIRS		${PUBLIC_INCLUDE}/tier1 ${PUBLIC_INCLUDE}/tier0 ${ROOT}/game/shared/hl2 ${ROOT}/game/client/hl2/elements ${ROOT}/game/client/hl2
 	${ROOT}/game/shared/hl2mp ${ROOT}/game/client/hl2mp ${ROOT}/game/client/hl2mp/ui ${PUBLIC_INCLUDE} ${ROOT}/game/shared/ ${ROOT}/game/client ${ROOT}/game/client/game_controls)
 
-# Other projects this depends on
-set(DEPENDENCIES mathlib tier1 
-#tier2
-#choreoobjects dmxloader matsys_controls particles
-				#tier2 tier3 vgui_controls vtf
-				#${PUBLIC_LIB}/steam_api
-				#libcrypto
-				#libcurl
-				#libcurlssl
-				#libz
-				#bitmap
-)
+# This is a well-defined order of linking, changing this at all will result in link errors
 
 # Platform specific includes
 set(WIN32_INCLUDE_DIRS	)
@@ -645,4 +641,46 @@ set(STATIC_LIB 0)
 
 # Include this to handle all the defines
 include(${CMAKESCRIPTS_DIR}/library-base.cmake)
-#target_link_libraries(client bitmap tier2 tier3)
+
+# Other static libs we need 
+set(WINDOWS_LINK_LIBS tier3.lib tier2.lib choreoobjects.lib dmxloader.lib matsys_controls.lib particles.lib 
+	vtf.lib bitmap.lib vgui_controls.lib)
+
+set(POSIX_LINK_LIBS rt 
+	pthread
+	dl
+	m
+	#mathlib
+	tier0
+	tier1
+	${ROOT}/lib/public/linux32/libprotobuf.a
+	${ROOT}/lib/public/linux32/bitmap.a 
+	${ROOT}/lib/public/linux32/choreoobjects.a 
+	mathlib
+	${ROOT}/lib/public/linux32/matsys_controls.a 
+	${ROOT}/lib/public/linux32/particles.a 
+	${ROOT}/lib/public/linux32/dmxloader.a
+	tier1
+	${ROOT}/lib/public/linux32/tier2.a 
+	${ROOT}/lib/public/linux32/tier3.a 
+	${ROOT}/lib/public/linux32/vtf.a 
+	${ROOT}/lib/common/linux32/libcrypto.a
+	${ROOT}/lib/public/linux32/libz.a
+	${ROOT}/lib/common/linux32/libcurl.a
+	${ROOT}/lib/common/linux32/libcurlssl.a
+	${ROOT}/lib/common/linux32/libssl.a
+	${ROOT}/lib/public/linux32/vgui_controls.a
+	tier0
+	vstdlib 
+	#SDL2 
+	steam_api
+	mathlib
+	tier0)
+
+if(DEFINED WINDOWS)
+	target_link_libraries(client ${WINDOWS_LINK_LIBS})
+endif(DEFINED WINDOWS)
+
+if(DEFINED POSIX)
+	target_link_libraries(client ${POSIX_LINK_LIBS})
+endif(DEFINED POSIX)

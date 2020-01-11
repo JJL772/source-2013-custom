@@ -6,13 +6,51 @@
 project(tier1 C CXX)
 
 # Platform specific sources 
-set(WINDOWS_SRCS	)
-set(POSIX_SRCS	)
+set(WINDOWS_SRCS			"processor_detect.cpp")
+set(POSIX_SRCS			"qsort_s.cpp"		
+						"processor_detect_linux.cpp"
+						"pathmatch.cpp")
 
-set(SRCS	)
-
-file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/ *.c *.cpp)
-list(APPEND SRCS ${SOURCES})
+set(SRCS	
+		"bitbuf.cpp"
+		"newbitbuf.cpp"
+		"byteswap.cpp"
+		"characterset.cpp"
+		"checksum_crc.cpp"
+		"checksum_md5.cpp"
+		"checksum_sha1.cpp"
+		"commandbuffer.cpp"
+		"convar.cpp"
+		"datamanager.cpp"
+		"diff.cpp"
+		"generichash.cpp"
+		"ilocalize.cpp"
+		"interface.cpp"
+		"KeyValues.cpp"
+		"kvpacker.cpp"
+		"lzmaDecoder.cpp"
+		#"lzss.cpp" [!$SOURCESDK]
+		"mempool.cpp"
+		"memstack.cpp"
+		"NetAdr.cpp"
+		"splitstring.cpp"
+		"rangecheckedvar.cpp"
+		"reliabletimer.cpp"
+		"stringpool.cpp"
+		"strtools.cpp"
+		"strtools_unicode.cpp"
+		"tier1.cpp"
+		"tokenreader.cpp"
+		"sparsematrix.cpp"
+		"uniqueid.cpp"
+		"utlbuffer.cpp"
+		"utlbufferutil.cpp"
+		"utlstring.cpp"
+		"utlsymbol.cpp"
+		"utlbinaryblock.cpp"
+		"snappy.cpp"
+		"snappy-sinksource.cpp"
+		"snappy-stubs-internal.cpp")
 
 # Preprocessor defs
 set(DEFINES	-DTIER1_STATIC_LIB=1)
@@ -38,7 +76,7 @@ set(POSIX32_LINK_DIRS	)
 set(POSIX64_LINK_DIRS	)
 
 # Generic libs to link against
-set(LINK_LIBS	)
+set(LINK_LIBRARIES 		)
 
 # Platform specific link libs
 set(WIN32_LINK_LIBS		)
@@ -70,3 +108,4 @@ set(STATIC_LIB 1)
 # Include this to handle all the defines
 include(${CMAKESCRIPTS_DIR}/library-base.cmake)
 
+target_link_libraries(tier1 tier0)

@@ -18,7 +18,7 @@
 
 #include "tier1/utldict.h"
 #include "tier0/icommandline.h"
-#include <time.h>
+//#include <time.h>
 #ifdef GAME_DLL
 #include "vehicle_base.h"
 #endif 
@@ -167,9 +167,6 @@ bool CBaseGameStats::StatTrackingAllowed( void )
 // Don't care about vcr hooks here...
 #undef localtime
 #undef asctime
-#ifndef CLIENT_DLL // This will fail without undef on the server, but the client will fail with the undef
-#undef time
-#endif
 #include <time.h>
 
 void CBaseGameStats::StatsLog( char const *fmt, ... )
