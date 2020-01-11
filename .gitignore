@@ -54,3 +54,7 @@ config.cfg
 # shader files
 *.tmp
 
+# CLion stuff
+build
+.idea
+cmake-*
