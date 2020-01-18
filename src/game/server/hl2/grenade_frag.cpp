@@ -26,6 +26,10 @@ const float GRENADE_COEFFICIENT_OF_RESTITUTION = 0.2f;
 ConVar sk_plr_dmg_fraggrenade	( "sk_plr_dmg_fraggrenade","0");
 ConVar sk_npc_dmg_fraggrenade	( "sk_npc_dmg_fraggrenade","0");
 ConVar sk_fraggrenade_radius	( "sk_fraggrenade_radius", "0");
+ConVar sk_fraggrenade_debug     ( "sk_fraggrenade_debug", "0", FCVAR_REPLICATED | FCVAR_CHEAT);
+ConVar frag_shrapnel_max ("frag_shrapnel_max", "100", FCVAR_REPLICATED);
+ConVar frag_shrapnel_min ("frag_shrapnel_min", "20", FCVAR_REPLICATED);
+ConVar frag_shrapnel_max_dmg ("frag_shrapnel_max_dmg", "20", FCVAR_REPLICATED);
 
 #define GRENADE_MODEL "models/Weapons/w_grenade.mdl"
 
@@ -56,6 +60,7 @@ public:
 	bool	IsCombineSpawned( void ) const { return m_combineSpawned; }
 	void	SetPunted( bool punt ) { m_punted = punt; }
 	bool	WasPunted( void ) const { return m_punted; }
+	virtual void Explode(trace_t *pTrace, int bitsDamageType);
 
 	// this function only used in episodic.
 #if defined(HL2_EPISODIC) && 0 // FIXME: HandleInteraction() is no longer called now that base grenade derives from CBaseAnimating
@@ -374,6 +379,50 @@ int CGrenadeFrag::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 		return 0;
 
 	return BaseClass::OnTakeDamage( inputInfo );
+}
+
+void CGrenadeFrag::Explode(trace_t *pTrace, int bitsDamageType)
+{
+	BaseClass::Explode(pTrace, bitsDamageType);
+
+#ifdef GAME_DLL
+	if(sk_fraggrenade_debug.GetBool() && false)
+	{
+		NDebugOverlay::Sphere(this->GetAbsOrigin(), this->GetAbsAngles(), this->m_DmgRadius,
+				255, 0, 0, 0, false, 10.0f);
+	}
+
+	/* The following code will generate shrapnel for frag grenades*/
+	const Vector origin = this->GetAbsOrigin();
+	const Vector color_min(255.0f, 0.0f, 0.0f);
+	const Vector color_max(0.0f, 255.0f, 0.0f);
+	for(int i = 0; i < RandomInt(frag_shrapnel_min.GetInt(), frag_shrapnel_max.GetInt()); i++)
+	{
+		/* Generate random damage and angle */
+		float dmg = RandomFloat(5.0f, frag_shrapnel_max_dmg.GetFloat()); //rand() % frag_shrapnel_max_dmg.GetInt();
+		float dist = RandomFloat(50.0f, this->m_DmgRadius.Get());
+		// TODO: Random vector does not work here?
+		Vector angle;
+		angle.x = RandomFloat(-dist,dist) + origin.x;
+		angle.y = RandomFloat(-dist,dist) + origin.y;
+		angle.z = RandomFloat(0.0f,dist) + origin.z; /* NOTE: for this, we're going to want a positive Z, so that we dont slap the ground a bunch */
+
+		/* Do a trace to find entities we might want to damage */
+		CGameTrace trace;
+		UTIL_TraceLine(origin, angle, MASK_ALL, NULL, COLLISION_GROUP_PROJECTILE, &trace);
+
+		/* If we've hit an ent lets do an impact trace */
+		if(trace.DidHit())
+			UTIL_ImpactTrace(&trace, DMG_BULLET);
+
+		/* If debug is enabled we will just draw some lines representing the shrapnel that was produced, even with some colors! */
+		if(sk_fraggrenade_debug.GetBool())
+		{
+			Vector line_color = VectorLerp(color_max, color_min, dmg / frag_shrapnel_max_dmg.GetFloat());
+			NDebugOverlay::Line(origin, angle, (int)line_color.x, (int)line_color.y, (int)line_color.z, false, 10.0f);
+		}
+	}
+#endif
 }
 
 #if defined(HL2_EPISODIC) && 0 // FIXME: HandleInteraction() is no longer called now that base grenade derives from CBaseAnimating

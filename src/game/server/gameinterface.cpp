@@ -3445,7 +3445,6 @@ public:
 	{
 		AddAppSystem( "soundemittersystem" DLL_EXT_STRING, SOUNDEMITTERSYSTEM_INTERFACE_VERSION );
 		AddAppSystem( "scenefilecache" DLL_EXT_STRING, SCENE_FILE_CACHE_INTERFACE_VERSION );
-		#pragma message("soundemittersystem" DLL_EXT_STRING)
 	}
 
 	virtual int	Count()
