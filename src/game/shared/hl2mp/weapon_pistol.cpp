@@ -17,10 +17,13 @@
 #include "weapon_hl2mpbasehlmpcombatweapon.h"
 
 #define	PISTOL_FASTEST_REFIRE_TIME		0.1f
+#define PISTOL_FASTEST_REFIRE_TIME_ZOOMED 0.2f
 #define	PISTOL_FASTEST_DRY_REFIRE_TIME	0.2f
 
 #define	PISTOL_ACCURACY_SHOT_PENALTY_TIME		0.2f	// Applied amount of time each shot adds to the time we must recover from
 #define	PISTOL_ACCURACY_MAXIMUM_PENALTY_TIME	1.5f	// Maximum penalty to deal out
+#define PISTOL_ACCURACY_SHOT_PENALTY_TIME_ZOOMED 0.1f       // Applied penalty of each shot for zoomed
+#define PISTOL_ACCURACY_MAXIMUM_PENALTY_TIME_ZOOMED 1.0f    // Max penalty for zoomed
 
 #ifdef CLIENT_DLL
 #define CWeaponPistol C_WeaponPistol
@@ -47,6 +50,7 @@ public:
 	void	PrimaryAttack( void );
 	void	AddViewKick( void );
 	void	DryFire( void );
+	virtual void SecondaryAttack(void);
 
 	void	UpdatePenaltyTime( void );
 
@@ -94,6 +98,8 @@ private:
 	CNetworkVar( float,	m_flLastAttackTime );
 	CNetworkVar( float,	m_flAccuracyPenalty );
 	CNetworkVar( int,	m_nNumShotsFired );
+	CNetworkVar(bool, m_bZoomed);
+	CNetworkVar(int, m_nFOV);
 
 private:
 	CWeaponPistol( const CWeaponPistol & );
@@ -107,11 +113,15 @@ BEGIN_NETWORK_TABLE( CWeaponPistol, DT_WeaponPistol )
 	RecvPropTime( RECVINFO( m_flLastAttackTime ) ),
 	RecvPropFloat( RECVINFO( m_flAccuracyPenalty ) ),
 	RecvPropInt( RECVINFO( m_nNumShotsFired ) ),
+	RecvPropBool( RECVINFO(m_bZoomed)),
+	RecvPropInt(RECVINFO(m_nFOV)),
 #else
 	SendPropTime( SENDINFO( m_flSoonestPrimaryAttack ) ),
 	SendPropTime( SENDINFO( m_flLastAttackTime ) ),
 	SendPropFloat( SENDINFO( m_flAccuracyPenalty ) ),
 	SendPropInt( SENDINFO( m_nNumShotsFired ) ),
+	SendPropBool(SENDINFO(m_bZoomed)),
+	SendPropInt(SENDINFO(m_nFOV)),
 #endif
 END_NETWORK_TABLE()
 
@@ -152,12 +162,12 @@ CWeaponPistol::CWeaponPistol( void )
 {
 	m_flSoonestPrimaryAttack = gpGlobals->curtime;
 	m_flAccuracyPenalty = 0.0f;
-
+	m_bZoomed = false;
 	m_fMinRange1		= 24;
 	m_fMaxRange1		= 1500;
 	m_fMinRange2		= 24;
 	m_fMaxRange2		= 200;
-
+	m_nFOV = 90; /* Default for now */
 	m_bFiresUnderwater	= true;
 }
 
@@ -197,7 +207,7 @@ void CWeaponPistol::PrimaryAttack( void )
 	}
 
 	m_flLastAttackTime = gpGlobals->curtime;
-	m_flSoonestPrimaryAttack = gpGlobals->curtime + PISTOL_FASTEST_REFIRE_TIME;
+	m_flSoonestPrimaryAttack = gpGlobals->curtime + (this->m_bZoomed ? PISTOL_FASTEST_REFIRE_TIME_ZOOMED : PISTOL_FASTEST_REFIRE_TIME);
 
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
 
@@ -213,9 +223,32 @@ void CWeaponPistol::PrimaryAttack( void )
 	BaseClass::PrimaryAttack();
 
 	// Add an accuracy penalty which can move past our maximum penalty time if we're really spastic
-	m_flAccuracyPenalty += PISTOL_ACCURACY_SHOT_PENALTY_TIME;
+	m_flAccuracyPenalty += this->m_bZoomed ? PISTOL_ACCURACY_SHOT_PENALTY_TIME_ZOOMED : PISTOL_ACCURACY_SHOT_PENALTY_TIME;
 }
 
+//-----------------------------------------------------------------------------
+// Purpose: Secondary attack handling
+//-----------------------------------------------------------------------------
+void CWeaponPistol::SecondaryAttack()
+{
+	this->m_flNextSecondaryAttack = gpGlobals->curtime + .7f;
+	CHL2MP_Player* player = (CHL2MP_Player*)GetOwner();
+#ifdef GAME_DLL
+	if(!this->m_bZoomed)
+	{
+		this->m_nFOV = player->GetFOV();
+		player->SetFOV(player, 70, .3f);
+		this->m_bZoomed = true;
+	}
+	else
+	{
+		player->SetFOV(player, this->m_nFOV, .3f);
+		player->SetViewOffset(Vector(0.0f, 0.0f, 0.0f));
+		this->m_bZoomed = false;
+	}
+#endif
+	BaseClass::SecondaryAttack();
+}
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
@@ -230,7 +263,7 @@ void CWeaponPistol::UpdatePenaltyTime( void )
 	if ( ( ( pOwner->m_nButtons & IN_ATTACK ) == false ) && ( m_flSoonestPrimaryAttack < gpGlobals->curtime ) )
 	{
 		m_flAccuracyPenalty -= gpGlobals->frametime;
-		m_flAccuracyPenalty = clamp( m_flAccuracyPenalty, 0.0f, PISTOL_ACCURACY_MAXIMUM_PENALTY_TIME );
+		m_flAccuracyPenalty = clamp( m_flAccuracyPenalty, 0.0f, this->m_bZoomed ? PISTOL_ACCURACY_MAXIMUM_PENALTY_TIME_ZOOMED : PISTOL_ACCURACY_MAXIMUM_PENALTY_TIME );
 	}
 }
 
