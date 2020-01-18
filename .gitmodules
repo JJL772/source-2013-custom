@@ -1,0 +1,3 @@
+[submodule "src/thirdparty/pawn"]
+	path = src/thirdparty/pawn
+	url = https://github.com/JJL772/pawn
