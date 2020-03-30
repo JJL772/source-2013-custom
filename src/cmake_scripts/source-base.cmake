@@ -49,7 +49,7 @@ if(DEFINED POSIX OR UNIX_CROSS)
 	set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined ${CMAKE_SHARED_LINKER_FLAGS}")
 	
 	set(CMAKE_LINK_FLAGS "${CMAKE_LINK_FLAGS} -lc")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive -Wno-invalid-offsetof -Wno-enum-compare -Wno-format-security -Wno-multichar")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive -Wno-invalid-offsetof -Wno-enum-compare -Wno-format-security -Wno-multichar -Wno-ignored-attributes -fabi-compat-version=2")
 	if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 5.0)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-narrowing")
 	endif()
