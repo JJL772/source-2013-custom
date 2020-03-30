@@ -470,22 +470,27 @@ void CWeaponFrag::ThrowGrenade( CBasePlayer *pPlayer )
 void CWeaponFrag::LobGrenade( CBasePlayer *pPlayer )
 {
 #ifndef CLIENT_DLL
-	Vector	vecEye = pPlayer->EyePosition();
-	Vector	vForward, vRight;
-
-	pPlayer->EyeVectors( &vForward, &vRight, NULL );
-	Vector vecSrc = vecEye + vForward * 18.0f + vRight * 8.0f + Vector( 0, 0, -8 );
-	CheckThrowPosition( pPlayer, vecEye, vecSrc );
-	
-	Vector vecThrow;
-	pPlayer->GetVelocity( &vecThrow, NULL );
-	vecThrow += vForward * 350 + Vector( 0, 0, 50 );
-	CBaseGrenade *pGrenade = Fraggrenade_Create( vecSrc, vec3_angle, vecThrow, AngularImpulse(200,random->RandomInt(-600,600),0), pPlayer, GRENADE_TIMER, false );
-
-	if ( pGrenade )
+	for(int i = 0; i < 1; i++)
 	{
-		pGrenade->SetDamage( GetHL2MPWpnData().m_iPlayerDamage );
-		pGrenade->SetDamageRadius( GRENADE_DAMAGE_RADIUS );
+		Vector vecEye = pPlayer->EyePosition();
+		Vector vForward, vRight;
+
+		pPlayer->EyeVectors(&vForward, &vRight, NULL);
+		Vector vecSrc = vecEye + vForward * 18.0f + vRight * 8.0f + Vector(0, 0, -8);
+		CheckThrowPosition(pPlayer, vecEye, vecSrc);
+
+		Vector vecThrow;
+		pPlayer->GetVelocity(&vecThrow, NULL);
+		vecThrow += vForward * 350 + Vector(0, 0, 50);
+		CBaseGrenade *pGrenade = Fraggrenade_Create(vecSrc, vec3_angle, vecThrow,
+		                                            AngularImpulse(200, random->RandomInt(-600, 600), 0), pPlayer,
+		                                            GRENADE_TIMER, false);
+
+		if (pGrenade)
+		{
+			pGrenade->SetDamage(GetHL2MPWpnData().m_iPlayerDamage);
+			pGrenade->SetDamageRadius(GRENADE_DAMAGE_RADIUS);
+		}
 	}
 #endif
 

@@ -414,6 +414,7 @@ void CGrenadeFrag::Explode(trace_t *pTrace, int bitsDamageType)
 		/* If we've hit an ent lets do an impact trace */
 		if(trace.DidHit())
 			UTIL_ImpactTrace(&trace, DMG_BULLET);
+		UTIL_Tracer(origin, angle, 0, -1, 0, true);
 
 		/* If debug is enabled we will just draw some lines representing the shrapnel that was produced, even with some colors! */
 		if(sk_fraggrenade_debug.GetBool())

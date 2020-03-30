@@ -218,6 +218,7 @@ void CWeaponSMG1::SecondaryAttack( void )
 	// Don't autoaim on grenade tosses
 	AngleVectors( pPlayer->EyeAngles() + pPlayer->GetPunchAngle(), &vecThrow );
 	VectorScale( vecThrow, 1000.0f, vecThrow );
+	pPlayer->SetViewOffset(Vector(10.0f, 0.1f, 20.0f));
 	
 #ifndef CLIENT_DLL
 	//Create the grenade

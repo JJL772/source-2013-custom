@@ -898,7 +898,10 @@ set(SRCS
 			"entity_tools_server.cpp"
 			"toolframework_server.cpp"
 			"toolframework_server.h"
-hl2/ai_allymanager.cpp 
+		hl2/vehicle_jeep.cpp
+		hl2/vehicle_cannon.cpp
+		hl2/vehicle_crane.cpp
+	hl2/ai_allymanager.cpp
     hl2/ai_behavior_actbusy.cpp 
     hl2/ai_behavior_functank.cpp 
     hl2/ai_behavior_holster.cpp 
@@ -994,8 +997,7 @@ hl2/ai_allymanager.cpp
     hl2/te_gaussexplosion.cpp 
     hl2/vehicle_airboat.cpp 
     hl2/vehicle_apc.cpp 
-    hl2/vehicle_crane.cpp 
-    hl2/vehicle_prisoner_pod.cpp 
+    hl2/vehicle_prisoner_pod.cpp
     hl2/vehicle_viewcontroller.cpp 
     hl2/weapon_annabelle.cpp 
     hl2/weapon_bugbait.cpp 

@@ -88,13 +88,14 @@ set(SRCS
 		"WizardPanel.cpp"
 		"WizardSubPanel.cpp"
 		"${ROOT}/vgui2/src/vgui_key_translation.cpp"
+		"CodeEditor.cpp"
 )
 
 # Preprocessor defs
 set(DEFINES )
 
 # Platform-specific preprocessor defines
-set(WIN32_DEFINES	)	
+set(WIN32_DEFINES	)
 set(POSIX32_DEFINES	)
 set(WIN64_DEFINES	)
 set(POSIX64_DEFINES	)

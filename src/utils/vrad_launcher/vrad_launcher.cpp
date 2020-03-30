@@ -8,14 +8,19 @@
 // vrad_launcher.cpp : Defines the entry point for the console application.
 //
 
+#ifdef _WIN32
 #include "stdafx.h"
 #include <direct.h>
+#endif
+
 #include "tier1/strtools.h"
 #include "tier0/icommandline.h"
-
+#include "appframework/AppFramework.h"
+#include "ivraddll.h"
 
 char* GetLastErrorString()
 {
+#ifdef _WIN32
 	static char err[2048];
 	
 	LPVOID lpMsgBuf;
@@ -37,6 +42,9 @@ char* GetLastErrorString()
 	err[ sizeof( err ) - 1 ] = 0;
 
 	return err;
+#else
+	return 0;
+#endif
 }
 
 
