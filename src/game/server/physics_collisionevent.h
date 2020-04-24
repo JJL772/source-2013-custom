@@ -17,6 +17,7 @@
 
 #include "physics.h"
 #include "tier1/callqueue.h"
+#include "physics_record.h"
 
 extern CCallQueue g_PostSimulationQueue;
 
@@ -171,6 +172,7 @@ private:
 	int							m_inCallback;
 	int							m_lastTickFrictionError;	// counter to control printing of the dev warning for large contact systems
 	bool						m_bBufferTouchEvents;
+	CPhysicsEventProxy          m_Proxy; /* JJL77: Our physics event proxy */
 };
 
 #endif //#ifndef PHYSICS_COLLISIONEVENT_H

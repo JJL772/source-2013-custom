@@ -582,7 +582,8 @@ set(SRCS
     game_controls/NavProgress.cpp 
     game_controls/SpectatorGUI.cpp
     game_controls/teammenu.cpp 
-    game_controls/vguitextwindow.cpp 
+    game_controls/vguitextwindow.cpp
+		${ROOT}/game/shared/tests/code_panel_test.cpp
     #${ROOT}/public/tier0/memoverride.cpp
 )
 
@@ -669,7 +670,7 @@ set(POSIX_LINK_LIBS rt
 	${ROOT}/lib/common/linux32/libcurl.a
 	${ROOT}/lib/common/linux32/libcurlssl.a
 	${ROOT}/lib/common/linux32/libssl.a
-	${ROOT}/lib/public/linux32/vgui_controls.a
+		vgui_controls
 	tier0
 	vstdlib 
 	#SDL2 

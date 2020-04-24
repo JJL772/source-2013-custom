@@ -22,6 +22,7 @@
 #include "soundenvelope.h"
 #include "fx_water.h"
 #include "positionwatcher.h"
+#include "engine/ivdebugoverlay.h"
 #include "vphysics/constraints.h"
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -30,6 +31,7 @@
 extern IFileSystem *filesystem;
 
 ConVar	cl_phys_timescale( "cl_phys_timescale", "1.0", FCVAR_CHEAT, "Sets the scale of time for client-side physics (ragdolls)" );
+ConVar  cl_phys_show_collisions("cl_phys_show_collisions", "0", FCVAR_CHEAT | FCVAR_ARCHIVE);
 
 void PrecachePhysicsSounds( void );
 
@@ -517,6 +519,12 @@ void CCollisionEvent::PostCollision( vcollisionevent_t *pEvent )
 	{
 		ObjectSound( 0, pEvent );
 		ObjectSound( 1, pEvent );
+	}
+	if(cl_phys_show_collisions.GetBool())
+	{
+		Vector point;
+		pEvent->pInternalData->GetContactPoint(point);
+		debugoverlay->AddTextOverlay(point, 3.0f, "Collision");
 	}
 }
 

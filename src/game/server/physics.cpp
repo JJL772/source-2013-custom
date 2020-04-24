@@ -741,6 +741,8 @@ void CCollisionEvent::ObjectWake( IPhysicsObject *pObject )
 	{
 		ReportVPhysicsStateChanged( pObject, pEntity, true );
 	}
+
+	m_Proxy.ObjectWake(pObject);
 }
 // called when an object goes to sleep (no longer simulating)
 void CCollisionEvent::ObjectSleep( IPhysicsObject *pObject )
@@ -750,6 +752,8 @@ void CCollisionEvent::ObjectSleep( IPhysicsObject *pObject )
 	{
 		ReportVPhysicsStateChanged( pObject, pEntity, false );
 	}
+
+	m_Proxy.ObjectSleep(pObject);
 }
 
 bool PhysShouldCollide( IPhysicsObject *pObj0, IPhysicsObject *pObj1 )
@@ -1105,6 +1109,8 @@ void CCollisionEvent::FluidStartTouch( IPhysicsObject *pObject, IPhysicsFluidCon
 
 	// now damp out some motion toward the surface
 	pObject->AddVelocity( &vel, &angVel );
+
+	m_Proxy.FluidStartTouch(pObject, pFluid);
 }
 
 void CCollisionEvent::FluidEndTouch( IPhysicsObject *pObject, IPhysicsFluidController *pFluid ) 
@@ -1125,6 +1131,8 @@ void CCollisionEvent::FluidEndTouch( IPhysicsObject *pObject, IPhysicsFluidContr
 
 	pEntity->RemoveEFlags( EFL_TOUCHING_FLUID );
 	pEntity->OnEntityEvent( ENTITY_EVENT_WATER_UNTOUCH, (void*)pFluid->GetContents() );
+
+	m_Proxy.FluidEndTouch(pObject, pFluid);
 }
 
 class CSkipKeys : public IVPhysicsKeyHandler
@@ -1854,6 +1862,8 @@ void CCollisionEvent::PreCollision( vcollisionevent_t *pEvent )
 			pObject->GetVelocity( &m_gameEvent.preVelocity[i], &m_gameEvent.preAngularVelocity[i] );
 		}
 	}
+
+	m_Proxy.PreCollision(pEvent);
 }
 
 void CCollisionEvent::PostCollision( vcollisionevent_t *pEvent )
@@ -1915,6 +1925,8 @@ void CCollisionEvent::PostCollision( vcollisionevent_t *pEvent )
 			m_gameEvent.pEntities[i]->VPhysicsShadowCollision( i, &m_gameEvent );
 		}
 	}
+
+	m_Proxy.PostCollision(pEvent);
 }
 
 void PhysForceEntityToSleep( CBaseEntity *pEntity, IPhysicsObject *pObject )
@@ -1964,6 +1976,8 @@ void CCollisionEvent::Friction( IPhysicsObject *pObject, float energy, int surfa
 	}
 
 	PhysFrictionEffect( vecPos, vecVel, energy, surfaceProps, surfacePropsHit );
+
+	m_Proxy.Friction(pObject, energy, surfaceProps, surfacePropsHit, pData);
 }
 
 
@@ -2006,6 +2020,7 @@ void CCollisionEvent::PostSimulationFrame()
 	UpdateDamageEvents();
 	g_PostSimulationQueue.CallQueued();
 	UpdateRemoveObjects();
+	m_Proxy.PostSimulationFrame();
 }
 
 void CCollisionEvent::FlushQueuedOperations()
@@ -2444,6 +2459,7 @@ void CCollisionEvent::StartTouch( IPhysicsObject *pObject1, IPhysicsObject *pObj
 	{
 		AddTouchEvent( pEntity1, pEntity2, TOUCH_START, endPoint, normal );
 	}
+	m_Proxy.StartTouch(pObject1, pObject2, pTouchData);
 }
 
 static int CountPhysicsObjectEntityContacts( IPhysicsObject *pObject, CBaseEntity *pEntity )
@@ -2500,6 +2516,8 @@ void CCollisionEvent::EndTouch( IPhysicsObject *pObject1, IPhysicsObject *pObjec
 	{
 		AddTouchEvent( pEntity1, pEntity2, TOUCH_END, vec3_origin, vec3_origin );
 	}
+
+	m_Proxy.EndTouch(pObject1, pObject2, pTouchData);
 }
 
 // UNDONE: This is functional, but minimally.
@@ -2523,6 +2541,8 @@ void CCollisionEvent::ObjectEnterTrigger( IPhysicsObject *pTrigger, IPhysicsObje
 			m_currentTriggerEvent.Clear();
 		}
 	}
+
+	m_Proxy.ObjectEnterTrigger(pTrigger, pObject);
 }
 
 void CCollisionEvent::ObjectLeaveTrigger( IPhysicsObject *pTrigger, IPhysicsObject *pObject )
@@ -2545,6 +2565,8 @@ void CCollisionEvent::ObjectLeaveTrigger( IPhysicsObject *pTrigger, IPhysicsObje
 			m_currentTriggerEvent.Clear();
 		}
 	}
+
+	m_Proxy.ObjectLeaveTrigger(pTrigger, pObject);
 }
 
 bool CCollisionEvent::GetTriggerEvent( triggerevent_t *pEvent, CBaseEntity *pTriggerEntity )

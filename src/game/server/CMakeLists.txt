@@ -1141,7 +1141,8 @@ set(SRCS
     team_control_point.cpp
     trigger_area_capture.cpp
     #trigger_portal.cpp # WE dont need this?
-    
+   	# Custom physics stuff
+	physics_record.cpp
 )
 
 # Preprocessor defs
