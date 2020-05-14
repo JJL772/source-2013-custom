@@ -185,6 +185,10 @@ if(NOT USE_AVX)
 	add_definitions(-DSDL_DISABLE_IMMINTRIN_H)
 endif(NOT USE_AVX)
 
+# Change this to your mod directory or specify it on the command line
+if(NOT DEFINED ${MOD_DIR})
+	set(MOD_DIR mod_hl2mp)
+endif(NOT DEFINED ${MOD_DIR})
 
 set(CMAKESCRIPTS_DIR ${CMAKE_HOME_DIRECTORY}/cmake_scripts/)
 set(ROOT_DIR ${CMAKE_HOME_DIRECTORY})
@@ -208,8 +212,3 @@ add_subdirectory(vgui2/vgui_controls)
 add_subdirectory(game/client)
 add_subdirectory(game/server)
 #add_subdirectory(utils/vrad_launcher)
-
-# Install targets
-install(TARGETS client server 
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION bin)

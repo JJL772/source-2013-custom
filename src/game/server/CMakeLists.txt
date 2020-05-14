@@ -1182,7 +1182,7 @@ set(INCLUDE_DIRS		${PUBLIC_INCLUDE}/tier1 ${PUBLIC_INCLUDE}/tier0 ${ROOT}//game/
 	${SRCDIR}/game/shared/hl2mp ${SRCDIR}/game/shared ${SRCDIR}/utils/common ${SRCDIR}/game/shared/econ ${SRCDIR}/game/server/NextBot ${SRCDIR}/game/server)
 
 # Other projects this depends on
-set(DEPENDENCIES mathlib tier1 )
+#set(DEPENDENCIES mathlib tier1 )
 
 # Platform specific includes
 set(WIN32_INCLUDE_DIRS	)
@@ -1240,18 +1240,12 @@ set(WINDOWS_LINK_LIBS
 set(POSIX_LINK_LIBS rt 
 	pthread
 	dl
-	m
-	#mathlib
-	tier0
-	tier1
 	${ROOT}//lib/public/linux32/libprotobuf.a
 	${ROOT}//lib/public/linux32/bitmap.a 
 	${ROOT}//lib/public/linux32/choreoobjects.a 
-	mathlib
-	${ROOT}//lib/public/linux32/matsys_controls.a 
+	${ROOT}//lib/public/linux32/matsys_controls.a
 	${ROOT}//lib/public/linux32/particles.a 
 	${ROOT}//lib/public/linux32/dmxloader.a
-	tier1
 	${ROOT}//lib/public/linux32/tier2.a 
 	${ROOT}//lib/public/linux32/tier3.a 
 	${ROOT}//lib/public/linux32/vtf.a 
@@ -1260,12 +1254,13 @@ set(POSIX_LINK_LIBS rt
 	${ROOT}//lib/common/linux32/libcurl.a
 	${ROOT}//lib/common/linux32/libcurlssl.a
 	${ROOT}//lib/common/linux32/libssl.a
-	tier0
-	vstdlib 
-	#SDL2 
 	steam_api
 	mathlib
-	tier0)
+	tier1
+	vstdlib
+	tier0
+	c
+	m)
 
 if(DEFINED WINDOWS)
 	target_link_libraries(server ${WINDOWS_LINK_LIBS})
@@ -1274,3 +1269,7 @@ endif(DEFINED WINDOWS)
 if(DEFINED POSIX)
 	target_link_libraries(server ${POSIX_LINK_LIBS})
 endif(DEFINED POSIX)
+
+install(TARGETS server
+		RUNTIME DESTINATION ${MOD_DIR}/bin
+		LIBRARY DESTINATION ${MOD_DIR}/bin)

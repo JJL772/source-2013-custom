@@ -650,18 +650,12 @@ set(WINDOWS_LINK_LIBS tier3.lib tier2.lib choreoobjects.lib dmxloader.lib matsys
 set(POSIX_LINK_LIBS rt 
 	pthread
 	dl
-	m
-	#mathlib
-	tier0
-	tier1
 	${ROOT}/lib/public/linux32/libprotobuf.a
 	${ROOT}/lib/public/linux32/bitmap.a 
-	${ROOT}/lib/public/linux32/choreoobjects.a 
-	mathlib
+	${ROOT}/lib/public/linux32/choreoobjects.a
 	${ROOT}/lib/public/linux32/matsys_controls.a 
 	${ROOT}/lib/public/linux32/particles.a 
 	${ROOT}/lib/public/linux32/dmxloader.a
-	tier1
 	${ROOT}/lib/public/linux32/tier2.a 
 	${ROOT}/lib/public/linux32/tier3.a 
 	${ROOT}/lib/public/linux32/vtf.a 
@@ -670,13 +664,14 @@ set(POSIX_LINK_LIBS rt
 	${ROOT}/lib/common/linux32/libcurl.a
 	${ROOT}/lib/common/linux32/libcurlssl.a
 	${ROOT}/lib/common/linux32/libssl.a
-		vgui_controls
-	tier0
-	vstdlib 
-	#SDL2 
-	steam_api
 	mathlib
-	tier0)
+	tier1
+	vgui_controls
+	tier0
+	vstdlib
+	steam_api
+	m
+	c)
 
 if(DEFINED WINDOWS)
 	target_link_libraries(client ${WINDOWS_LINK_LIBS})
@@ -685,3 +680,7 @@ endif(DEFINED WINDOWS)
 if(DEFINED POSIX)
 	target_link_libraries(client ${POSIX_LINK_LIBS})
 endif(DEFINED POSIX)
+
+install(TARGETS client
+		RUNTIME DESTINATION ${MOD_DIR}/bin
+		LIBRARY DESTINATION ${MOD_DIR}/bin)
