@@ -60,6 +60,7 @@ void CPhysicsEventProxy::FluidEndTouch(IPhysicsObject *pObject, IPhysicsFluidCon
 {
 	for(auto handler : this->m_CollisionEventHandlers)
 		handler->FluidEndTouch(pObject, pFluid);
+	
 }
 
 void CPhysicsEventProxy::PostSimulationFrame()

@@ -649,7 +649,6 @@ set(WINDOWS_LINK_LIBS tier3.lib tier2.lib choreoobjects.lib dmxloader.lib matsys
 
 set(POSIX_LINK_LIBS rt 
 	pthread
-	dl
 	${ROOT}/lib/public/linux32/libprotobuf.a
 	${ROOT}/lib/public/linux32/bitmap.a 
 	${ROOT}/lib/public/linux32/choreoobjects.a
@@ -670,6 +669,7 @@ set(POSIX_LINK_LIBS rt
 	tier0
 	vstdlib
 	steam_api
+	dl
 	m
 	c)
 
