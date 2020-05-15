@@ -1237,8 +1237,7 @@ set(WINDOWS_LINK_LIBS
 	steam_api
 	tier0)
 
-set(POSIX_LINK_LIBS rt 
-	pthread
+set(POSIX_LINK_LIBS
 	${ROOT}//lib/public/linux32/libprotobuf.a
 	${ROOT}//lib/public/linux32/bitmap.a 
 	${ROOT}//lib/public/linux32/choreoobjects.a 
@@ -1258,9 +1257,11 @@ set(POSIX_LINK_LIBS rt
 	tier1
 	vstdlib
 	tier0
-	dl
+	m
 	c
-	m)
+	dl
+	rt
+	pthread)
 
 if(DEFINED WINDOWS)
 	target_link_libraries(server ${WINDOWS_LINK_LIBS})

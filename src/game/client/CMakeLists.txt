@@ -647,8 +647,7 @@ include(${CMAKESCRIPTS_DIR}/library-base.cmake)
 set(WINDOWS_LINK_LIBS tier3.lib tier2.lib choreoobjects.lib dmxloader.lib matsys_controls.lib particles.lib 
 	vtf.lib bitmap.lib vgui_controls.lib)
 
-set(POSIX_LINK_LIBS rt 
-	pthread
+set(POSIX_LINK_LIBS
 	${ROOT}/lib/public/linux32/libprotobuf.a
 	${ROOT}/lib/public/linux32/bitmap.a 
 	${ROOT}/lib/public/linux32/choreoobjects.a
@@ -669,9 +668,11 @@ set(POSIX_LINK_LIBS rt
 	tier0
 	vstdlib
 	steam_api
-	dl
 	m
-	c)
+	c
+	dl
+	rt
+	pthread)
 
 if(DEFINED WINDOWS)
 	target_link_libraries(client ${WINDOWS_LINK_LIBS})
