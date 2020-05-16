@@ -70,6 +70,11 @@ inline char *strlwr( char *start )
 	return V_strlower( start );
 }
 
+inline char* _strlwr(char* start)
+{
+	return V_strlower(start);
+}
+
 inline wchar_t *_wcslwr( wchar_t *start )
 {
 	wchar_t *str = start;

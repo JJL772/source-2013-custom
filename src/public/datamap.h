@@ -309,6 +309,7 @@ struct datamap_t
 // Macros used to implement datadescs
 //
 #define DECLARE_SIMPLE_DATADESC() \
+	public:\
 	static datamap_t m_DataMap; \
 	static datamap_t *GetBaseMap(); \
 	template <typename T> friend void DataMapAccess(T *, datamap_t **p); \

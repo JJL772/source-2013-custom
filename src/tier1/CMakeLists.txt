@@ -50,7 +50,8 @@ set(SRCS
 		"utlbinaryblock.cpp"
 		"snappy.cpp"
 		"snappy-sinksource.cpp"
-		"snappy-stubs-internal.cpp")
+		"snappy-stubs-internal.cpp"
+		"${ROOT}/utils/lzma/C/LzmaDec.c")
 
 # Preprocessor defs
 set(DEFINES	-DTIER1_STATIC_LIB=1)
