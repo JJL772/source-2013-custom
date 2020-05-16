@@ -2,7 +2,10 @@
 
 # Creates various game links
 
-export SOURCE_SDK_2013_MP="/home/jeremy/.steam/steam/steamapps/common/Source SDK Base 2013 Multiplayer/"
+if [ -z $SOURCE_SDK_2013_MP ]; then 
+	export SOURCE_SDK_2013_MP="$HOME/.steam/steam/steamapps/common/Source SDK Base 2013 Multiplayer/"
+fi
+
 
 ln -s "$SOURCE_SDK_2013_MP/bin" "$PWD/game/bin"
 ln -s "$SOURCE_SDK_2013_MP/hl2" "$PWD/game/hl2"
