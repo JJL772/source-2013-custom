@@ -1,0 +1,5 @@
+// Base FGD for your mode
+// All FGDs in here will be installed to prefix/bin
+
+@include "base.fgd"
+@include "halflife2.fgd"
