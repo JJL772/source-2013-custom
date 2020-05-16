@@ -115,7 +115,11 @@ int main(int argc, char* argv[])
 		// If it didn't load the module above, then use the 
 		if ( !pModule )
 		{
+#ifdef _WIN32
 			strcpy( dllName, "vrad_dll.dll" );
+#else
+			strcpy(dllName, "vrad.so");
+#endif
 			pModule = Sys_LoadModule( dllName );
 		}
 		

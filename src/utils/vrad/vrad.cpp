@@ -2332,6 +2332,7 @@ void VRAD_Finish()
 // WorldCraft interface into vrad).
 void VRAD_Init()
 {
+	FileSystem_Init(nullptr, 1024*1024*1024, FSInitType_t::FS_INIT_COMPATIBILITY_MODE);
 	MathLib_Init( 2.2f, 2.2f, 0.0f, 2.0f, false, false, false, false );
 	InstallAllocationFunctions();
 	InstallSpewFunction();

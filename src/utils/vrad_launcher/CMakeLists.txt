@@ -69,3 +69,8 @@ target_link_libraries(vrad_launcher tier0 tier1)
 if(POSIX)
     target_link_libraries(vrad_launcher dl m rt c)
 endif(POSIX)
+
+install(TARGETS vrad_launcher
+        RENAME vrad
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION bin)
