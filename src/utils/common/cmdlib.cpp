@@ -188,7 +188,7 @@ WORD SetConsoleTextColor( int red, int green, int blue, int intensity )
 
 	SetConsoleTextAttribute( GetStdHandle( STD_OUTPUT_HANDLE ), g_LastColor | g_BackgroundFlags );
 #else
-	printf("\033[38;2;%u;%u;%um", red, green, blue);
+	printf("\x1B[38;5;%u;%u;%um", red, green, blue);
 #endif
 	return ret;
 }

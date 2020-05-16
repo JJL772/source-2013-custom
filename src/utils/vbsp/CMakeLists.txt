@@ -32,7 +32,8 @@ set(SRCS	${PUBLIC_INCLUDE}/collisionutils.cpp
             ../common/polylib.cpp
             ../common/scriplib.cpp
             ../common/threads.cpp
-            ../common/tools_minidump.cpp)
+            ../common/tools_minidump.cpp
+            ${PUBLIC_INCLUDE}/scratchpad3d.cpp)
 
 file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/ *.c *.cpp)
 list(APPEND SRCS ${SOURCES})
@@ -100,17 +101,18 @@ set(POSIX_LINK_LIBS
         ${LIBPUBLIC}/bitmap.a
         fgdlib
         ${LIBPUBLIC}/tier2.a
+        lzmalib
         mathlib
         tier1
         ${LIBPUBLIC}/libz.a
         tier0
         vstdlib
-        lzma
         m
         c
         dl
         rt
-        pthread)
+        pthread
+        )
 
 if(DEFINED WINDOWS)
     target_link_libraries(vbsp ${WINDOWS_LINK_LIBS})
