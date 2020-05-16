@@ -6,4 +6,5 @@ source ../env.sh
 
 cp -v entities/* "$INSTALL_PREFIX/bin"
 cp -v scripts/* "$INSTALL_PREFIX/"
+cp -v GameConfig.txt "$INSTALL_PREFIX/bin"
 popd

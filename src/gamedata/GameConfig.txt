@@ -1,0 +1,31 @@
+"Configs"
+{
+	"Games"
+	{
+		"Half-Life 2"
+		{
+			"GameDir"		"F:\SteamLibrary\steamapps\common\Team Fortress 2\hl2"
+			"Hammer"
+			{
+				"GameData0"		"F:\SteamLibrary\steamapps\common\Team Fortress 2\bin\halflife2.fgd"
+				"TextureFormat"		"5"
+				"MapFormat"		"4"
+				"DefaultTextureScale"		"0.250000"
+				"DefaultLightmapScale"		"16"
+				"GameExe"		"F:\SteamLibrary\steamapps\common\Team Fortress 2\hl2.exe"
+				"DefaultSolidEntity"		"func_detail"
+				"DefaultPointEntity"		"info_player_start"
+				"BSP"		"F:\SteamLibrary\steamapps\common\Team Fortress 2\bin\vbsp.exe"
+				"Vis"		"F:\SteamLibrary\steamapps\common\Team Fortress 2\bin\vvis.exe"
+				"Light"		"F:\SteamLibrary\steamapps\common\Team Fortress 2\bin\vrad.exe"
+				"GameExeDir"		"F:\SteamLibrary\steamapps\common\Team Fortress 2"
+				"MapDir"		"F:\SteamLibrary\steamapps\common\Team Fortress 2\sourcesdk_content\hl2\mapsrc"
+				"BSPDir"		"F:\SteamLibrary\steamapps\common\Team Fortress 2\hl2\maps"
+				"CordonTexture"		"tools\toolsskybox"
+				"MaterialExcludeCount"		"0"
+			}
+		}
+	}
+	"SDKVersion"		"5"
+}
+
