@@ -9,6 +9,7 @@
 #ifndef IPHELPERS_H
 #define IPHELPERS_H
 
+#ifdef _WIN32
 
 #include "ichannel.h"
 
@@ -157,6 +158,7 @@ void IP_GetLastErrorString( char *pStr, int maxLen );
 void SockAddrToIPAddr( const struct sockaddr_in *pIn, CIPAddr *pOut );
 void IPAddrToSockAddr( const CIPAddr *pIn, struct sockaddr_in *pOut );
 
+#endif
 
 #endif
 

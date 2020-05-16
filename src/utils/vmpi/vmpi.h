@@ -11,6 +11,8 @@
 #pragma once
 #endif
 
+#ifdef _WIN32
+
 
 #include "vmpi_defs.h"
 #include "messbuf.h"
@@ -213,5 +215,6 @@ bool VMPI_IsParamUsed( EVMPICmdLineParam eParam ); // Returns true if the specif
 // Can be called from error handlers and if -mpi_Restart is used, it'll automatically restart the process.
 bool VMPI_HandleAutoRestart();
 
+#endif
 
 #endif // VMPI_H

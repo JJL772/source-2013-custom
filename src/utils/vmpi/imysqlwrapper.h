@@ -11,6 +11,7 @@
 #pragma once
 #endif
 
+#ifdef _WIN32
 
 #include "utlvector.h"
 #include "interface.h"
@@ -110,6 +111,8 @@ inline long	CColumnValue::Int32()
 {
 	return m_pSQL->GetColumnValue_Int( m_iColumn );
 }
+
+#endif
 
 
 #endif // MYSQL_WRAPPER_H

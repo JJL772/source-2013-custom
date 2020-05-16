@@ -11,6 +11,7 @@
 #pragma once
 #endif
 
+#ifdef _WIN32
 
 #include "tier1/utllinkedlist.h"
 
@@ -105,6 +106,8 @@ public:
 private:
 	void *m_hEvent;
 };
+
+#endif
 
 
 #endif // THREADHELPERS_H

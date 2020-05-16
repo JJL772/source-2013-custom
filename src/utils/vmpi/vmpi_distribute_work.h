@@ -10,6 +10,7 @@
 #pragma once
 #endif
 
+#ifdef _WIN32
 
 #include "messbuf.h"
 #include "utlvector.h"
@@ -85,5 +86,6 @@ double DistributeWork(
 // otherwise it can crash if a thread tries to send data in the middle of shutting down.
 void DistributeWork_Cancel();
 
+#endif
 
 #endif // VMPI_DISTRIBUTE_WORK_H

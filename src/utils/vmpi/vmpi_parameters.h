@@ -3,7 +3,7 @@
 // Purpose: 
 //
 //=============================================================================
-
+#ifdef _WIN32
 VMPI_PARAM( mpi_Worker,						0,						"Workers use this to connect to a VMPI job. Specify the IP address of the master. Example: -mpi_worker 1.2.3.4  or  -mpi_worker 1.2.3.4:242" )
 VMPI_PARAM( mpi_Port,						0,						"Use this on the master to force it to bind to a specified port. Otherwise it binds to 23311 (and ascending port numbers if 23311 doesn't work)." )
 VMPI_PARAM( mpi_Graphics,					0,						"Show a graphical representation of work units [grey=work unit not sent yet, red=sent, green=completed, blue=in-process]" )
@@ -29,3 +29,5 @@ VMPI_PARAM( mpi_pw,							VMPI_PARAM_SDK_HIDDEN,	"Non-SDK only. Sets a password 
 VMPI_PARAM( mpi_CalcShuffleCRC,				VMPI_PARAM_SDK_HIDDEN,	"Calculate a CRC for shuffled work unit arrays in the SDK work unit distributor." )
 VMPI_PARAM( mpi_Job_Watch,					VMPI_PARAM_SDK_HIDDEN,	"Automatically launches vmpi_job_watch.exe on the job." )
 VMPI_PARAM( mpi_Local,						VMPI_PARAM_SDK_HIDDEN,	"Similar to -mpi_AutoLocalWorker, but the automatically-spawned worker's console window is hidden." )
+
+#endif

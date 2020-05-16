@@ -12,6 +12,8 @@
 #ifndef _MESSAGEBUFFER
 #define _MESSAGEBUFFER
 
+#ifdef _WIN32
+
 #include <stdio.h>
 #define DEFAULT_MESSAGE_BUFFER_SIZE 2048
 
@@ -48,5 +50,7 @@ class MessageBuffer {
 		int		offset;
 		int		len;
 };
+
+#endif
 
 #endif

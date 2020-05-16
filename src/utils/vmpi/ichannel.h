@@ -11,6 +11,7 @@
 #pragma once
 #endif
 
+#ifdef _WIN32
 
 #include "tier1/utlvector.h"
 
@@ -45,5 +46,6 @@ public:
 	virtual void	GetDisconnectReason( CUtlVector<char> &reason ) = 0;
 };
 
+#endif
 
 #endif // ICHANNEL_H

@@ -11,6 +11,8 @@
 #pragma once
 #endif
 
+#ifdef _WIN32
+
 
 // This goes in front of all packets.
 #define VMPI_PROTOCOL_VERSION		5
@@ -143,5 +145,6 @@
 #define VMPI_STATE_SCREENSAVER_DISABLED	4
 #define VMPI_STATE_DOWNLOADING			5
 
+#endif
 
 #endif // VMPI_DEFS_H

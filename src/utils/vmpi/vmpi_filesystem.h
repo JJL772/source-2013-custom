@@ -11,7 +11,7 @@
 #pragma once
 #endif
 
-
+#ifdef _WIN32
 #include "interface.h"
 
 
@@ -49,5 +49,6 @@ CreateInterfaceFn VMPI_FileSystem_GetFactory();
 // or else it won't find the file.
 void VMPI_FileSystem_CreateVirtualFile( const char *pFilename, const void *pData, unsigned long fileLength );
 
+#endif
 
 #endif // VMPI_FILESYSTEM_H
