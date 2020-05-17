@@ -4568,6 +4568,7 @@ bool RepackBSPCallback_LZMA( CUtlBuffer &inputBuffer, CUtlBuffer &outputBuffer )
 	unsigned char *pCompressedOutput = LZMA_Compress( (unsigned char *)inputBuffer.Base() + inputBuffer.TellGet(),
 											  originalSize, &compressedSize );
 #else
+	Warning("WARNING: Unsupported compression type used.\n");
 	unsigned char* pCompressedOutput = 0;
 #endif
 	if ( pCompressedOutput )

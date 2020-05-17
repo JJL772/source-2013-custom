@@ -2128,7 +2128,7 @@ void VRAD_LoadBSP( char const *pFilename )
 
 	// This part is just for VMPI. VMPI's file system needs the basedir in front of all filenames,
 	// so we prepend qdir here.
-	strcpy( source, ExpandPath( source ) );
+	//strcpy( source, ExpandPath( source ) );
 
 	// Setup the logfile.
 	char logFile[512];
@@ -2169,8 +2169,9 @@ void VRAD_LoadBSP( char const *pFilename )
 	Q_DefaultExtension(incrementfile, ".r0", sizeof(incrementfile));
 	Q_DefaultExtension(source, ".bsp", sizeof( source ));
 
-	Msg( "Loading %s\n", source );
-	LoadBSPFile (source);
+	//strcpy(source, ExpandPath(source));
+	Msg( "Loading %s\n", pFilename );
+	LoadBSPFile (pFilename);
 
 	// Non-MPI
 	g_pFullFileSystem->AddSearchPath(source, "GAME", PATH_ADD_TO_HEAD);
@@ -2332,7 +2333,7 @@ void VRAD_Finish()
 // WorldCraft interface into vrad).
 void VRAD_Init()
 {
-	FileSystem_Init(nullptr, 1024*1024*1024, FSInitType_t::FS_INIT_COMPATIBILITY_MODE);
+	FileSystem_Init(nullptr, 0, FSInitType_t::FS_INIT_COMPATIBILITY_MODE);
 	MathLib_Init( 2.2f, 2.2f, 0.0f, 2.0f, false, false, false, false );
 	InstallAllocationFunctions();
 	InstallSpewFunction();

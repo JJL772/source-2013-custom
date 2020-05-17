@@ -243,7 +243,8 @@ void RunThreads_End()
 #ifdef _WIN32
 		CloseHandle(g_ThreadHandles[i]);
 #else
-		pthread_kill(*(pthread_t*)g_ThreadHandles[i], SIGTERM);
+		pthread_join(*(pthread_t*)g_ThreadHandles[i], NULL);
+		//pthread_kill(*(pthread_t*)g_ThreadHandles[i], SIGTERM);
 		free(g_ThreadHandles[i]);
 #endif
 	}

@@ -374,7 +374,7 @@ void InstallAllocationFunctions()
 void SetSpewFunctionLogFile( char const *pFilename )
 {
 	Assert( (!g_pLogFile) );
-	g_pLogFile = g_pFileSystem->Open( pFilename, "a" );
+	g_pLogFile = g_pFileSystem->Open( pFilename, "w" );
 
 	Assert( g_pLogFile );
 	if (!g_pLogFile)
