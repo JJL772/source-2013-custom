@@ -206,7 +206,7 @@ void RestoreConsoleTextColor( WORD color )
 #ifdef _POSIX
 void OutputDebugString(const char* str)
 {
-	printf("%s", str);
+	//printf("%s", str);
 }
 #endif
 
