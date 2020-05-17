@@ -3,31 +3,14 @@
 # Project script for vbsp
 #
 #
-project(vvis C CXX)
+project(vvis_launcher C CXX)
 
 # Platform specific sources
 set(WINDOWS_SRCS	)
 set(POSIX_SRCS	)
 
 set(SRCS
-        flow.cpp
-        vvis.cpp
-        WaterDist.cpp
-        ../common/bsplib.cpp
-        ../common/cmdlib.cpp
-        ../common/pacifier.cpp
-        ../common/scratchpad_helpers.cpp
-        ../common/scriplib.cpp
-        ../common/threads.cpp
-        ../common/tools_minidump.cpp
-        ${PUBLIC_INCLUDE}/collisionutils.cpp
-        ${PUBLIC_INCLUDE}/filesystem_helpers.cpp
-        ${PUBLIC_INCLUDE}/loadcmdline.cpp
-        ${PUBLIC_INCLUDE}/lumpfiles.cpp
-        ${PUBLIC_INCLUDE}/scratchpad3d.cpp
-        ${PUBLIC_INCLUDE}/zip_utils.cpp
-        ${PUBLIC_INCLUDE}/filesystem_init.cpp
-        ../common/filesystem_tools.cpp
+        vvis_launcher.cpp
         )
 
 # Preprocessor defs
@@ -77,25 +60,18 @@ set(POSIX32_INCLUDE_DIRS	)
 set(POSIX64_INCLUDE_DIRS	)
 
 # Set the variable of target for stuff
-set(TARGET vvis)
+set(TARGET vvis_launcher)
 
 # Set the output file name
-set(OUTPUT_FILE_NAME vvis)
-
-set(SHARED_LIB 1)
-set(STATIC_LIBR 0)
+set(OUTPUT_FILE_NAME vvis_launcher)
 
 # Include this to handle all the defines
-include(${CMAKESCRIPTS_DIR}/library-base.cmake)
+include(${CMAKESCRIPTS_DIR}/exe-base.cmake)
 
 # Other static libs we need
-set(WINDOWS_LINK_LIBS bitmap mathlib tier2 vtf tier1 tier0 vstdlib ws2_32 odbc32 odbccp32 winmm)
+set(WINDOWS_LINK_LIBS tier1 tier0 vstdlib ws2_32 odbc32 odbccp32 winmm)
 
 set(POSIX_LINK_LIBS
-        ${LIBPUBLIC}/vtf.a
-        ${LIBPUBLIC}/bitmap.a
-        ${LIBPUBLIC}/tier2.a
-        mathlib
         tier1
         tier0
         vstdlib
@@ -107,13 +83,13 @@ set(POSIX_LINK_LIBS
         )
 
 if(DEFINED WINDOWS)
-    target_link_libraries(vvis ${WINDOWS_LINK_LIBS})
+    target_link_libraries(vvis_launcher ${WINDOWS_LINK_LIBS})
 endif(DEFINED WINDOWS)
 
 if(DEFINED POSIX)
-    target_link_libraries(vvis ${POSIX_LINK_LIBS})
+    target_link_libraries(vvis_launcher ${POSIX_LINK_LIBS})
 endif(DEFINED POSIX)
 
-install(TARGETS vvis
+install(TARGETS vvis_launcher
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION bin)
