@@ -1,37 +1,36 @@
 language: c
 compiler: gcc
-env:
-        global:
-                - SDL_VERSION=2.0.8
+env: 
+    global:
+        - SDL_VERSION=2.0.8
 git:
-        depth: 100
-        submodules: true
+    depth: 100
+    submodules: true
 branches:
-        only:
-                - master
-jobs:
-        include:
-                - stage: build
-                        name: "Build for x86 Linux"
-                        cache: ccache
-                        os: linux
-                        dist: bionic
-                        addons:
-                                apt:
-                                        packages:
-                                                - libgoogle-perftools-dev:i386
-                                                - libfreetype6-dev:i386
-                                                - libsdl2-dev:i386
-                        before_script:
-                                - cd $TRAVIS_BUILD_DIR 
-                                - rm -rf src/build # Remove old build dir
-                                - mkdir src/build 
-                                - cd src/build
-                        script:
-                                - export CC=gcc
-                                - export CXX=g++ 
-                                - cmake ../ -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32 -DCMAKE_INSTALL_PREFIX=$PWD/../../game/
-                                - make -j4
-                                - make install
-                        after_success:
-                                - echo "BUILT PROJECT" # TODO: Archive build products and publish
+    only:
+        - master
+jobs: 
+    include:
+        - stage: build
+          name: "i386 linux"
+          cache: ccache
+          os: linux
+          dist: bionic
+          addons:
+            apt:
+                packagges: 
+                    - libgoogle-perftools-dev:i386
+                    - libfreetype6-dev:i386
+                    - libsdl2-dev:i386
+            before_script:
+                - cd $TRAVIS_BUILD_DIR
+                - rm src/build/CMakeCache.txt # Remove the old cache in case something got fucked
+                - mkdir -p src/build && cd src/build
+            script:
+                - export CC=gcc
+                - export CXX=g++
+                - cmake ../ -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32 -DCMAKE_INSTALL_PREFIX=$PWD/../../game/
+                - make -j4
+                - make install
+            after_success:
+                - echo "Finished" #TODO: Archive build products
