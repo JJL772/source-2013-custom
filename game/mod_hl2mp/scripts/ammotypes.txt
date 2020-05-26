@@ -1,0 +1,15 @@
+"AmmoTypes"
+{
+	"Test"
+	{
+		
+	}
+	"Another"
+	{
+	
+	}
+	"shit"
+	{
+	
+	}
+}
