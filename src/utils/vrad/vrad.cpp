@@ -2120,6 +2120,7 @@ void VRAD_LoadBSP( char const *pFilename )
 		SetLowPriority();
 	}
 
+	strcpy(source, pFilename);
 	strcpy( level_name, source );
 
 	// This must come after InitFileSystem because the file system pointer might change.
@@ -2334,7 +2335,7 @@ void VRAD_Finish()
 void VRAD_Init()
 {
 	FileSystem_Init(nullptr, 0, FSInitType_t::FS_INIT_COMPATIBILITY_MODE);
-	MathLib_Init( 2.2f, 2.2f, 0.0f, 2.0f, false, false, false, false );
+	MathLib_Init( 2.2f, 2.2f, 0.0f, 2.0f, false, true, true, false );
 	InstallAllocationFunctions();
 	InstallSpewFunction();
 }
