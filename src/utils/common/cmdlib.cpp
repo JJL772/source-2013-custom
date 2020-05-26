@@ -188,7 +188,10 @@ WORD SetConsoleTextColor( int red, int green, int blue, int intensity )
 
 	SetConsoleTextAttribute( GetStdHandle( STD_OUTPUT_HANDLE ), g_LastColor | g_BackgroundFlags );
 #else
-	printf("\x1B[38;5;%u;%u;%um", red, green, blue);
+	if(red) red = 255;
+	if(green) green = 255;
+	if(blue) blue = 255;
+	printf("\x1B[38;2;%u;%u;%um", red, green, blue);
 #endif
 	return ret;
 }
@@ -265,31 +268,6 @@ SpewRetval_t CmdLib_SpewOutputFunc( SpewType_t type, char const *pMsg )
 		{
 			old = SetConsoleTextColor( 1, 0, 0, 1 );
 			retVal = SPEW_DEBUGGER;
-
-#ifdef MPI
-			// VMPI workers don't want to bring up dialogs and suchlike.
-			// They need to have a special function installed to handle
-			// the exceptions and write the minidumps.
-			// Install the function after VMPI_Init with a call:
-			// SetupToolsMinidumpHandler( VMPI_ExceptionFilter );
-			if ( g_bUseMPI && !g_bMPIMaster && !Plat_IsInDebugSession() )
-			{
-				// Generating an exception and letting the
-				// installed handler handle it
-				::RaiseException
-					(
-					0,							// dwExceptionCode
-					EXCEPTION_NONCONTINUABLE,	// dwExceptionFlags
-					0,							// nNumberOfArguments,
-					NULL						// const ULONG_PTR* lpArguments
-					);
-
-					// Never get here (non-continuable exception)
-				
-				VMPI_HandleCrash( pMsg, NULL, true );
-				exit( 0 );
-			}
-#endif
 		}
 		else if( type == SPEW_ERROR )
 		{
