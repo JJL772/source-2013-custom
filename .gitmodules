@@ -1,3 +1,6 @@
 [submodule "src/thirdparty/pawn"]
 	path = src/thirdparty/pawn
 	url = https://github.com/JJL772/pawn
+[submodule "src/thirdparty/stb"]
+	path = src/thirdparty/stb
+	url = https://github.com/nothings/stb
