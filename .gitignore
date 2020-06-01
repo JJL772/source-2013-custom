@@ -58,3 +58,5 @@ build
 src/build/
 src/.idea
 src/cmake-*
+
+__pycache__
