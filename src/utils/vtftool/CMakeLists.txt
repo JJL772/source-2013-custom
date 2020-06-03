@@ -50,7 +50,7 @@ set(POSIX32_LINK_LIBS	)
 set(POSIX64_LINK_LIBS	)
 
 # Generic include dirs
-set(INCLUDE_DIRS		${PUBLIC_INCLUDE}/)
+set(INCLUDE_DIRS		${PUBLIC_INCLUDE}/ ${ROOT}/thirdparty)
 
 # Platform specific includes
 set(WIN32_INCLUDE_DIRS	)
@@ -68,10 +68,13 @@ set(OUTPUT_FILE_NAME vtftool)
 include(${CMAKESCRIPTS_DIR}/exe-base.cmake)
 
 # Other static libs we need
-set(WINDOWS_LINK_LIBS vtf tier1 tier0 vstdlib)
+set(WINDOWS_LINK_LIBS vtf bitmap mathlib tier2 tier1 tier0 vstdlib)
 
 set(POSIX_LINK_LIBS
         ${LIBPUBLIC}/vtf.a
+        ${LIBPUBLIC}/bitmap.a
+        mathlib
+        ${LIBPUBLIC}/tier2.a
         tier1
         tier0
         vstdlib
