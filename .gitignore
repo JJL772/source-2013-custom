@@ -60,3 +60,6 @@ src/.idea
 src/cmake-*
 
 __pycache__
+
+# kdevelop
+*.kdev4
