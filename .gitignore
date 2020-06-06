@@ -63,3 +63,8 @@ __pycache__
 
 # kdevelop
 *.kdev4
+
+# Ignore most things in game
+game/
+!game/mod_hl2mp
+!game/launch.sh
