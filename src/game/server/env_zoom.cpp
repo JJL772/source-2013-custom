@@ -64,7 +64,6 @@ float GetZoomOwnerDesiredFOV( CBaseEntity *pZoomOwner )
 
 		return pZoom->GetFOV();
 	}
-
 	return 0;
 }
 
