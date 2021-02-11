@@ -52,6 +52,11 @@ set(SRCS
 		"snappy-sinksource.cpp"
 		"snappy-stubs-internal.cpp"
 		"${ROOT}/utils/lzma/C/LzmaDec.c")
+		
+if(UNIX AND NOT UNIX_CROSS)
+	list(APPEND SRCS "math_proxy.cpp")
+endif(UNIX AND NOT UNIX_CROSS)
+
 
 # Preprocessor defs
 set(DEFINES	-DTIER1_STATIC_LIB=1)
