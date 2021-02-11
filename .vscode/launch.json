@@ -12,7 +12,8 @@
             "program": "${workspaceRoot}/game/hl2_linux",
             "args": [
                 "-dev",
-                "-game mod_hl2mp",
+                "-game",
+                "mod_hl2mp"
             ],
             "environment": [
                 {
