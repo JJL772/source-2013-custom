@@ -55,6 +55,7 @@ $Group "everything"
 	"vtfdiff"
 	"vvis_dll"
 	"vvis_launcher"
+	"vtftool"
 }
 
 $Group "dedicated"

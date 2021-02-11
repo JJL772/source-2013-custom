@@ -1,0 +1,47 @@
+//-----------------------------------------------------------------------------
+//	VTFTOOL.VPC
+//
+//	Project Script
+//-----------------------------------------------------------------------------
+
+$Macro SRCDIR		"..\.."
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINNAME	"vtftool"
+
+$Include "$SRCDIR\vpc_scripts\source_exe_con_base.vpc"
+
+$Configuration
+{
+	$Compiler
+	{
+		$AdditionalIncludeDirectories		"$BASE,..\common;$SRCDIR\thirdparty"
+	}
+
+	$Linker [$WIN32]
+	{
+		$EnableLargeAddresses				"Support Addresses Larger Than 2 Gigabytes (/LARGEADDRESSAWARE)"
+	}
+}
+
+$Project "vtftool"
+{
+	$Folder	"Source Files"
+	{
+		$File	"vtftool.cpp"
+		$File	"$SRCDIR\public\filesystem_init.cpp"
+		$File	"$SRCDIR\utils\common\filesystem_tools.cpp"
+		//$File	""
+	}
+
+	$Folder	"Header Files"
+	{
+	}
+	
+	$Folder "Link Libraries"
+	{
+		$Lib bitmap
+		$Lib vtf
+		$Lib mathlib
+		$Lib tier2
+	}
+}
