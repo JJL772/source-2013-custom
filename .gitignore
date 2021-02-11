@@ -72,3 +72,6 @@ src/**.project
 ./game/
 !game/mod_hl2mp
 !game/launch.sh
+
+src/lib/public/
+**.project
