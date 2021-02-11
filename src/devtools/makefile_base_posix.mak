@@ -81,7 +81,8 @@ COPY_DLL_TO_SRV = 0
 
 # We should always specify -Wl,--build-id, as documented at:
 # http://linux.die.net/man/1/ld and http://fedoraproject.org/wiki/Releases/FeatureBuildId.http://fedoraproject.org/wiki/Releases/FeatureBuildId
-LDFLAGS += -Wl,--build-id -L/usr/lib/i386-linux-gnu -L/usr/lib32
+LDFLAGS += -Wl,--build-id -L/usr/lib/i386-linux-gnu -L/usr/lib32 
+LDFLAGS += '-Wl,-rpath=$$ORIGIN'
 
 GCC_VER =
 P4BIN = p4
