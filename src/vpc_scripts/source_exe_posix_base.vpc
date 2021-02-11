@@ -63,9 +63,16 @@ $Project
 		$File	"$ROOTSCRIPT"
 	}
 
-	$Folder	"Link Libraries" [$LINUXALL&&!$DEDICATED]
+	//$Folder	"Link Libraries" [$LINUXALL&&!$DEDICATED]
+	//{
+	//	$File	"$SRCDIR/thirdparty/gperftools-2.0/.libs/libtcmalloc_minimal.so"
+	//}
+	
+	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR/thirdparty/gperftools-2.0/.libs/libtcmalloc_minimal.so"
+		$Lib tier1
+		$ImpLib tier0
+		$ImpLib vstdlib
 	}
 }
 
