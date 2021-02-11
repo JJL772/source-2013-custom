@@ -7,6 +7,7 @@
  */
 #include "vtf/vtf.h"
 #include "bitmap/bitmap.h"
+#include "tier0/icommandline.h"
 
 #include "utllinkedlist.h"
 #include "utlbuffer.h"
@@ -25,7 +26,7 @@ CompiledVtfFlags                string_to_flags(const char* str);
 const char*                     format_to_string(ImageFormat fmt);
 ImageFormat                     string_to_format(const char* fmt);
 bool                            check_arg(const char* arg, const char* _short, const char* _long = nullptr);
-CUtlLinkedList<const char*>*    parse_list_arg(char* arg);
+CUtlVector<const char*>*    	parse_list_arg(char* arg);
 void                            create_vtf(struct vtftool_settings_t settings, const char* src, const char* dst);
 int                             parse_long_int_arg(char* arg);
 
@@ -143,16 +144,21 @@ int main
  */
 int main(int argc, char** argv)
 {
+	CommandLine()->CreateCmdLine(argc, argv);
+	
 	vtftool_settings_t settings;
 	memset(&settings, 0, sizeof(vtftool_settings_t));
 	/* Set default format */
 	settings.default_format = ImageFormat::IMAGE_FORMAT_RGBA8888;
-
+	const char* input = nullptr;
+	const char* output = nullptr;
+	
+	settings.frame_count = 1;
 
 	/* Argument parsing */
 	for(unsigned i = 0; i < argc; i++)
 	{
-		char* arg = argv[argc];
+		char* arg = argv[i];
 		size_t arglen = strlen(arg);
 
 		/* Parse short arg */
@@ -166,6 +172,22 @@ int main(int argc, char** argv)
 			else if(IS_ARG("-v"))
 			{
 				g_bVerbose = true;
+				continue;
+			}
+			else if(IS_ARG("-o"))
+			{
+				if(i == argc-1)
+					show_help();
+				output = argv[i+1];
+				i++;
+				continue;
+			}
+			else if(IS_ARG("-i"))
+			{
+				if(i == argc-1)
+					show_help();
+				input = argv[i+1];
+				i++;
 				continue;
 			}
 		}
@@ -191,7 +213,7 @@ int main(int argc, char** argv)
 			else if(IS_LARG("--flags"))
 			{
 				/* Handle the list args here */
-				CUtlLinkedList<const char*> *flags = parse_list_arg(arg);
+				CUtlVector<const char*> *flags = parse_list_arg(arg);
 				for(auto c : *flags)
 					settings.image_flags |= string_to_flags(c);
 
@@ -211,7 +233,7 @@ int main(int argc, char** argv)
 			else if(IS_LARG("--format"))
 			{
 				/* Handle the list here */
-				CUtlLinkedList<const char*>* format = parse_list_arg(arg);
+				CUtlVector<const char*>* format = parse_list_arg(arg);
 
 				/* Since this isn't technically a list arg, check if the length is more than 1 or less than 0 */
 				if(format->Count() <= 0 || format->Count() > 1)
@@ -246,10 +268,10 @@ int main(int argc, char** argv)
 						printf("Invalid depth passed. Valid options: 8, 16, 32\n");
 						exit(1);
 				}
-
 			}
 		}
 	}
+	create_vtf(settings, input, output);
 }
 
 /*
@@ -274,6 +296,7 @@ void show_help()
 	printf("\t-i <file>            - Input file\n");
 	printf("\t-o <file>            - Output file\n");
 	printf("\t--depth=<depth>      - Depth, in bits per channel, of the source image. Defaults to 8\n");
+	exit(0);
 }
 
 /*
@@ -285,6 +308,7 @@ bool check_arg
 bool check_arg(const char* arg, const char* _short, const char* _long)
 {
 	if(strcmp(arg, _short) == 0) return true;
+	if(!_long) return false;
 	size_t strlen1 = strlen(arg);
 	size_t strlen2 = strlen(_long);
 	/* Parse the long arg */
@@ -301,15 +325,15 @@ CUtlLinkedList<const char*> parse_list_arg
  Parses a comma separated list into a linked list
 =====================
  */
-CUtlLinkedList<const char*>* parse_list_arg(char* arg)
+CUtlVector<const char*>* parse_list_arg(char* arg)
 {
 	int i = 0;
 	size_t len = strlen(arg);
-	for(; i < len; i++)
-		if(arg[i] == '=') break;
+	for(; i < len, arg[i] != '='; i++);
+	i++;
 
-	CUtlLinkedList<const char*> *arglist;
-	const char* _list;
+	CUtlVector<const char*> *arglist = new CUtlVector<const char*>();
+	const char* _list = nullptr;
 	for(; i < len; i++)
 	{
 		if(!_list) _list = &arg[i];
@@ -446,7 +470,6 @@ void create_vtf(vtftool_settings_t settings, const char* src, const char* dst)
 	int num_frames = pTex->FrameCount();
 	int num_faces = pTex->FaceCount();
 
-	/* Loop thru each frame and face, then insert the payload ;) */
 	for(int i = 0; i < num_frames; i++)
 	{
 		for(int j = 0; j < num_faces; j++)
