@@ -1202,6 +1202,8 @@ set(SHARED_LIB 1)
 # If this is a static lib
 set(STATIC_LIB 0)
 
+set( PRECOMPILED_HEADERS "cbase.h" )
+
 # Include this to handle all the defines
 include(${CMAKESCRIPTS_DIR}/library-base.cmake)
 

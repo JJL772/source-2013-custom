@@ -345,3 +345,7 @@ if(DEFINED WINDOWS)
 endif(DEFINED WINDOWS)
 target_compile_definitions(${TARGET} PUBLIC ${DEFINES})
 set_target_properties(${TARGET} PROPERTIES LINKER_LANGUAGE CXX)
+
+if(PRECOMPILED_HEADERS)
+	target_precompile_headers(${TARGET} PUBLIC ${PRECOMPILED_HEADERS})
+endif()
