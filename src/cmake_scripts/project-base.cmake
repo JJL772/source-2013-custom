@@ -175,7 +175,7 @@ endif(DEFINED POSIX)
 #================================================#
 # Handle the include dirs
 #================================================#
-
+list(APPEND POSIX32_INCLUDE_DIRS "/usr/include/SDL2" "/usr/include/i386-linux-gnu/SDL2" "/usr/include/i386-linux-gnu/")
 # For windows only
 list(APPEND INCLUDE_DIRS	${DX9SDK}/Include/)
 
