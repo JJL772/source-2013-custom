@@ -1,16 +1,3 @@
-#define HDRTYPE HDR_TYPE_NONE
-#include "common_ps_fxc.h"
-
-struct PS_INPUT
-{
-	float2 vTexCoord		: TEXCOORD0;
-};
-
-sampler MorphAccumulator		: register( s0 );
-
-HALF4 main( PS_INPUT i ) : COLOR
-{
-	float4 vDeltas = tex2D( MorphAccumulator, i.vTexCoord );
-	return float4( abs( vDeltas.x ), abs( vDeltas.z ), abs( vDeltas.y ) + abs( vDeltas.w ), 1.0f );
-}
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:a7a00d503cc6717b1e034106dae179a18c1e01c80b37d4bf2993547897e34678
+size 350

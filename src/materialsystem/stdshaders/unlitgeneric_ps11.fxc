@@ -1,12 +1,3 @@
-sampler TextureSampler	: register( s0 );
-
-struct PS_INPUT
-{
-	float4 vColor0		: COLOR0;
-	float2 vTexCoord0	: TEXCOORD0;
-};
-
-float4 main( PS_INPUT i ) : COLOR
-{
-	return i.vColor0 * tex2D( TextureSampler, i.vTexCoord0 );
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:fe904986322080777ba2c8bac234988ae152c7190840617a874021edd845edb1
+size 219

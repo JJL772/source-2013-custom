@@ -1,11 +1,3 @@
-#include "common_ps_fxc.h"
-
-struct PS_INPUT
-{
-	float projPosZ		: TEXCOORD0;
-};
-
-float4 main( PS_INPUT i ) : COLOR
-{
-	return FinalOutput( float4( 0, 0, 0, 1.0f ), 0.0f, PIXEL_FOG_TYPE_NONE, TONEMAP_SCALE_NONE, true, i.projPosZ );
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:a6be7d5f9d3bd80de44e3c6f13b0209fa4552db9ef1361255e7d4a0f40628edc
+size 231

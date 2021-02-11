@@ -1,26 +1,3 @@
-#include "common_vs_fxc.h"
-
-
-struct VS_INPUT
-{
-	float4 vPos							: POSITION;
-	float2 vBaseTexCoord				: TEXCOORD0;
-};
-
-
-struct VS_OUTPUT
-{
-    float4 vProjPos					: POSITION;	
-	float2 vBaseTexCoord			: TEXCOORD0;
-};
-
-
-VS_OUTPUT main( const VS_INPUT v )
-{
-	VS_OUTPUT	o;
-
-	o.vProjPos = v.vPos;
-	o.vBaseTexCoord = v.vBaseTexCoord;
-
-	return o;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:ff5840634c458cf762da3970c0d05f4880d1e48b3aeacf04a0ce6a7d1cb86224
+size 343

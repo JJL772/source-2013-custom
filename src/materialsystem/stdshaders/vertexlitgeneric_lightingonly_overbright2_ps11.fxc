@@ -1,9 +1,3 @@
-struct PS_INPUT
-{
-	float3 vColor0		: COLOR0;
-};
-
-float4 main( PS_INPUT i ) : COLOR
-{
-	return float4( i.vColor0, 1.0 );
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:740dbbe9cc43e97143e1e248a4dcf23958f0d4612b84a0be334b4dfae61c4a01
+size 121
