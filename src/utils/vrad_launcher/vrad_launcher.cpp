@@ -11,6 +11,10 @@
 #ifdef _WIN32
 #include "stdafx.h"
 #include <direct.h>
+#else
+#include <stdio.h>
+#include <unistd.h>
+#include <libgen.h>
 #endif
 
 #include "tier1/strtools.h"
@@ -68,6 +72,15 @@ int main(int argc, char* argv[])
 	char dllName[512];
 
 	CommandLine()->CreateCmdLine( argc, argv );
+	
+	/* JL: If we're on Linux, find our absolute directory path and use it to locate vrad.so */
+#ifdef LINUX
+	char dir[MAX_PATH];
+	V_strcpy(dir, argv[0]);
+	char* d = dirname(dir);
+	char fullpath[PATH_MAX];
+	realpath(d, fullpath);
+#endif 
 
 	// check whether they used the -both switch. If this is specified, vrad will be run
 	// twice, once with -hdr and once without
@@ -118,7 +131,7 @@ int main(int argc, char* argv[])
 #ifdef _WIN32
 			strcpy( dllName, "vrad_dll.dll" );
 #else
-			strcpy(dllName, "vrad.so");
+			V_snprintf(dllName, sizeof(dllName), "%s/%s", fullpath, "vrad.so");
 #endif
 			pModule = Sys_LoadModule( dllName );
 		}
