@@ -47,6 +47,7 @@
       <File Name="KeyValues.cpp"/>
       <File Name="kvpacker.cpp"/>
       <File Name="lzmaDecoder.cpp"/>
+      <File Name="math_proxy.cpp"/>
       <File Name="mempool.cpp"/>
       <File Name="memstack.cpp"/>
       <File Name="NetAdr.cpp"/>

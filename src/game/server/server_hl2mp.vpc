@@ -60,7 +60,9 @@ $Project "Server (HL2MP)"
 		$File	"trigger_area_capture.h"
 		$File   "$SRCDIR\game\shared\teamplay_round_timer.cpp"
 		$File   "$SRCDIR\game\shared\teamplay_round_timer.h"
-
+		$File	"physics_record.cpp"
+		$File	"physics_record.h"
+		
 		$Folder	"HL2 DLL"
 		{
 			$File	"hl2\ai_allymanager.cpp"

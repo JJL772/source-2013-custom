@@ -484,6 +484,7 @@
       <File Name="physics_main.cpp"/>
       <File Name="physics_npc_solver.cpp"/>
       <File Name="physics_prop_ragdoll.cpp"/>
+      <File Name="physics_record.cpp"/>
       <File Name="physobj.cpp"/>
       <File Name="phys_controller.cpp"/>
       <File Name="plasma.cpp"/>
@@ -1128,6 +1129,7 @@
       <File Name="physics_impact_damage.h"/>
       <File Name="physics_npc_solver.h"/>
       <File Name="physics_prop_ragdoll.h"/>
+      <File Name="physics_record.h"/>
       <File Name="physobj.h"/>
       <File Name="phys_controller.h"/>
       <File Name="plasma.h"/>
