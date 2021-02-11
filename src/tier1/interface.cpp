@@ -251,7 +251,7 @@ HMODULE Sys_LoadLibrary( const char *pLibraryName, Sys_Flags flags )
 	if ( !ret && !( flags & SYS_NOLOAD ) )
 	{
 		const char *pError = dlerror();
-		if ( pError && ( strstr( pError, "No such file" ) == 0 ) && ( strstr( pError, "image not found" ) == 0 ) )
+		if ( pError )
 		{
 			Msg( " failed to dlopen %s error=%s\n", str, pError );
 		}
