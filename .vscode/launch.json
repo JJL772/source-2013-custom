@@ -1,0 +1,25 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "cppdbg",
+            "request": "launch",
+            "name": "Launch (GDB)",
+            "cwd": "${workspaceFolder}/game",
+            "program": "${workspaceRoot}/game/hl2_linux",
+            "args": [
+                "-dev",
+                "-game mod_hl2mp",
+            ],
+            "environment": [
+                {
+                    "name": "LD_LIBRARY_PATH",
+                    "value": "${LD_LIBRARY_PATH}:${workspaceRoot}/game/bin/:/usr/lib32:/usr/lib/i386-linux-gnu"
+                }
+            ]
+        }
+    ]
+}

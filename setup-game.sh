@@ -3,7 +3,7 @@
 # Creates various game links
 
 if [ -z $SOURCE_SDK_2013_MP ]; then 
-	export SOURCE_SDK_2013_MP="$HOME/.steam/steam/steamapps/common/Source SDK Base 2013 Multiplayer/"
+	export SOURCE_SDK_2013_MP="/media/ExtraDisk/SteamLibrary/steamapps/common/Source SDK Base 2013 Multiplayer"
 fi
 
 
