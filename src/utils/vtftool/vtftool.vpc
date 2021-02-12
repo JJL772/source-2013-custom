@@ -30,6 +30,8 @@ $Project "vtftool"
 		$File	"vtftool.cpp"
 		$File	"$SRCDIR\public\filesystem_init.cpp"
 		$File	"$SRCDIR\utils\common\filesystem_tools.cpp"
+		$File	"$SRCDIR\utils\common\cmdlib.cpp"
+		$File	"$SRCDIR\public\filesystem_helpers.cpp"
 		//$File	""
 	}
 

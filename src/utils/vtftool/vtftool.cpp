@@ -11,6 +11,7 @@
 
 #include "utllinkedlist.h"
 #include "utlbuffer.h"
+#include "../common/cmdlib.h"
 
 /* STB Includes */
 #define STB_IMAGE_IMPLEMENTATION
@@ -144,6 +145,11 @@ int main
  */
 int main(int argc, char** argv)
 {
+	CUtlString input_file;
+	CUtlString output_file;
+	CUtlString format_str;
+	CUtlVector<CUtlString> flags_list;
+	
 	CommandLine()->CreateCmdLine(argc, argv);
 	
 	vtftool_settings_t settings;
@@ -155,122 +161,92 @@ int main(int argc, char** argv)
 	
 	settings.frame_count = 1;
 
-	/* Argument parsing */
-	for(unsigned i = 0; i < argc; i++)
-	{
-		char* arg = argv[i];
-		size_t arglen = strlen(arg);
-
-		/* Parse short arg */
-		if(*arg == '-' && arglen > 1 && arg[1] != '-')
-		{
-			if(IS_ARG("-h"))
-			{
-				show_help();
-				exit(0);
-			}
-			else if(IS_ARG("-v"))
-			{
-				g_bVerbose = true;
-				continue;
-			}
-			else if(IS_ARG("-o"))
-			{
-				if(i == argc-1)
-					show_help();
-				output = argv[i+1];
-				i++;
-				continue;
-			}
-			else if(IS_ARG("-i"))
-			{
-				if(i == argc-1)
-					show_help();
-				input = argv[i+1];
-				i++;
-				continue;
-			}
-		}
-		/* Parse long args */
-		else if(arg[0] == '-' && arglen > 1 && arg[1] == '-')
-		{
-			if(IS_LARG("--help"))
-			{
-				show_help();
-				exit(0);
-			}
-			else if(IS_LARG("--verbose"))
-			{
-				g_bVerbose = true;
-				continue;
-			}
-			else if(IS_LARG("--version"))
-			{
-				printf("vtftool v0.1\n");
-				exit(0);
-			}
-			/* --flags is a list argument, as you can specify any number of flags for a VTF */
-			else if(IS_LARG("--flags"))
-			{
-				/* Handle the list args here */
-				CUtlVector<const char*> *flags = parse_list_arg(arg);
-				for(auto c : *flags)
-					settings.image_flags |= string_to_flags(c);
-
-				/* Now check if image_flags is -1 */
-				/* If it is, die */
-				if(settings.image_flags == -1 || flags->Count() < 1)
-				{
-					printf("Invalid flags type\n\n");
-					show_help();
-					exit(1);
-				}
-
-				/* Free the list */
-				delete flags;
-			}
-			/* --format is a list argument, but it can only have one value */
-			else if(IS_LARG("--format"))
-			{
-				/* Handle the list here */
-				CUtlVector<const char*>* format = parse_list_arg(arg);
-
-				/* Since this isn't technically a list arg, check if the length is more than 1 or less than 0 */
-				if(format->Count() <= 0 || format->Count() > 1)
-				{
-					printf("Invalid image format specified\n\n");
-					show_help();
-					exit(1);
-				}
-
-				settings.image_format = string_to_format((*format)[0]);
-
-				VERBOSE_PRINT("Compiling for format %s\n", (*format)[0]);
-
-				/* Free the list */
-				delete format;
-			}
-			/* --depth tells us the depth of the source image */
-			else if(IS_LARG("--depth"))
-			{
-				/* Parse the depth argument */
-				int depth = parse_long_int_arg(arg);
-
-				settings.depth = depth;
-
-				/* Check that the depth is in range */
-				switch(depth)
-				{
-					case 8: settings.default_format = ImageFormat::IMAGE_FORMAT_RGBA8888; break;
-					case 16: settings.default_format = ImageFormat::IMAGE_FORMAT_RGBA16161616; break;
-					case 32: settings.default_format = ImageFormat::IMAGE_FORMAT_RGBA32323232F; break;
-					default:
-						printf("Invalid depth passed. Valid options: 8, 16, 32\n");
-						exit(1);
-				}
-			}
+	CCommandLine cmdline(argc, argv);
+	
+	/* Meta params */
+	
+	if(!cmdline.HasParam("-v", "--verbose")) {
+		g_bVerbose = true;
+	}
+	
+	if(!cmdline.HasParam("-h", "--help")) {
+		show_help();
+		exit(0);
+	}
+	
+	if(!cmdline.HasParam("-version", "--version")) {
+		Msg("VTFTool Version 1.0\n");
+		Msg("Copyright (C) 2021 Jeremy L.\n");
+		exit(0);
+	}
+	
+	/* Default to 1 frame */
+	if(!cmdline.FindInt("-frames", "--frames", settings.frame_count)) {
+		settings.frame_count = 1;
+	}
+	
+	/* Depth value */
+	if(!cmdline.FindInt("-depth", "--depth", settings.depth)) {
+		settings.depth = 8;
+	}
+	else if(settings.depth != 8 && settings.depth != 16 && settings.depth != 32) {
+		Msg("Invalid depth value '%i'. Depth can only be [8,16,32]\n", settings.depth);
+		exit(1);
+	}
+	
+	/* Default to -1 for width. We will compute this later with STB */
+	if(!cmdline.FindInt("-w", "--width", settings.width)) {
+		settings.width = -1;
+	}
+	if(!cmdline.FindInt("-h", "--height", settings.height)) {
+		settings.height = -1;
+	}
+	
+	if(cmdline.HasParam("-nomips", "--no-mips"))
+		settings.no_mips = true;
+	else
+		settings.no_mips = false;
+		
+	/* Input file, die if it's not provided */
+	if(!cmdline.FindString("-i", "--input", input_file)) {
+		Msg("No input file provided with -i/--input\n");
+		exit(1);
+	}
+	
+	/* Output file, die if not provided */
+	if(!cmdline.FindString("-o", "--output", output_file)) {
+		Msg("No output file provided with -o/--output\n");
+		exit(1);
+	}
+	
+	/* Find the output format */
+	if(!cmdline.FindString("-format", "--format", format_str)) {
+		Msg("No format provided with -f/--format\n");
+		exit(1);
+	}
+	else {
+		settings.image_format = string_to_format(format_str.Get());
+		if(settings.image_format == ImageFormat::IMAGE_FORMAT_UNKNOWN) {
+			Msg("Unknown image format '%s'\n", format_str.Get());
+			exit(1);
 		}
 	}
+	
+	/* Parse the flags list */
+	if(!cmdline.FindList("--flags", flags_list)) {
+		settings.image_flags = 0;
+	}
+	else {
+		for(auto fl : flags_list) {
+			unsigned flag = string_to_flags(fl.Get());
+			if(flag == CompiledVtfFlags::TEXTUREFLAGS_UNUSED_00400000) {
+				Msg("Unknown flag '%s'\n", fl.Get());
+				exit(1);
+			}
+			settings.image_flags |= flag;
+		}
+	}
+	
 	create_vtf(settings, input, output);
 }
 
@@ -282,7 +258,7 @@ void show_help
  */
 void show_help()
 {
-	printf("\tvtftool v0.1\n");
+	printf("vtftool v0.1\n");
 	printf("\t-h --help            - Show this help message and exit\n");
 	printf("\t-v --verbose         - Enable verbose mode\n");
 	printf("\t--flags=<flags>      - Specify texture flags with a comma separated list. Valid values are:\n\t\t");
@@ -296,7 +272,6 @@ void show_help()
 	printf("\t-i <file>            - Input file\n");
 	printf("\t-o <file>            - Output file\n");
 	printf("\t--depth=<depth>      - Depth, in bits per channel, of the source image. Defaults to 8\n");
-	exit(0);
 }
 
 /*
@@ -425,10 +400,55 @@ create_vtf
  */
 void create_vtf(vtftool_settings_t settings, const char* src, const char* dst)
 {
+	ImageFormat init_format;
+	
 	/* Check params */
 	ASSERT_FAILURE(src, "Internal error: src was null\n");
 	ASSERT_FAILURE(dst, "Internal error: dst was null\n");
 	ASSERT_FAILURE(settings.image_format != ImageFormat::IMAGE_FORMAT_UNKNOWN, "Internal error: Unknown image format passed to create_vtf");
+
+	/* Get image params if our settings have -1 for w or h */
+	int inp_w, inp_h, inp_comp;
+	stbi_info(src, &inp_w, &inp_h, &inp_comp);
+	if(settings.height <= 0) {
+		settings.height = inp_h;
+	}
+	if(settings.width <= 0) {
+		settings.width = inp_w;
+	}
+	
+	/* Figure out the initial image format based on image depth & num components */
+	switch(settings.depth)
+	{
+		case 8:
+			if(inp_comp == 3) {
+				init_format = ImageFormat::IMAGE_FORMAT_RGB888;
+				break;
+			}
+			else if(inp_comp == 4) {
+				init_format = ImageFormat::IMAGE_FORMAT_RGBA8888;
+				break;
+			}
+		case 16:
+			/* No image format for RGB161616 */
+			if(inp_comp == 4) {
+				init_format = ImageFormat::IMAGE_FORMAT_RGBA16161616;
+				break;
+			}
+		case 32:
+			if(inp_comp == 3) {
+				init_format = ImageFormat::IMAGE_FORMAT_RGB323232F;
+				break;
+			}
+			else if(inp_comp == 4) {
+				init_format = ImageFormat::IMAGE_FORMAT_RGBA32323232F;
+				break;
+			}
+		default:
+			Msg("Unable to articulate format of input image.\n");
+			exit(1);
+	}
+
 
 	/* Create the empty VTF container */
 	VERBOSE_PRINT("Creating empty VTF texture\n");
@@ -439,9 +459,8 @@ void create_vtf(vtftool_settings_t settings, const char* src, const char* dst)
 	/* We're going to abuse the system a bit here, and trick the VTF library into converting the image for us */
 	/* STB loads images into a buffer in an RGBA format with 8, 16 or 32bits per channel. We will specify 8bits per channel for now */
 	VERBOSE_PRINT("pTex->Init w=%u h=%u depth=%u fmt=%s flags=%u frames=%u\n", settings.width, settings.height, settings.depth,
-		format_to_string(settings.default_format), settings.image_flags, settings.frame_count);
-	bool bres = pTex->Init(settings.width, settings.height, settings.depth, settings.default_format, settings.image_flags, settings.frame_count);
-
+		format_to_string(init_format), settings.image_flags, settings.frame_count);
+	bool bres = pTex->Init(settings.width, settings.height, settings.depth, init_format, settings.image_flags, settings.frame_count);
 	ASSERT_FAILURE(bres, "Internal error: Failed to init VTF Texture!\n");
 
 	/* Go ahead and load the Texture now */
@@ -449,14 +468,20 @@ void create_vtf(vtftool_settings_t settings, const char* src, const char* dst)
 	int src_width, src_height, src_channels;
 	switch(settings.default_format)
 	{
+		case IMAGE_FORMAT_RGB323232F:
+			pImgDat = stbi_loadf(src, &src_width, &src_height, &src_channels, 3);
+			break;
+		case IMAGE_FORMAT_RGB888:
+			pImgDat = stbi_load(src, &src_width, &src_height, &src_channels, 3);
+			break;
 		case IMAGE_FORMAT_RGBA8888:
-			pImgDat = stbi_load(src, &src_width, &src_height, &src_channels, 0);
+			pImgDat = stbi_load(src, &src_width, &src_height, &src_channels, 4);
 			break;
 		case IMAGE_FORMAT_RGBA16161616:
-			pImgDat = stbi_load_16(src, &src_width, &src_height, &src_channels, 0);
+			pImgDat = stbi_load_16(src, &src_width, &src_height, &src_channels, 4);
 			break;
 		case IMAGE_FORMAT_RGBA32323232F:
-			pImgDat = stbi_loadf(src, &src_width, &src_height, &src_channels, 0);
+			pImgDat = stbi_loadf(src, &src_width, &src_height, &src_channels, 4);
 			break;
 		default:
 			ASSERT_FAILURE(0, "Internal error");
@@ -489,9 +514,11 @@ void create_vtf(vtftool_settings_t settings, const char* src, const char* dst)
 	pTex->ConvertImageFormat(settings.image_format, false);
 
 	/* Generate the mips */
-	VERBOSE_PRINT("Generating mips\n");
-	pTex->GenerateMipmaps();
-
+	if(!settings.no_mips) {
+		VERBOSE_PRINT("Generating mips\n");
+		pTex->GenerateMipmaps();
+	}
+	
 	/* Serialize the VTF texture  */
 	VERBOSE_PRINT("Serializing to CUtlBuffer\n");
 	CUtlBuffer outbuf;
