@@ -50,6 +50,7 @@
 
 // TODO: move interface.cpp into tier0 library.
 #include "tier0/platform.h"
+#include "tier1/strtools.h"
 
 // All interfaces derive from this.
 class IBaseInterface
@@ -223,6 +224,36 @@ private:
 	CSysModule	*m_hModule;
 	bool		m_bLoadAttempted;
 };
+
+
+//-----------------------------------------------------------------------------
+// Called to load an interface from the specified DLL
+//-----------------------------------------------------------------------------
+template<class T>
+T* LoadInterface(const char* module_name, const char* interface_name)
+{
+	/* No extension, so we should build a DLL name */
+	char modname[MAX_PATH];
+	if(!V_strstr(module_name, ".")) {
+		V_snprintf(modname, sizeof(modname), "%s%s", module_name, DLL_EXT_STRING);
+	}
+	else
+		V_strncpy(modname, module_name, sizeof(modname));
+		
+	/* NOTE: intentionally not freeing the module because it needs to exist for the lifetime of the app */
+	CSysModule* hDLL = Sys_LoadModule(modname);
+	if(!hDLL)
+		return nullptr;
+		
+	CreateInterfaceFn hFactory = Sys_GetFactory(hDLL);
+	if(!hFactory)
+		return nullptr;
+	
+	int ret;
+	T* pInterface = nullptr;
+	pInterface = (T*)hFactory(interface_name, &ret);
+	return pInterface;
+}
 
 #endif
 
