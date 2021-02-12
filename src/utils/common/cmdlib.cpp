@@ -26,6 +26,7 @@
 #include "KeyValues.h"
 #include "filesystem_tools.h"
 #include <stdio.h>
+#include "utlvector.h"
 
 #if defined( MPI )
 
@@ -996,4 +997,140 @@ void QCopyFile (char *from, char *to)
 }
 
 
+CCommandLine::CCommandLine(int argc, char** argv)
+{
+	m_argc = argc;
+	m_argv = argv;
+}
+	
+bool CCommandLine::FindInt(const char* _short, const char* _long, int& out)
+{
+	size_t longlen = 0;
+	if(_long)
+		longlen = V_strlen(_long);
+	for(int i = 0; i < m_argc; i++) {
+		const char* arg = m_argv[i];
+		/* Check for short arg */
+		if(V_strcmp(_short, arg) == 0) {
+			if(i == m_argc-1)
+				return false;
+			out = V_atoi(m_argv[i+1]);
+			return true;
+		}
+		/* Check for long argument */
+		if(_long && V_strncmp(_long, arg, longlen) == 0) {
+			/* Use B as an offset to the part after the equals */
+			int b = 0;
+			size_t sb = strlen(arg);
+			for(b = 0; arg[b] && arg[b] != '='; b++);
+			if(b == sb-1)
+				return false; // Nothing after the =
+			out = V_atoi(&arg[b]);
+			return true;
+		}
+	}
+	return false;
+}
 
+bool CCommandLine::FindFloat(const char* _short, const char* _long, float& out)
+{
+	size_t longlen = 0;
+	if(_long)
+		longlen = V_strlen(_long);
+	for(int i = 0; i < m_argc; i++) {
+		const char* arg = m_argv[i];
+		/* Check for short arg */
+		if(V_strcmp(_short, arg) == 0) {
+			if(i == m_argc-1)
+				return false;
+			out = V_atof(m_argv[i+1]);
+			return true;
+		}
+		/* Check for long argument */
+		if(_long && V_strncmp(_long, arg, longlen) == 0) {
+			/* Use B as an offset to the part after the equals */
+			int b = 0;
+			size_t sb = strlen(arg);
+			for(b = 0; arg[b] && arg[b] != '='; b++);
+			if(b == sb-1)
+				return false; // Nothing after the =
+			out = V_atof(&arg[b]);
+			return true;
+		}
+	}
+	return false;
+}
+
+bool CCommandLine::FindString(const char* _short, const char* _long, CUtlString& out)
+{
+	size_t longlen = 0;
+	if(_long)
+		longlen = V_strlen(_long);
+	for(int i = 0; i < m_argc; i++) {
+		const char* arg = m_argv[i];
+		/* Check for short arg */
+		if(V_strcmp(_short, arg) == 0) {
+			if(i == m_argc-1)
+				return false;
+			out = (const char*)m_argv[i+1];
+			return true;
+		}
+		/* Check for long argument */
+		if(_long && V_strncmp(_long, arg, longlen) == 0) {
+			/* Use B as an offset to the part after the equals */
+			int b = 0;
+			size_t sb = strlen(arg);
+			for(b = 0; arg[b] && arg[b] != '='; b++);
+			if(b == sb-1)
+				return false; // Nothing after the =
+			out = (const char*)&arg[b];
+			return true;
+		}
+	}
+	return false;
+}
+
+bool CCommandLine::FindList(const char* _long, CUtlVector<CUtlString>& outvec)
+{
+	size_t longlen = 0;
+	if(_long)
+		longlen = V_strlen(_long);
+	for(int i = 0; i < m_argc; i++) {
+		const char* arg = m_argv[i];
+		/* Check for long argument */
+		if(_long && V_strncmp(_long, arg, longlen) == 0) {
+			/* Use B as an offset to the part after the equals */
+			int b = 0;
+			size_t sb = strlen(arg);
+			for(b = 0; arg[b] && arg[b] != '='; b++);
+			if(b == sb-1)
+				return false; // Nothing after the =
+			/* Split string based on , and add the the output vector */
+			CSplitString split(&arg[b], ",");
+			for(auto s : split) {
+				outvec.AddToTail(s);
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
+bool CCommandLine::HasParam(const char* _short, const char* _long)
+{
+	size_t longlen = 0;
+	if(_long)
+		longlen = V_strlen(_long);
+	for(int i = 0; i < m_argc; i++) {
+		const char* arg = m_argv[i];
+		/* Check for short arg */
+		if(V_strcmp(_short, arg) == 0) {
+			return true;
+		}
+		/* Check for long argument */
+		if(_long && V_strncmp(_long, arg, longlen) == 0) {
+			return true;
+		}
+	}
+	return false;
+}
