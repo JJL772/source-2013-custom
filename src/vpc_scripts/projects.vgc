@@ -133,3 +133,8 @@ $Project "vtftool"
 {
 	"utils\vtftool\vtftool.vpc" [$WINDOWS||$POSIX]
 }
+
+$Project "cscript"
+{
+	"cscript\cscript.vpc" [$WINDOWS||$POSIX]
+}

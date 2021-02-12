@@ -12,6 +12,7 @@ $Group "gamedlls"
 {
 	"client"
 	"server"
+	"cscript"
 }
 
 $Group "game"
@@ -22,6 +23,7 @@ $Group "game"
 	"server"
 	"tier1"
 	"vgui_controls"
+	"cscript"
 }
 
 $Group "shaders"
@@ -56,6 +58,7 @@ $Group "everything"
 	"vvis_dll"
 	"vvis_launcher"
 	"vtftool"
+	"cscript"
 }
 
 $Group "dedicated"
@@ -63,5 +66,6 @@ $Group "dedicated"
 	"mathlib"
 	"server"
 	"tier1"
+	"cscript"
 }
 
