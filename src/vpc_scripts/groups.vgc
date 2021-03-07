@@ -24,6 +24,7 @@ $Group "game"
 	"tier1"
 	"vgui_controls"
 	"cscript"
+	"vr"
 }
 
 $Group "shaders"
@@ -59,6 +60,7 @@ $Group "everything"
 	"vvis_launcher"
 	"vtftool"
 	"cscript"
+	"vr"
 }
 
 $Group "dedicated"

@@ -1,0 +1,41 @@
+//-----------------------------------------------------------------------------
+//	VR.VPC
+//
+//	Project Script
+//-----------------------------------------------------------------------------
+
+$macro SRCDIR		".."
+$Macro OUTBINNAME	"vr"
+$Macro GAMENAME		"mod_hl2mp"
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+
+$include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
+
+$Configuration
+{
+	$Compiler
+	{
+		$PreprocessorDefinitions		"$BASE;"
+	}
+	
+	$Linker
+	{
+		$SystemLibraries			"openxr_loader" [$LINUXALL]
+	}
+}
+
+$Project "cscript"
+{
+	$Folder	"Source Files"
+	{
+		$File	"vr_main.cpp"
+	}
+	
+	$Folder "Link Libraries"
+	{
+		$Lib		tier1
+		$Lib		tier2
+		$ImpLib		tier0
+		$ImpLib		vstdlib
+	}
+}

@@ -138,3 +138,8 @@ $Project "cscript"
 {
 	"cscript\cscript.vpc" [$WINDOWS||$POSIX]
 }
+
+$Project "vr"
+{
+	"vr\vr.vpc" [$WINDOWS||$POSIX]
+}
