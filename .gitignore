@@ -75,3 +75,5 @@ src/**.project
 
 src/lib/public/
 **.project
+
+game/*/glshaders.cfg
