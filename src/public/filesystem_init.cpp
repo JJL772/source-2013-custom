@@ -1095,24 +1095,6 @@ FSReturnCode_t FileSystem_GetFileSystemDLLName( char *pFileSystemDLL, int nMaxLe
 	// Assume we'll use local files
 	Q_snprintf( pFileSystemDLL, nMaxLen, "%s%cfilesystem_stdio" DLL_EXT_STRING, executablePath, CORRECT_PATH_SEPARATOR );
 
-	#if !defined( _X360 )
-
-		// Use filsystem_steam if it exists?
-		#if defined( OSX ) || defined( LINUX )
-			struct stat statBuf;
-		#endif
-		if (
-			#if defined( OSX ) || defined( LINUX )
-				stat( pFileSystemDLL, &statBuf ) != 0
-			#else
-				_access( pFileSystemDLL, 0 ) != 0
-			#endif
-		) {
-			Q_snprintf( pFileSystemDLL, nMaxLen, "%s%cfilesystem_steam" DLL_EXT_STRING, executablePath, CORRECT_PATH_SEPARATOR );
-			bSteam = true;
-		}
-	#endif
-
 	return FS_OK;
 }
 
