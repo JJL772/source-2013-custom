@@ -4,3 +4,6 @@
 [submodule "src/thirdparty/stb"]
 	path = src/thirdparty/stb
 	url = https://github.com/nothings/stb
+[submodule "src/thirdparty/openvr"]
+	path = src/thirdparty/openvr
+	url = https://github.com/ValveSoftware/openvr
