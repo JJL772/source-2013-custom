@@ -7,7 +7,7 @@
 $macro SRCDIR		".."
 $Macro OUTBINNAME	"cscript"
 $Macro GAMENAME		"mod_hl2mp"
-$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINDIR	"$SRCDIR\..\game\mod_hl2mp\bin"
 
 $include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 

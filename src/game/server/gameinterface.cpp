@@ -90,6 +90,7 @@
 #include "serverbenchmark_base.h"
 #include "querycache.h"
 #include "cscript/cscript.h"
+#include "tier1/appframeworkutils.h"
 
 #ifdef TF_DLL
 #include "gc_clientsystem.h"
@@ -626,7 +627,7 @@ bool CServerGameDLL::DLLInit( CreateInterfaceFn appSystemFactory,
 	if ( IsX360() && (matchmaking = (IMatchmaking *)appSystemFactory( VENGINE_MATCHMAKING_VERSION, NULL )) == NULL )
 		return false;
 		
-	if ( (g_pCScript = LoadInterface<ICScript>("cscript", CSCRIPT_INTERFACE_VERSION)) == NULL )
+	if ( (g_pCScript = LoadInterface<ICScript>("cscript", CSCRIPT_INTERFACE_VERSION, appSystemFactory)) == NULL )
 		return false;
 
 	// If not running dedicated, grab the engine vgui interface
