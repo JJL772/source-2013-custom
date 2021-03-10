@@ -1,0 +1,26 @@
+//-----------------------------------------------------------------------------
+//	OPENVR.VPC
+//
+//	Yoinks in all openvr dependencies
+//-----------------------------------------------------------------------------
+
+$MacroRequired SRCDIR
+
+$Macro OPENVR_DIR "$SRCDIR\thirdparty\openvr"
+
+$Configuration
+{
+	$Compiler
+	{
+		$AdditionalIncludeDirectories 	"$BASE;$OPENVR_DIR\headers"
+	}
+}
+
+$Project
+{
+	$Folder "Link Libraries"
+	{
+		$ImpLib		"$OPENVR_DIR\lib\linux32\openvr_api" 		[$LINUXALL]
+		$Lib		"$OPENVR_DIR\lib\win32\openvr_api.lib"		[$WINDOWS]
+	}
+}

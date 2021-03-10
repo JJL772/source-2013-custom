@@ -10,6 +10,7 @@ $Macro GAMENAME		"mod_hl2mp"
 $Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 
 $include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
+$Include "$SRCDIR\vpc_scripts\openvr.vpc"
 
 $Configuration
 {
@@ -24,7 +25,7 @@ $Configuration
 	}
 }
 
-$Project "cscript"
+$Project "vr"
 {
 	$Folder	"Source Files"
 	{
