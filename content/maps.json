@@ -12,7 +12,7 @@
 		]
 	},
 	{
-		"file": "mapsrc/sdk_vehicles.vmf",
+		"file": "mapsrc/sdk_dm_lockdown.vmf",
 		"vbsp_args": [
 			
 		],

@@ -151,10 +151,10 @@ class App():
 			vba = map['vbsp_args'] + ['-game', cfg.mod]
 			vva = map['vvis_args'] + ['-game', cfg.mod]
 			pcwd = os.getcwd()
-			os.chdir('../game/')
 			if not self.should_compile_map(m):
 				print("Map '{0}' up to date".format(m))
 				continue
+			os.chdir('../game/')
 			if self.vbsp.run(m, vba) != 0:
 				print("Map compile failed!")
 				exit(1)
