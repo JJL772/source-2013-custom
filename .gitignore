@@ -2,6 +2,12 @@
 
 game/**/glshaders.cfg
 
+content/maps.manifest
+content/mapsrc/*.bsp
+content/mapsrc/*.prt
+content/mapsrc/*.vmx
+content/mapsrc/*.log
+
 # Visual Studio 
 *.suo
 *.user

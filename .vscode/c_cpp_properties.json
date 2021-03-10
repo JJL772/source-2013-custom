@@ -35,6 +35,7 @@
 				"${workspaceFolder}/src/game/client/./hl2",
 				"${workspaceFolder}/src/game/client/./hl2/elements",
 				"${workspaceFolder}/src/game/client/../../game/shared/hl2",
+				"${workspaceFolder}/src/thirdparty/openvr/headers/"
 			],
 			"defines": [
 				"VPC",
@@ -104,7 +105,8 @@
 				"${workspaceFolder}/src/game/server/../../game/shared/hl2mp",
 				"${workspaceFolder}/src/game/server/./hl2",
 				"${workspaceFolder}/src/game/server/./hl2/elements",
-				"${workspaceFolder}/src/game/server/../../game/shared/hl2"
+				"${workspaceFolder}/src/game/server/../../game/shared/hl2",
+				"${workspaceFolder}/src/thirdparty/openvr/headers/"
 			],
 			"defines": [
 				"VPC=1",

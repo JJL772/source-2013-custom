@@ -1,0 +1,26 @@
+[
+	{
+		"file": "mapsrc/sdk_vehicles.vmf",
+		"vbsp_args": [
+			
+		],
+		"vrad_args": [
+			"-StaticPropPolys",
+			"-StaticPropLighting"
+		],
+		"vvis_args": [
+		]
+	},
+	{
+		"file": "mapsrc/sdk_vehicles.vmf",
+		"vbsp_args": [
+			
+		],
+		"vrad_args": [
+			"-StaticPropPolys",
+			"-StaticPropLighting"
+		],
+		"vvis_args": [
+		]
+	}
+]

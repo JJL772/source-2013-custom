@@ -10,6 +10,30 @@
 		    "cwd": "${workspaceFolder}/src"
 	    },
             "command": "make -f games.mak"
-        }
+        },
+	{
+		"label": "Build Maps",
+		"type": "shell",
+		"options": {
+			"cwd": "${workspaceFolder}"
+		},
+		"command": "./build-maps.sh"
+	},
+	{
+		"label": "Build Maps (fast)",
+		"type": "shell",
+		"options": {
+			"cwd": "${workspaceFolder}"
+		},
+		"command": "./build-maps.sh --fast"
+	},
+	{
+		"label": "Build Maps (final/release)",
+		"type": "shell",
+		"options": {
+			"cwd": "${workspaceFolder}"
+		},
+		"command": "./build-maps.sh --final"
+	}
     ]
 }
