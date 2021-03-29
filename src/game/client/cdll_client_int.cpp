@@ -90,6 +90,7 @@
 #include "vr/vr.h"
 #include "appframework/AppFramework.h"
 #include "tier1/appframeworkutils.h"
+#include "vr/vr_shared_support.h"
 #if defined( REPLAY_ENABLED )
 #include "replay/replaycamera.h"
 #include "replay/replay_ragdoll.h"
@@ -209,7 +210,7 @@ IMatchmaking *matchmaking = NULL;
 IUploadGameStats *gamestatsuploader = NULL;
 IClientReplayContext *g_pClientReplayContext = NULL;
 ICScript* g_pCScript = NULL;
-IVR* g_pVR = NULL;
+IVRClient* g_pVR = NULL;
 #if defined( REPLAY_ENABLED )
 IReplayManager *g_pReplayManager = NULL;
 IReplayMovieManager *g_pReplayMovieManager = NULL;
@@ -937,7 +938,7 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	/* Loads the CScript module using the special loading system */
 	if ( (g_pCScript = LoadInterface<ICScript>("cscript", CSCRIPT_INTERFACE_VERSION, appSystemFactory)) == NULL )
 		return false;
-	if ((g_pVR = LoadInterface<IVR>("vr", VR_MODULE_VERSION, appSystemFactory)) == NULL)
+	if ((g_pVR = LoadInterface<IVRClient>("vr", VRCLIENT_MODULE_VERSION, appSystemFactory)) == NULL)
 		return false;
 	
 
@@ -987,6 +988,9 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	// Not fatal if the material system stub isn't around.
 	materials_stub = (IMaterialSystemStub*)appSystemFactory( MATERIAL_SYSTEM_STUB_INTERFACE_VERSION, NULL );
 
+	InitInterface<IVRClient>(g_pVR);
+	InitInterface<ICScript>(g_pCScript);
+
 	if( !g_pMaterialSystemHardwareConfig )
 		return false;
 
@@ -1026,6 +1030,7 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	IGameSystem::Add( ClientSoundscapeSystem() );
 	IGameSystem::Add( PerfVisualBenchmark() );
 	IGameSystem::Add( MumbleSystem() );
+	IGameSystem::Add( GetVRGameSystem(g_pVR->GetHooks()) );
 	
 	#if defined( TF_CLIENT_DLL )
 	IGameSystem::Add( CustomTextureToolCacheGameSystem() );
@@ -1101,9 +1106,6 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 #ifndef _X360
 	HookHapticMessages(); // Always hook the messages
 #endif
-
-	InitInterface<IVR>(g_pVR);
-	InitInterface<ICScript>(g_pCScript);
 
 	return true;
 }

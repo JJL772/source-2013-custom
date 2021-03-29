@@ -30,7 +30,7 @@ $Project "vr"
 {
 	$Folder	"Source Files"
 	{
-		$File	"vr_main.cpp"
+		$File	"vr_client_main.cpp"
 	}
 	
 	$Folder "Link Libraries"

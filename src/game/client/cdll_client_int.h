@@ -59,7 +59,7 @@ class IEngineReplay;
 class IEngineClientReplay;
 class IReplayScreenshotManager;
 class CSteamID;
-class IVR;
+class IVRClient;
 
 //=============================================================================
 // HPE_BEGIN
@@ -112,7 +112,7 @@ extern IReplayScreenshotManager *g_pReplayScreenshotManager;
 extern IEngineReplay *g_pEngineReplay;
 extern IEngineClientReplay *g_pEngineClientReplay;
 extern ICScript* g_pCScript;
-extern IVR* g_pVR;
+extern IVRClient* g_pVR;
 
 //=============================================================================
 // HPE_BEGIN

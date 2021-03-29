@@ -34,7 +34,8 @@ $Project "Client (HL2MP)"
 		$File	"$SRCDIR\game\shared\predicted_viewmodel.h"
 		$File	"$SRCDIR\game\shared\teamplay_round_timer.cpp"
 		$File	"$SRCDIR\game\shared\teamplay_round_timer.h"
-
+		$File	"$SRCDIR\game\shared\vr\vr_shared_support.cpp"
+		
 		$Folder	"HL2 DLL"
 		{
  			$File	"episodic\c_vort_charge_token.cpp"
