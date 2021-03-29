@@ -4,6 +4,7 @@
 
 #include "appframework/IAppSystem.h"
 #include "materialsystem/imaterialsystem.h"
+#include "ivrenderview.h"
 
 #define VRCLIENT_MODULE_VERSION "IVRClient001"
 #define VRSERVER_MODULE_VERSION "IVRServer001"
@@ -15,6 +16,7 @@ public:
 	virtual void PreRender() = 0;
 	virtual void Update( float frametime ) = 0;
 	virtual void PostRender() = 0;
+	virtual void Draw(IVRenderView* rv) = 0;
 	
 	/* Server only hooks. Not called on client */
 	virtual void FrameUpdatePreEntityThink() = 0;

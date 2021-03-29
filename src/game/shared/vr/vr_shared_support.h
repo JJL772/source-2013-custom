@@ -9,3 +9,4 @@
 #include "vr/vr.h"
 
 IGameSystem* GetVRGameSystem(IVRHooks* hooks);
+bool ShouldUseVR();

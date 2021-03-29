@@ -52,6 +52,7 @@ public:
 	void PreRender() override;
 	void Update( float frametime ) override;
 	void PostRender() override;
+	void Draw(IVRenderView* rv) override;
 	
 	/* Server only hooks. Not called on client */
 	void FrameUpdatePreEntityThink() override;
@@ -163,6 +164,10 @@ void CVRClientHooks::PostRender()
 	
 }
 
+void CVRClientHooks::Draw(IVRenderView* rv)
+{
+	
+}
 
 /* Server only hooks. Not called on client */
 void CVRClientHooks::FrameUpdatePreEntityThink() 

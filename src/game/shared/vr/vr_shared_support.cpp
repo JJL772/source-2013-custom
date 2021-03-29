@@ -1,6 +1,10 @@
 
 #include "vr_shared_support.h"
 
+#ifdef CLIENT_DLL
+#include "cdll_client_int.h"
+#endif 
+
 class CVRGameSystem : public CAutoGameSystemPerFrame
 {
 	IVRHooks* m_hooks;
@@ -82,4 +86,14 @@ IGameSystem* GetVRGameSystem(IVRHooks* hooks)
 {
 	static CVRGameSystem* gameSys = new CVRGameSystem(hooks);
 	return gameSys;
+}
+
+bool ShouldUseVR()
+{
+	static ConVarRef vr_enable("vr_enable");
+#ifdef CLIENT_DLL
+	return g_pVR != nullptr && vr_enable.GetBool();
+#else
+	return false;
+#endif 
 }
