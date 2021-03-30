@@ -940,7 +940,6 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 		return false;
 	if ((g_pVR = LoadInterface<IVRClient>("vr", VRCLIENT_MODULE_VERSION, appSystemFactory)) == NULL)
 		return false;
-	
 
 #ifndef _XBOX
 	if ( ( gamestatsuploader = (IUploadGameStats *)appSystemFactory( INTERFACEVERSION_UPLOADGAMESTATS, NULL )) == NULL )
@@ -989,7 +988,7 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	materials_stub = (IMaterialSystemStub*)appSystemFactory( MATERIAL_SYSTEM_STUB_INTERFACE_VERSION, NULL );
 
 	InitInterface<IVRClient>(g_pVR);
-	InitInterface<ICScript>(g_pCScript);
+	InitInterface<ICScript>(g_pCScript); 
 
 	if( !g_pMaterialSystemHardwareConfig )
 		return false;

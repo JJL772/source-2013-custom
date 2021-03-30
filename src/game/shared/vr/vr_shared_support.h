@@ -10,3 +10,4 @@
 
 IGameSystem* GetVRGameSystem(IVRHooks* hooks);
 bool ShouldUseVR();
+IVRHooks* GetVRHooks();

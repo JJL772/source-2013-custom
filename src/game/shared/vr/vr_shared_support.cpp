@@ -97,3 +97,9 @@ bool ShouldUseVR()
 	return false;
 #endif 
 }
+
+IVRHooks* GetVRHooks()
+{
+	static IVRHooks* hooks = g_pVR->GetHooks();
+	return hooks;
+}

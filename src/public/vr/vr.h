@@ -9,6 +9,12 @@
 #define VRCLIENT_MODULE_VERSION "IVRClient001"
 #define VRSERVER_MODULE_VERSION "IVRServer001"
 
+enum class EVRView
+{
+	LEFT = 0,
+	RIGHT
+};
+
 class IVRHooks
 {
 public:
@@ -16,7 +22,6 @@ public:
 	virtual void PreRender() = 0;
 	virtual void Update( float frametime ) = 0;
 	virtual void PostRender() = 0;
-	virtual void Draw(IVRenderView* rv) = 0;
 	
 	/* Server only hooks. Not called on client */
 	virtual void FrameUpdatePreEntityThink() = 0;
@@ -30,6 +35,10 @@ public:
 	virtual void LevelInitPostEntity() = 0;
 	virtual void LevelShutdownPreEntity() = 0;
 	virtual void LevelShutdownPostEntity() = 0;
+	
+	/* Additional events for the client */
+	virtual void Draw(EVRView view) = 0;
+	
 };
 
 //==========================================//
@@ -39,6 +48,7 @@ class IVRClient
 {
 public:
 	virtual IVRHooks* GetHooks() = 0;
+	virtual void GetViewportBounds(EVRView view, int& x, int& y, int& w, int& h) = 0;
 };
 
 //==========================================//

@@ -53,7 +53,7 @@
 #include "clientmode_shared.h"
 #include "sourcevr/isourcevirtualreality.h"
 #include "client_virtualreality.h"
-
+#include "vr/vr_shared_support.h"
 #ifdef PORTAL
 //#include "C_Portal_Player.h"
 #include "portal_render_targets.h"
@@ -1939,6 +1939,14 @@ void CViewRender::RenderView( const CViewSetup &view, int nClearFlags, int whatT
 	CMatRenderContextPtr pRenderContext( materials );
 	ITexture *saveRenderTarget = pRenderContext->GetRenderTarget();
 	pRenderContext.SafeRelease(); // don't want to hold for long periods in case in a locking active share thread mode
+
+	if(ShouldUseVR())
+	{
+		EVRView eye = EVRView::LEFT;
+		if(view.m_eStereoEye == STEREO_EYE_RIGHT)
+			eye = EVRView::RIGHT;
+		GetVRHooks()->Draw(eye);
+	}
 
 	if ( !m_rbTakeFreezeFrame[ view.m_eStereoEye ] && m_flFreezeFrameUntil > gpGlobals->curtime )
 	{

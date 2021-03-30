@@ -22,7 +22,7 @@ $Configuration
 	
 	$Linker
 	{
-		$SystemLibraries			"openxr_loader" [$LINUXALL]
+		$SystemLibraries			"SDL2;GL" [$LINUXALL]
 	}
 }
 
