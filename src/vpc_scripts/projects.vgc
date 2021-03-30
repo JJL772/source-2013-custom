@@ -143,3 +143,8 @@ $Project "vr"
 {
 	"vr\vr.vpc" [$WINDOWS||$POSIX]
 }
+
+$Project "togl"
+{
+	"togl\togl.vpc" [$POSIX]
+}

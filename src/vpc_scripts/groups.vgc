@@ -25,6 +25,7 @@ $Group "game"
 	"vgui_controls"
 	"cscript"
 	"vr"
+	"togl"
 }
 
 $Group "shaders"
@@ -61,6 +62,7 @@ $Group "everything"
 	"vtftool"
 	"cscript"
 	"vr"
+	"togl"
 }
 
 $Group "dedicated"
