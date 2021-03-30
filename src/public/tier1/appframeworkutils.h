@@ -3,6 +3,8 @@
 #include "interface.h"
 #include "appframework/AppFramework.h"
 #include "tier0/platform.h"
+#include "tier2/tier2.h"
+#include "appframework/IAppSystem.h"
 
 //-----------------------------------------------------------------------------
 // Called to load an interface from the specified DLL and calls Connect on it
@@ -41,7 +43,7 @@ T* LoadInterface(const char* module_name, const char* interface_name, CreateInte
 	T* pInterface = nullptr;
 	pInterface = (T*)hFactory(interface_name, &ret);
 	
-	IAppSystem* appsys = (IAppSystem*)pInterface;
+	CBaseAppSystem<T>* appsys = (CBaseAppSystem<T>*)pInterface;
 	appsys->Connect(factory);
 	
 	return pInterface;
@@ -50,6 +52,6 @@ T* LoadInterface(const char* module_name, const char* interface_name, CreateInte
 template<class T>
 int InitInterface(T* iface)
 {
-	IAppSystem* appsys = (IAppSystem*)iface;
+	CBaseAppSystem<T>* appsys = (CBaseAppSystem<T>*)iface;
 	return appsys->Init();
 }
