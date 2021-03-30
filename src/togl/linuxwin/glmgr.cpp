@@ -742,12 +742,12 @@ void GLMContext::DumpCaps( void )
 	#undef dumpfield_str
 }
 
-CGLMTex	*GLMContext::NewTex( GLMTexLayoutKey *key, const char *debugLabel )
+CGLMTex	*GLMContext::NewTex( GLMTexLayoutKey *key, uint levels, const char *debugLabel )
 {
 	// get a layout based on the key
 	GLMTexLayout *layout = m_texLayoutTable->NewLayoutRef( key );
 			
-	CGLMTex *tex = new CGLMTex( this, layout, debugLabel );
+	CGLMTex *tex = new CGLMTex( this, layout, levels, debugLabel );
 	
 	return tex;
 }
@@ -4428,7 +4428,7 @@ void GLMContext::GenDebugFontTex( void )
 		key.m_texFormat		= D3DFMT_A8R8G8B8;
 		key.m_texFlags		= 0;
 
-		m_debugFontTex = NewTex( &key, "GLM debug font" );
+		m_debugFontTex = NewTex( &key, 0, "GLM debug font" );
 		
 
 		//-----------------------------------------------------
