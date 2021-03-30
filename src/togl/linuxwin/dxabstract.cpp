@@ -446,7 +446,7 @@ HRESULT IDirect3DDevice9::CreateTexture(UINT Width,UINT Height,UINT Levels,DWORD
 	key.m_ySize = Height;
 	key.m_zSize = 1;
 	
-	CGLMTex *tex = m_ctx->NewTex( &key, pDebugLabel );
+	CGLMTex *tex = m_ctx->NewTex( &key, 0, pDebugLabel );
 	if (!tex)
 	{
 		DXABSTRACT_BREAK_ON_ERROR();
@@ -629,7 +629,7 @@ HRESULT IDirect3DDevice9::CreateCubeTexture(UINT EdgeLength,UINT Levels,DWORD Us
 	key.m_ySize = EdgeLength;
 	key.m_zSize = 1;
 	
-	CGLMTex *tex = m_ctx->NewTex( &key, pDebugLabel );
+	CGLMTex *tex = m_ctx->NewTex( &key, 0, pDebugLabel );
 	if (!tex)
 	{
 		DXABSTRACT_BREAK_ON_ERROR();
@@ -835,7 +835,7 @@ HRESULT IDirect3DDevice9::CreateVolumeTexture(UINT Width,UINT Height,UINT Depth,
 	key.m_ySize = Height;
 	key.m_zSize = Depth;
 	
-	CGLMTex *tex = m_ctx->NewTex( &key, pDebugLabel );
+	CGLMTex *tex = m_ctx->NewTex( &key, 0, pDebugLabel );
 	if (!tex)
 	{
 		DXABSTRACT_BREAK_ON_ERROR();
@@ -3144,7 +3144,7 @@ HRESULT IDirect3DDevice9::CreateRenderTarget(UINT Width,UINT Height,D3DFORMAT Fo
 		// FIXME no support for "MS quality" yet
 	}
 
-	surf->m_tex			= m_ctx->NewTex( &rtkey, pDebugLabel );
+	surf->m_tex			= m_ctx->NewTex( &rtkey, 0, pDebugLabel );
 	surf->m_face		= 0;
 	surf->m_mip			= 0;
 	
@@ -3441,7 +3441,7 @@ HRESULT IDirect3DDevice9::CreateOffscreenPlainSurface( UINT Width,UINT Height,D3
 	rtkey.m_texFormat	=	Format;
 	rtkey.m_texFlags	=	kGLMTexRenderable;
 
-	surf->m_tex			=	m_ctx->NewTex( &rtkey, "offscreen plain surface" );
+	surf->m_tex			=	m_ctx->NewTex( &rtkey, 0, "offscreen plain surface" );
 	surf->m_face		=	0;
 	surf->m_mip			=	0;
 	
@@ -3498,7 +3498,7 @@ HRESULT IDirect3DDevice9::CreateDepthStencilSurface(UINT Width,UINT Height,D3DFO
 		// FIXME no support for "MS quality" yet
 	}
 
-	surf->m_tex				= m_ctx->NewTex( &depthkey, "depth-stencil surface" );
+	surf->m_tex				= m_ctx->NewTex( &depthkey, 0, "depth-stencil surface" );
 	surf->m_face			= 0;
 	surf->m_mip				= 0;
 

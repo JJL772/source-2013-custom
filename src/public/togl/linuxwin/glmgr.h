@@ -185,6 +185,11 @@ FORCEINLINE void glGetEnumv( GLenum which, GLenum *dst )
 	gGL->glGetIntegerv( which, (int*)dst );
 }
 
+int TOGL_GLOBAL HookTextureCreate(void(*func)(class CGLMTex*));
+void TOGL_GLOBAL UnhookTextureCreate(int index);
+
+
+
 //===========================================================================//
 //
 // types to support the GLMContext

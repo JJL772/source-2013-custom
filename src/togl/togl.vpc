@@ -39,6 +39,7 @@ $Configuration
 	
 	$General [$POSIX]
 	{
+		$ImportLibrary					"$LIBPUBLIC/$_IMPLIB_PREFIX$OUTBINNAME$_IMPLIB_EXT"
 		$GameOutputFile                                 "$OUTBINDIR/$_IMPLIB_PREFIX$OUTBINNAME$_DLL_EXT"
 	}
 

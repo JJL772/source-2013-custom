@@ -392,6 +392,17 @@ static void transform_dp4( float *in4, float *m00, int slots, float *out4 )
 
 //===============================================================================
 
+CUtlVector<void(*)(CGLMTex*)> g_TextureCreateHooks;
+
+int TOGL_GLOBAL HookTextureCreate(void(*func)(class CGLMTex*))
+{
+	return g_TextureCreateHooks.AddToTail(func);
+}
+
+void TOGL_GLOBAL UnhookTextureCreate(int index)
+{
+	g_TextureCreateHooks.Remove(index);
+}
 
 //===============================================================================
 // GLMgr static methods
@@ -748,6 +759,9 @@ CGLMTex	*GLMContext::NewTex( GLMTexLayoutKey *key, uint levels, const char *debu
 	GLMTexLayout *layout = m_texLayoutTable->NewLayoutRef( key );
 			
 	CGLMTex *tex = new CGLMTex( this, layout, levels, debugLabel );
+	
+	for(auto hook : g_TextureCreateHooks)
+		hook(tex);
 	
 	return tex;
 }

@@ -456,7 +456,7 @@ public:
 	void					Unlock( GLMTexLockParams *params );
 	GLuint                                  GetTexName() { return m_texName; }
 	
-protected:
+public:
 	friend class GLMContext;			// only GLMContext can make CGLMTex objects
 	friend class GLMTester;
 	friend class CGLMFBO;
