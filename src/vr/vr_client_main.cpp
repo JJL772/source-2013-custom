@@ -21,9 +21,13 @@
 #include "shaderapi/ishaderapi.h"
 #include "shaderapi/IShaderDevice.h"
 
+#include "togl/linuxwin/dxabstract.h"
+#include "togl/linuxwin/glbase.h"
+#include "togl/linuxwin/glmgr.h"
+
 #include "vr/vr.h"
 
-#include <GL/gl.h> 
+#include <GL/gl.h>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
@@ -61,6 +65,9 @@ public:
 	
 	SDL_Window* m_debugWindow = nullptr;
 	SDL_GLContext m_debugContext = nullptr;
+	
+	CGLMTex* m_texVrRight;
+	CGLMTex* m_texVrLeft;
 };
 
 class CVRClientHooks : public IVRHooks
@@ -93,7 +100,8 @@ public:
 	void LevelShutdownPostEntity() override;
 };
 
-EXPOSE_SINGLE_INTERFACE(CSourceVR, IVRClient, VRCLIENT_MODULE_VERSION);
+static CSourceVR gClientVR;
+EXPOSE_SINGLE_INTERFACE_GLOBALVAR(CSourceVR, IVRClient, VRCLIENT_MODULE_VERSION, gClientVR);
 
 //=================================================================================================================//
 
@@ -124,6 +132,24 @@ bool CSourceVR::Connect(CreateInterfaceFn factory)
 	return true;
 }
 
+static void TextureCreateHook(CGLMTex* tex)
+{
+	if(!tex->m_debugLabel)
+		return;
+	if(!V_strcmp(tex->m_debugLabel, "_rt_vr_left"))
+	{
+		gClientVR.m_texVrLeft = tex;
+		Msg("[VR] Got _rt_vr_left: w=%u h=%u\n", tex->m_layout->m_slices[0].m_xSize,
+			tex->m_layout->m_slices[0].m_ySize);
+	}
+	else if(!V_strcmp(tex->m_debugLabel, "_rt_vr_right"))
+	{
+		gClientVR.m_texVrRight = tex;
+		Msg("[VR] Got _rt_vr_right: w=%u h=%u\n", tex->m_layout->m_slices[0].m_xSize,
+			tex->m_layout->m_slices[0].m_ySize);
+	}
+}
+
 void CSourceVR::Disconnect()
 {
 	BaseClass::Disconnect();
@@ -134,11 +160,14 @@ void CSourceVR::Disconnect()
 InitReturnVal_t CSourceVR::Init()
 {
 	BaseClass::Init();
-
+	
+	/* To obtain the backing renderbuffers/textures, we need to hook the create tex function, so let's do that now */
+	int hook = HookTextureCreate(TextureCreateHook);
+	
 	/* First let's create the render targets for the left and right eye */
 	m_vrLeft = g_pMaterialSystem->CreateNamedRenderTargetTexture("_rt_vr_left", 0, 0, RenderTargetSizeMode_t::RT_SIZE_DEFAULT, ImageFormat::IMAGE_FORMAT_RGBA8888);
 	m_vrRight = g_pMaterialSystem->CreateNamedRenderTargetTexture("_rt_vr_right", 0, 0, RenderTargetSizeMode_t::RT_SIZE_DEFAULT, ImageFormat::IMAGE_FORMAT_RGBA8888);
-
+		
 	/* Explicitly disable VR */
 	if (CommandLine()->CheckParm("-novr"))
 	{
@@ -213,7 +242,7 @@ void CVRClientHooks::Update(float frametime)
 }
 
 void CVRClientHooks::PostRender()
-{
+{	
 }
 
 void CVRClientHooks::Draw(EVRView eye)

@@ -18,6 +18,7 @@ $Configuration
 	{
 		$PreprocessorDefinitions		"$BASE;"
 		$GCC_ExtraLinkerFlags			"-Wl,-rpath=$$ORIGIN"
+		$AdditionalIncludeDirectories		"$BASE;/usr/include/SDL2" [$LINUXALL]
 	}
 	
 	$Linker
@@ -39,5 +40,6 @@ $Project "vr"
 		$Lib		tier2
 		$ImpLib		tier0
 		$ImpLib		vstdlib
+		$ImpLib		togl
 	}
 }
