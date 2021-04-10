@@ -7,3 +7,6 @@
 [submodule "src/thirdparty/openvr"]
 	path = src/thirdparty/openvr
 	url = https://github.com/ValveSoftware/openvr
+[submodule "src/thirdparty/dxvk-native"]
+	path = src/thirdparty/dxvk-native
+	url = https://github.com/JJL772/dxvk-native
