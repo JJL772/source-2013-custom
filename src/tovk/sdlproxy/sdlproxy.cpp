@@ -14,6 +14,8 @@ Intercepts SDL2 calls and modifies them to be compatible with vulkan
 #include <SDL2/SDL_vulkan.h>
 #include <SDL2/SDL.h>
 
+#define APICALL extern "C" __attribute__((visibility("default")))
+
 //    SDL_WINDOW_OPENGL = 0x00000002,             /**< window usable with OpenGL context */
 //    SDL_WINDOW_VULKAN        = 0x10000000,      /**< window usable for Vulkan surface */
 
@@ -31,7 +33,7 @@ static pfnSDL_SetWindowTitle GetSetWindowTitleFunc();
 /**
  * Using this to override the SDL2 SDL_CreateWindow function so we can inject what we need in there.
  */
-extern "C" __attribute__((visibility("default"))) SDL_Window *SDL_CreateWindow(const char *title, int x, int y, int w, int h, uint32_t flags)
+APICALL SDL_Window *SDL_CreateWindow(const char *title, int x, int y, int w, int h, uint32_t flags)
 {
 	printf("TRACE: Intercepted call to SDL_CreateWindow: x=%i y=%i w=%i h=%i title=%s\n", x, y, w, h, title);
 
@@ -47,7 +49,7 @@ extern "C" __attribute__((visibility("default"))) SDL_Window *SDL_CreateWindow(c
 	return func(newTitle, x, y, w, h, flags);
 }
 
-extern "C" __attribute__((visibility("default"))) void SDL_SetWindowTitle(SDL_Window* window, const char* title)
+APICALL void SDL_SetWindowTitle(SDL_Window* window, const char* title)
 {
 	printf("TRACE: Intercepted call to SDL_SetWindowTitle: window=0x%p title=%s\n", window, title);
 	char newTitle[512];
@@ -57,17 +59,25 @@ extern "C" __attribute__((visibility("default"))) void SDL_SetWindowTitle(SDL_Wi
 	func(window, newTitle);
 }
 
-extern "C" __attribute__((visibility("default"))) int SDL_GL_MakeCurrent(SDL_Window* window, SDL_GLContext context)
+APICALL int SDL_GL_MakeCurrent(SDL_Window* window, SDL_GLContext context)
 {
 	printf("TRACE: STUB: Intercepted call to SDL_GL_MakeCurrent: window=0x%p context=0x%p\n", window, context);
 	return 0;
 }
 
-extern "C" __attribute__((visibility("default"))) SDL_GLContext SDL_GL_CreateContext(SDL_Window* window)
+APICALL SDL_GLContext SDL_GL_CreateContext(SDL_Window* window)
 {
 	printf("TRACE: STUB: Intercepted call to SDL_GL_CreateContext, returning dummy: window=0x%p\n", window);
 	static int thisDoesNothing = 49;
 	return &thisDoesNothing;
+}
+
+// Override this so we can return ptrs to OUR gl funcs :) 
+APICALL void* SDL_GL_GetProcAddress(const char *proc)
+{
+	static void* pOurDll = dlopen("libtogl.so", RTLD_LAZY);
+	printf("TRACE: SDL_GL_GetProcAddress called: proc=%s\n", proc);
+	return dlsym(pOurDll, proc);
 }
 
 static void *LoadSDL2()
