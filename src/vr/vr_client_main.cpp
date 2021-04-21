@@ -160,7 +160,7 @@ void CSourceVR::Disconnect()
 InitReturnVal_t CSourceVR::Init()
 {
 	BaseClass::Init();
-	
+	return INIT_OK;
 	/* To obtain the backing renderbuffers/textures, we need to hook the create tex function, so let's do that now */
 	int hook = HookTextureCreate(TextureCreateHook);
 	
