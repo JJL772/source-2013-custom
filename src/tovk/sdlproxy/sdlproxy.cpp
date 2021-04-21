@@ -33,7 +33,7 @@ static pfnSDL_SetWindowTitle GetSetWindowTitleFunc();
  */
 extern "C" __attribute__((visibility("default"))) SDL_Window *SDL_CreateWindow(const char *title, int x, int y, int w, int h, uint32_t flags)
 {
-	printf("\n\nIntercepted call to SDL_CreateWindow: x=%i y=%i w=%i h=%i title=%s\n\n\n", x, y, w, h, title);
+	printf("TRACE: Intercepted call to SDL_CreateWindow: x=%i y=%i w=%i h=%i title=%s\n", x, y, w, h, title);
 
 	char newTitle[512];
 	snprintf(newTitle, sizeof(newTitle), "%s [On Vulkan via ToVK]", title);
@@ -49,11 +49,25 @@ extern "C" __attribute__((visibility("default"))) SDL_Window *SDL_CreateWindow(c
 
 extern "C" __attribute__((visibility("default"))) void SDL_SetWindowTitle(SDL_Window* window, const char* title)
 {
+	printf("TRACE: Intercepted call to SDL_SetWindowTitle: window=0x%p title=%s\n", window, title);
 	char newTitle[512];
 	snprintf(newTitle, sizeof(newTitle), "%s [On Vulkan via ToVK]", title);
 	
 	auto func = GetSetWindowTitleFunc();
 	func(window, newTitle);
+}
+
+extern "C" __attribute__((visibility("default"))) int SDL_GL_MakeCurrent(SDL_Window* window, SDL_GLContext context)
+{
+	printf("TRACE: STUB: Intercepted call to SDL_GL_MakeCurrent: window=0x%p context=0x%p\n", window, context);
+	return 0;
+}
+
+extern "C" __attribute__((visibility("default"))) SDL_GLContext SDL_GL_CreateContext(SDL_Window* window)
+{
+	printf("TRACE: STUB: Intercepted call to SDL_GL_CreateContext, returning dummy: window=0x%p\n", window);
+	static int thisDoesNothing = 49;
+	return &thisDoesNothing;
 }
 
 static void *LoadSDL2()
