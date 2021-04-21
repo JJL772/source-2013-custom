@@ -9,4 +9,4 @@
 	url = https://github.com/ValveSoftware/openvr
 [submodule "src/thirdparty/dxvk-native"]
 	path = src/thirdparty/dxvk-native
-	url = https://github.com/JJL772/dxvk-native
+	url = https://github.com/ChaosInitiative/dxvk-native
