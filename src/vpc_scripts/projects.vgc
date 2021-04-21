@@ -148,3 +148,13 @@ $Project "togl"
 {
 	"togl\togl.vpc" [$POSIX]
 }
+
+$Project "sdlproxy"
+{
+	//"tovk\sdlproxy.vpc" [$POSIX]
+}
+
+$Project "tovk"
+{
+	"tovk\tovk.vpc" [$POSIX]
+}

@@ -1,0 +1,58 @@
+//-----------------------------------------------------------------------------
+//	SDLPROXY.VPC
+//
+//	Project Script
+//-----------------------------------------------------------------------------
+
+$Macro SRCDIR		".."
+$Macro OUTBINDIR	"$SRCDIR\..\game\bin"
+$Macro OUTBINNAME	"sdlproxy"
+
+$include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
+
+// Common Configuration
+$Configuration
+{
+	$Compiler
+	{
+		$AdditionalIncludeDirectories  	"$BASE;..\"
+		$AdditionalIncludeDirectories	"$BASE;/usr/include/SDL2" [$LINUXALL]
+		$PreprocessorDefinitions	"$BASE;PROTECTED_THINGS_ENABLE;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead" [!$OSXALL]
+	}
+    
+	$Linker
+	{
+		$ImportLibrary			"$LIBPUBLIC\$_IMPLIB_PREFIX$OUTBINNAME$_IMPLIB_EXT"	[!$X360 && !$OSXALL]
+		$ImportLibrary			"$SRCDIR\lib\$PLATFORM\$_IMPLIB_PREFIX$OUTBINNAME$_IMPLIB_EXT"	[$OSXALL]
+	}
+
+	$Linker [$OSXALL]
+	{
+		$SystemFrameworks "Carbon;OpenGL;Quartz;Cocoa;IOKit"
+	}
+	
+	$General [$POSIX]
+	{
+		$ImportLibrary					"$LIBPUBLIC/$_IMPLIB_PREFIX$OUTBINNAME$_IMPLIB_EXT"
+		$GameOutputFile                                 "$OUTBINDIR/$_IMPLIB_PREFIX$OUTBINNAME$_DLL_EXT"
+	}
+
+	$PreLinkEvent [$WINDOWS]
+	{
+		$CommandLine	"call $SRCDIR\vpc_scripts\valve_p4_edit.cmd $LIBPUBLIC\$(TargetName).lib $SRCDIR" "\n" \
+						"$BASE"
+	}
+}
+
+$Project "sdlproxy"
+{
+	$Folder	"Source Files"
+	{
+		$File	"$SRCDIR\tovk\sdlproxy\sdlproxy.cpp"	
+	}
+	
+	$Folder	"Link Libraries"
+	{
+	}	
+}
+
