@@ -83,3 +83,13 @@ src/lib/public/
 **.project
 
 game/*/glshaders.cfg
+
+.cache/
+.ccls-cache
+.idea
+build/
+cmake-build*
+
+# Ignore everything except the mod directory
+game/
+!game/mod_hl2mp
