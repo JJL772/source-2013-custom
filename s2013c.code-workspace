@@ -4,5 +4,12 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.associations": {
+			"*.S": "asm",
+			"wscript": "python",
+			"random": "cpp",
+			"typeinfo": "cpp"
+		}
+	}
 }
