@@ -65,30 +65,7 @@ bool g_bNullD3DDevice;
 static D3DToGL		g_D3DToOpenGLTranslatorGLSL;
 static IDirect3DDevice9 *g_pD3D_Device;
 
-#if GL_BATCH_PERF_ANALYSIS
-	#include "../../thirdparty/miniz/simple_bitmap.h"
-	#include "../../thirdparty/miniz/miniz.c"
-
-	ConVar gl_batch_vis_abs_scale( "gl_batch_vis_abs_scale", ".050" );
-	ConVar gl_present_vis_abs_scale( "gl_present_vis_abs_scale", ".050" );
-	//ConVar gl_batch_vis_y_scale( "gl_batch_vis_y_scale", "0.007" );
-	ConVar gl_batch_vis_y_scale( "gl_batch_vis_y_scale", "0.0" );
-	static double s_rdtsc_to_ms;
-
-	uint64 g_nTotalD3DCycles;
-	uint g_nTotalD3DCalls;
-
-	class CGLBatchPerfCallTimer
-	{
-	public:
-		inline CGLBatchPerfCallTimer() { g_nTotalD3DCalls++; g_nTotalD3DCycles -= TM_FAST_TIME(); }
-		inline ~CGLBatchPerfCallTimer() { g_nTotalD3DCycles += TM_FAST_TIME(); }
-	};
-
-	#define GL_BATCH_PERF_CALL_TIMER CGLBatchPerfCallTimer scopedCallTimer;
-#else
-	#define GL_BATCH_PERF_CALL_TIMER
-#endif // GL_BATCH_PERF_ANALYSIS
+#define GL_BATCH_PERF_CALL_TIMER
 
 ConVar gl_batch_vis( "gl_batch_vis", "0" );
 

@@ -36,6 +36,10 @@
 #include "tier0/dbg.h"
 #include "tier1/utlmap.h"
 
+// DXVK headers
+#define TOVK
+#include "common/dxvk/d3d9.h"
+
 // turn this on to get refcount logging from IUnknown
 #define	IUNKNOWN_ALLOC_SPEW 0
 #define	IUNKNOWN_ALLOC_SPEW_MARK_ALL 0	

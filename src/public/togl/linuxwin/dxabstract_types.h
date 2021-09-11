@@ -34,6 +34,8 @@
 	class simple_bitmap;
 #endif
 
+#define TOVK
+
 struct IUnknown;
 struct IDirect3D9;
 struct IDirect3DDevice9;
@@ -174,9 +176,11 @@ typedef void* VD3DHANDLE;
 	#define FAILED(hr) ((HRESULT)(hr) < 0)
 	#define SUCCEEDED(hr) ((HRESULT)(hr) >= 0)
 
+#ifndef TOVK // Get rid of this guy...
 	struct RGNDATA
 	{
 	};
+#endif // TOVK
 
 	typedef const void* LPCVOID;
 #endif
