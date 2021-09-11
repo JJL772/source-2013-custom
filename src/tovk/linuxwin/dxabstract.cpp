@@ -200,247 +200,64 @@ DWORD IDirect3DResource9::SetPriority(DWORD PriorityNew)
 
 IDirect3DBaseTexture9::~IDirect3DBaseTexture9()
 {
-	GL_BATCH_PERF_CALL_TIMER;
-	GL_PUBLIC_ENTRYPOINT_CHECKS( m_device );
-	GLMPRINTF(( ">-A- ~IDirect3DBaseTexture9" ));
-
-	if (m_device)
-	{
-		Assert( m_device->m_ObjectStats.m_nTotalTextures >= 1 );
-		m_device->m_ObjectStats.m_nTotalTextures--;
-
-		GLMPRINTF(( "-A- ~IDirect3DBaseTexture9 taking normal delete path on %08x, device is %08x ", this, m_device ));
-		m_device->ReleasedTexture( this );
-		
-		if (m_tex)
-		{
-			GLMPRINTF(("-A- ~IDirect3DBaseTexture9 deleted '%s' @ %08x (GLM %08x) %s",m_tex->m_layout->m_layoutSummary, this, m_tex, m_tex->m_debugLabel ? m_tex->m_debugLabel : "" ));
-
-			m_device->ReleasedCGLMTex( m_tex );
-
-			m_tex->m_ctx->DelTex( m_tex );
-			m_tex = NULL;
-		}
-		else
-		{
-			GLMPRINTF(( "-A- ~IDirect3DBaseTexture9 : whoops, no tex to delete here ?" ));
-		}		
-		m_device = NULL;	// ** THIS ** is the only place to scrub this.  Don't do it in the subclass destructors.
-	}
-	else
-	{
-		GLMPRINTF(( "-A- ~IDirect3DBaseTexture9 taking strange delete path on %08x, device is %08x ", this, m_device ));
-	}
-
-	GLMPRINTF(( "<-A- ~IDirect3DBaseTexture9" ));
+	m_tex->Release(); // TOVK_TODO: ??? whats the correct thing
 }
 
 D3DRESOURCETYPE IDirect3DBaseTexture9::GetType()
 {
-	GL_BATCH_PERF_CALL_TIMER;
-	GL_PUBLIC_ENTRYPOINT_CHECKS( m_device );
-
-	return m_restype;	//D3DRTYPE_TEXTURE;
+	return (D3DRESOURCETYPE)m_tex->GetType();
 }
 
 DWORD IDirect3DBaseTexture9::GetLevelCount()
 {
-	GL_BATCH_PERF_CALL_TIMER;
-	GL_PUBLIC_ENTRYPOINT_CHECKS( m_device );
-
-	return m_tex->m_layout->m_mipCount;
+	return m_tex->GetLevelCount();
 }
 
 HRESULT IDirect3DBaseTexture9::GetLevelDesc(UINT Level,D3DSURFACE_DESC *pDesc)
 {
-	GL_BATCH_PERF_CALL_TIMER;
-	GL_PUBLIC_ENTRYPOINT_CHECKS( m_device );
-
-	Assert (Level < static_cast<uint>(m_tex->m_layout->m_mipCount));
-
-	D3DSURFACE_DESC result = m_descZero;
-	// then mutate it for the level of interest
-	
-	GLMTexLayoutSlice *slice = &m_tex->m_layout->m_slices[ m_tex->CalcSliceIndex( 0, Level ) ];
-
-	result.Width = slice->m_xSize;
-	result.Height = slice->m_ySize;
-	
-	*pDesc = result;
-
-	return S_OK;
+	return ((IDirect3DBaseTexture9*)m_tex)->GetLevelDesc(Level, pDesc);
 }
 
 // ------------------------------------------------------------------------------------------------------------------------------ //
 
 HRESULT IDirect3DDevice9::CreateTexture(UINT Width,UINT Height,UINT Levels,DWORD Usage,D3DFORMAT Format,D3DPOOL Pool,IDirect3DTexture9** ppTexture,VD3DHANDLE* pSharedHandle, char *pDebugLabel )
 {
-	GL_BATCH_PERF_CALL_TIMER;
-	GL_PUBLIC_ENTRYPOINT_CHECKS( this );
-
-	m_ObjectStats.m_nTotalTextures++;
-
-	GLMPRINTF((">-A-IDirect3DDevice9::CreateTexture"));
-	IDirect3DTexture9	*dxtex = new IDirect3DTexture9;
-	dxtex->m_restype = D3DRTYPE_TEXTURE;
 	
-	dxtex->m_device		= this;
-
-	dxtex->m_descZero.Format	= Format;
-	dxtex->m_descZero.Type		= D3DRTYPE_TEXTURE;
-	dxtex->m_descZero.Usage		= Usage;
-	dxtex->m_descZero.Pool		= Pool;
-
-	dxtex->m_descZero.MultiSampleType		= D3DMULTISAMPLE_NONE;
-	dxtex->m_descZero.MultiSampleQuality	= 0;
-	dxtex->m_descZero.Width		= Width;
-	dxtex->m_descZero.Height	= Height;
+	__IDirect3DTexture9* pTex = nullptr;
+	auto res = m_device->CreateTexture(Width, Height, Levels, Usage, (__D3DFORMAT)Format, (__D3DPOOL)Pool, &pTex, pSharedHandle);
 	
-	GLMTexLayoutKey key;
-	memset( &key, 0, sizeof(key) );
-	
-	key.m_texGLTarget	= GL_TEXTURE_2D;
-	key.m_texFormat		= Format;
-
-	if (Levels>1)
-	{
-		key.m_texFlags |= kGLMTexMipped;
+	if(SUCCEEDED(res)) {
+		auto* pFakeTex = *ppTexture;
+		pFakeTex = new IDirect3DTexture9();
+		pFakeTex->m_tex = pTex;
 	}
-
-	// http://msdn.microsoft.com/en-us/library/bb172625(VS.85).aspx
-	
-	// complain if any usage bits come down that I don't know.
-	uint knownUsageBits = (D3DUSAGE_AUTOGENMIPMAP | D3DUSAGE_RENDERTARGET | D3DUSAGE_DYNAMIC | D3DUSAGE_TEXTURE_SRGB | D3DUSAGE_DEPTHSTENCIL);
-	if ( (Usage & knownUsageBits) != Usage )
-	{
-		DXABSTRACT_BREAK_ON_ERROR();
-	}
-	
-	if (Usage & D3DUSAGE_AUTOGENMIPMAP)
-	{
-		key.m_texFlags |= kGLMTexMipped | kGLMTexMippedAuto;
-	}
-	
-	if (Usage & D3DUSAGE_DYNAMIC)
-	{
-		// GLMPRINTF(("-X- DYNAMIC tex usage ignored.."));	//FIXME
-	}
-	
-	if (Usage & D3DUSAGE_TEXTURE_SRGB)
-	{
-		key.m_texFlags |= kGLMTexSRGB;
-	}
-	
-	if (Usage & D3DUSAGE_RENDERTARGET)
-	{
-		Assert( !(Usage & D3DUSAGE_DEPTHSTENCIL) );
-		
-		m_ObjectStats.m_nTotalRenderTargets++;
-						
-		key.m_texFlags |= kGLMTexRenderable;
-		
-		const GLMTexFormatDesc *pFmtDesc = GetFormatDesc( key.m_texFormat );
-		if ( pFmtDesc->m_glIntFormatSRGB != 0 )
-		{
-			key.m_texFlags |= kGLMTexSRGB;			// this catches callers of CreateTexture who set the "renderable" option - they get an SRGB tex
-		}
-		
-		if (m_ctx->Caps().m_cantAttachSRGB)
-		{
-			// this config can't support SRGB render targets.  quietly turn off the sRGB bit.
-			key.m_texFlags &= ~kGLMTexSRGB;
-		}
-	}
-
-	if ( ( Format == D3DFMT_D16 ) || ( Format == D3DFMT_D24X8 ) || ( Format == D3DFMT_D24S8 ) )
-	{
-		key.m_texFlags |= kGLMTexIsDepth;
-	}
-	if ( Format == D3DFMT_D24S8 )
-	{
-		key.m_texFlags |= kGLMTexIsStencil;
-	}
-			
-	key.m_xSize = Width;
-	key.m_ySize = Height;
-	key.m_zSize = 1;
-	
-	CGLMTex *tex = m_ctx->NewTex( &key, 0, pDebugLabel );
-	if (!tex)
-	{
-		DXABSTRACT_BREAK_ON_ERROR();
-	}
-	dxtex->m_tex = tex;
-
-	dxtex->m_tex->m_srgbFlipCount = 0;
-
-	m_ObjectStats.m_nTotalSurfaces++;
-
-	dxtex->m_surfZero = new IDirect3DSurface9;
-	dxtex->m_surfZero->m_restype = (D3DRESOURCETYPE)0;	// this is a ref to a tex, not the owner... 
-	
-	// do not do an AddRef here.	
-	
-	dxtex->m_surfZero->m_device = this;
-
-	dxtex->m_surfZero->m_desc	=	dxtex->m_descZero;
-	dxtex->m_surfZero->m_tex	=	tex;
-	dxtex->m_surfZero->m_face	=	0;
-	dxtex->m_surfZero->m_mip	=	0;
-	
-	GLMPRINTF(("-A- IDirect3DDevice9::CreateTexture created '%s' @ %08x (GLM %08x) %s",tex->m_layout->m_layoutSummary, dxtex, tex, pDebugLabel ? pDebugLabel : "" ));
-	
-	*ppTexture = dxtex;
-	
-	GLMPRINTF(("<-A-IDirect3DDevice9::CreateTexture"));
-	return S_OK;
+	return res;
 }
 
 
 IDirect3DTexture9::~IDirect3DTexture9()
 {
-	GL_BATCH_PERF_CALL_TIMER;
-	GL_PUBLIC_ENTRYPOINT_CHECKS( m_device );
-	
-	GLMPRINTF(( ">-A- IDirect3DTexture9" ));
-
-	// IDirect3DBaseTexture9::~IDirect3DBaseTexture9 frees up m_tex
-	// we take care of surfZero
-
-	if (m_device)
-	{
-		m_device->ReleasedTexture( this );
-
-		if (m_surfZero)
-		{
-			ULONG refc = m_surfZero->Release( 0, "~IDirect3DTexture9 public release (surfZero)" ); (void)refc;
-			Assert( !refc );
-			m_surfZero = NULL;
-		}
-		// leave m_device alone!
-	}
-
-	GLMPRINTF(( "<-A- IDirect3DTexture9" ));
+	m_tex->Release();
 }
 
 HRESULT IDirect3DTexture9::LockRect(UINT Level,D3DLOCKED_RECT* pLockedRect,CONST RECT* pRect,DWORD Flags)
 {
-	GL_BATCH_PERF_CALL_TIMER;
-	GL_PUBLIC_ENTRYPOINT_CHECKS( m_device );
-	DXABSTRACT_BREAK_ON_ERROR();
-	return S_OK;
+	__D3DLOCKED_RECT rect;
+	rect.pBits = pLockedRect->pBits;
+	rect.Pitch = pLockedRect->Pitch;
+	auto res = m_tex->LockRect(Level, &rect, pRect, Flags);
+	return res;
 }
 
 HRESULT IDirect3DTexture9::UnlockRect(UINT Level)
 {
-	GL_BATCH_PERF_CALL_TIMER;
-	GL_PUBLIC_ENTRYPOINT_CHECKS( m_device );
-	DXABSTRACT_BREAK_ON_ERROR();
-	return S_OK;
+	m_tex->UnlockRect(Level);
 }
 
 HRESULT IDirect3DTexture9::GetSurfaceLevel(UINT Level,IDirect3DSurface9** ppSurfaceLevel)
 {
+	
+	
 	GL_BATCH_PERF_CALL_TIMER;
 	GL_PUBLIC_ENTRYPOINT_CHECKS( m_device );
 	// we create and pass back a surface, and the client is on the hook to release it.  tidy.
