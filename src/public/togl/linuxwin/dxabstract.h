@@ -156,7 +156,8 @@ struct TOGL_CLASS IUnknown
 
 struct TOGL_CLASS IDirect3DResource9 : public IUnknown
 {
-	IDirect3DDevice9	*m_device;		// parent device
+	//IDirect3DDevice9	*m_device;		// parent device
+	__IDirect3DResource9* m_resource;
 	D3DRESOURCETYPE		m_restype;
 	
 	DWORD SetPriority(DWORD PriorityNew);
@@ -165,7 +166,8 @@ struct TOGL_CLASS IDirect3DResource9 : public IUnknown
 struct TOGL_CLASS IDirect3DBaseTexture9 : public IDirect3DResource9						// "A Texture.."
 {
 	D3DSURFACE_DESC			m_descZero;			// desc of top level.
-	CGLMTex					*m_tex;				// a CGLMTex can represent all forms of tex
+	//CGLMTex					*m_tex;				// a CGLMTex can represent all forms of tex
+	__IDirect3DBaseTexture9* m_tex;
 
 	virtual					~IDirect3DBaseTexture9();
 	D3DRESOURCETYPE	TOGLMETHODCALLTYPE GetType();
@@ -175,7 +177,8 @@ struct TOGL_CLASS IDirect3DBaseTexture9 : public IDirect3DResource9						// "A T
 
 struct TOGL_CLASS IDirect3DTexture9 : public IDirect3DBaseTexture9							// "Texture 2D"
 {	
-	IDirect3DSurface9 *m_surfZero;				// surf of top level.
+	//IDirect3DSurface9 *m_surfZero;				// surf of top level.
+	__IDirect3DTexture9* m_tex;
 	virtual ~IDirect3DTexture9();
 	HRESULT TOGLMETHODCALLTYPE LockRect(UINT Level,D3DLOCKED_RECT* pLockedRect,CONST RECT* pRect,DWORD Flags);
 	HRESULT TOGLMETHODCALLTYPE UnlockRect(UINT Level);
@@ -184,7 +187,10 @@ struct TOGL_CLASS IDirect3DTexture9 : public IDirect3DBaseTexture9							// "Tex
 
 struct TOGL_CLASS IDirect3DCubeTexture9 : public IDirect3DBaseTexture9						// "Texture Cube Map"
 {
-	IDirect3DSurface9		*m_surfZero[6];			// surfs of top level.
+	//IDirect3DSurface9		*m_surfZero[6];			// surfs of top level.
+	__IDirect3DCubeTexture9* m_tex;
+	void* m_pad[5];
+	
 	virtual ~IDirect3DCubeTexture9();
 	HRESULT TOGLMETHODCALLTYPE GetCubeMapSurface(D3DCUBEMAP_FACES FaceType,UINT Level,IDirect3DSurface9** ppCubeMapSurface);
 	HRESULT TOGLMETHODCALLTYPE GetLevelDesc(UINT Level,D3DSURFACE_DESC *pDesc);
@@ -192,7 +198,8 @@ struct TOGL_CLASS IDirect3DCubeTexture9 : public IDirect3DBaseTexture9						// "
 
 struct TOGL_CLASS IDirect3DVolumeTexture9 : public IDirect3DBaseTexture9					// "Texture 3D"
 {
-	IDirect3DSurface9		*m_surfZero;			// surf of top level.
+	//IDirect3DSurface9		*m_surfZero;			// surf of top level.
+	__IDirect3DVolumeTexture9* m_tex;
 	D3DVOLUME_DESC			m_volDescZero;			// volume desc top level
 	virtual ~IDirect3DVolumeTexture9();
 	HRESULT TOGLMETHODCALLTYPE LockBox(UINT Level,D3DLOCKED_BOX* pLockedVolume,CONST D3DBOX* pBox,DWORD Flags);
@@ -212,7 +219,8 @@ struct TOGL_CLASS IDirect3DSurface9 : public IDirect3DResource9
 	 HRESULT TOGLMETHODCALLTYPE GetDesc(D3DSURFACE_DESC *pDesc);
 
 	D3DSURFACE_DESC			m_desc;
-	CGLMTex					*m_tex;
+	//CGLMTex					*m_tex;
+	__IDirect3DSurface9* m_tex;
 	int						m_face;
 	int						m_mip;
 };
@@ -238,7 +246,8 @@ struct TOGL_CLASS IDirect3D9 : public IUnknown
 
 struct TOGL_CLASS IDirect3DVertexDeclaration9 : public IUnknown
 {
-	IDirect3DDevice9		*m_device;
+	//IDirect3DDevice9		*m_device;
+	__IDirect3DVertexDeclaration9* m_decl;
 	uint					m_elemCount;
 	D3DVERTEXELEMENT9_GL	m_elements[ MAX_D3DVERTEXELEMENTS ];
 		
@@ -251,7 +260,8 @@ struct TOGL_CLASS IDirect3DQuery9 : public IDirect3DResource9	//was IUnknown
 {
 	D3DQUERYTYPE			m_type;		// D3DQUERYTYPE_OCCLUSION or D3DQUERYTYPE_EVENT
 	GLMContext				*m_ctx;
-	CGLMQuery				*m_query;
+	//CGLMQuery				*m_query;
+	__IDirect3DQuery9* m_query;
 	
 	uint					m_nIssueStartThreadID, m_nIssueEndThreadID;
 	uint					m_nIssueStartDrawCallIndex, m_nIssueEndDrawCallIndex;
@@ -266,7 +276,8 @@ struct TOGL_CLASS IDirect3DQuery9 : public IDirect3DResource9	//was IUnknown
 
 struct TOGL_CLASS IDirect3DVertexBuffer9 : public IDirect3DResource9	//was IUnknown
 {
-	GLMContext				*m_ctx;
+	//GLMContext				*m_ctx;
+	__IDirect3DVertexBuffer9* m_vb;
 	CGLMBuffer				*m_vtxBuffer;
 	D3DVERTEXBUFFER_DESC	m_vtxDesc;		// to satisfy GetDesc
 		
@@ -278,7 +289,8 @@ struct TOGL_CLASS IDirect3DVertexBuffer9 : public IDirect3DResource9	//was IUnkn
 
 struct TOGL_CLASS IDirect3DIndexBuffer9 : public IDirect3DResource9	//was IUnknown
 {
-	GLMContext				*m_ctx;
+	__IDirect3DIndexBuffer9* m_ib;
+	//GLMContext				*m_ctx;
 	CGLMBuffer				*m_idxBuffer;
 	D3DINDEXBUFFER_DESC		m_idxDesc;		// to satisfy GetDesc
 		
@@ -293,7 +305,8 @@ struct TOGL_CLASS IDirect3DIndexBuffer9 : public IDirect3DResource9	//was IUnkno
 
 struct TOGL_CLASS IDirect3DPixelShader9 : public IDirect3DResource9	//was IUnknown
 {
-	CGLMProgram				*m_pixProgram;
+	__IDirect3DPixelShader9* m_shader;
+	//CGLMProgram				*m_pixProgram;
 	uint					m_pixHighWater;		// count of active constant slots referenced by shader.
 	uint					m_pixSamplerMask;	// (1<<n) mask of samplers referemnced by this pixel shader
 												// this can help FlushSamplers avoid SRGB flipping on textures not being referenced...
@@ -305,7 +318,8 @@ struct TOGL_CLASS IDirect3DPixelShader9 : public IDirect3DResource9	//was IUnkno
 
 struct TOGL_CLASS IDirect3DVertexShader9 : public IDirect3DResource9	//was IUnknown
 {
-	CGLMProgram				*m_vtxProgram;
+	__IDirect3DVertexShader9* m_shader;
+	//CGLMProgram				*m_vtxProgram;
 	uint					m_vtxHighWater;		// count of active constant slots referenced by shader.
 	uint					m_vtxHighWaterBone;
 	unsigned char			m_vtxAttribMap[16];	// high nibble is usage, low nibble is usageindex, array position is attrib number
@@ -600,224 +614,24 @@ private:
 public:
 	IDirect3DDevice9Params	m_params;						// mirror of the creation inputs
 private:
-
-	// D3D flavor stuff
-	IDirect3DSurface9			*m_pRenderTargets[4];
-	IDirect3DSurface9			*m_pDepthStencil;
-
-	IDirect3DSurface9			*m_pDefaultColorSurface;			// default color surface.
-	IDirect3DSurface9			*m_pDefaultDepthStencilSurface;	// queried by GetDepthStencilSurface.
-
-	IDirect3DVertexDeclaration9	*m_pVertDecl;					// Set by SetVertexDeclaration...
-	D3DStreamDesc				m_streams[ D3D_MAX_STREAMS ];	// Set by SetStreamSource..
-	CGLMBuffer					*m_vtx_buffers[ D3D_MAX_STREAMS ];
-	CGLMBuffer					*m_pDummy_vtx_buffer;
-	D3DIndexDesc				m_indices;						// Set by SetIndices..
-
-	IDirect3DVertexShader9		*m_vertexShader;				// Set by SetVertexShader...
-	IDirect3DPixelShader9		*m_pixelShader;					// Set by SetPixelShader...
-
-	IDirect3DBaseTexture9		*m_textures[GLM_SAMPLER_COUNT];				// set by SetTexture... NULL if stage inactive
-	
-	// GLM flavor stuff
-	GLMContext					*m_ctx;
-	CGLMFBOMap					*m_pFBOs;
-	bool						m_bFBODirty;
-
-	struct ObjectStats_t
-	{
-		int						m_nTotalFBOs;
-		int						m_nTotalVertexShaders;
-		int						m_nTotalPixelShaders;
-		int						m_nTotalVertexDecls;
-		int						m_nTotalIndexBuffers;
-		int						m_nTotalVertexBuffers;
-		int						m_nTotalRenderTargets;
-		int						m_nTotalTextures;
-		int						m_nTotalSurfaces;
-		int						m_nTotalQueries;
-
-		void clear() { V_memset( this, 0, sizeof(* this ) ); }
-
-		ObjectStats_t &operator -= ( const ObjectStats_t &rhs ) 
-		{
-			m_nTotalFBOs -= rhs.m_nTotalFBOs;
-			m_nTotalVertexShaders -= rhs.m_nTotalVertexShaders;
-			m_nTotalPixelShaders -= rhs.m_nTotalPixelShaders;
-			m_nTotalVertexDecls -= rhs.m_nTotalVertexDecls;
-			m_nTotalIndexBuffers -= rhs.m_nTotalIndexBuffers;
-			m_nTotalVertexBuffers -= rhs.m_nTotalVertexBuffers;
-			m_nTotalRenderTargets -= rhs.m_nTotalRenderTargets;
-			m_nTotalTextures -= rhs.m_nTotalTextures;
-			m_nTotalSurfaces -= rhs.m_nTotalSurfaces;
-			m_nTotalQueries -= m_nTotalQueries;
-			return *this;
-		}
-	};
-	ObjectStats_t					m_ObjectStats;
-	ObjectStats_t					m_PrevObjectStats;
-	void PrintObjectStats( const ObjectStats_t &stats );
-	
-	// GL state 
-	struct 
-	{
-		// render state buckets
-		GLAlphaTestEnable_t			m_AlphaTestEnable;
-		GLAlphaTestFunc_t			m_AlphaTestFunc;
-
-		GLAlphaToCoverageEnable_t	m_AlphaToCoverageEnable;
-
-		GLDepthTestEnable_t			m_DepthTestEnable;
-		GLDepthMask_t				m_DepthMask;
-		GLDepthFunc_t				m_DepthFunc;
-
-		GLClipPlaneEnable_t			m_ClipPlaneEnable[kGLMUserClipPlanes];
-		GLClipPlaneEquation_t		m_ClipPlaneEquation[kGLMUserClipPlanes];
-
-		GLColorMaskSingle_t			m_ColorMaskSingle;
-		GLColorMaskMultiple_t		m_ColorMaskMultiple;
-
-		GLCullFaceEnable_t			m_CullFaceEnable;
-		GLCullFrontFace_t			m_CullFrontFace;
-		GLPolygonMode_t				m_PolygonMode;
-		GLDepthBias_t				m_DepthBias;
-		GLScissorEnable_t			m_ScissorEnable;
-		GLScissorBox_t				m_ScissorBox;
-		GLViewportBox_t				m_ViewportBox;
-		GLViewportDepthRange_t		m_ViewportDepthRange;
-
-		GLBlendEnable_t				m_BlendEnable;
-		GLBlendFactor_t				m_BlendFactor;
-		GLBlendEquation_t			m_BlendEquation;
-		GLBlendColor_t				m_BlendColor;
-		GLBlendEnableSRGB_t			m_BlendEnableSRGB;
-
-		GLStencilTestEnable_t		m_StencilTestEnable;
-		GLStencilFunc_t				m_StencilFunc;
-		GLStencilOp_t				m_StencilOp;
-		GLStencilWriteMask_t		m_StencilWriteMask;
-
-		GLClearColor_t				m_ClearColor;
-		GLClearDepth_t				m_ClearDepth;
-		GLClearStencil_t			m_ClearStencil;
-
-		bool						m_FogEnable;			// not really pushed to GL, just latched here
-
-		// samplers
-		//GLMTexSamplingParams		m_samplers[GLM_SAMPLER_COUNT];
-	} gl;
-	
-#if GL_BATCH_PERF_ANALYSIS
-	simple_bitmap *m_pBatch_vis_bitmap;
-	uint m_nBatchVisY;
-	uint m_nBatchVisFrameIndex, m_nBatchVisFileIdx;
-	uint m_nNumProgramChanges;
-		
-	uint m_nTotalD3DCalls;
-	double m_flTotalD3DTime;
-	uint m_nTotalGLCalls;
-	double m_flTotalGLTime;
-	uint m_nTotalPrims;
-		
-	uint m_nOverallProgramChanges;
-	uint m_nOverallDraws;
-	uint m_nOverallPrims;
-	uint m_nOverallD3DCalls;
-	double m_flOverallD3DTime;
-	uint m_nOverallGLCalls;
-	double m_flOverallGLTime;
-
-	double m_flOverallPresentTime;
-	double m_flOverallPresentTimeSquared;
-	double m_flOverallSwapWindowTime;
-	double m_flOverallSwapWindowTimeSquared;
-	uint m_nOverallPresents;
-#endif
+	__IDirect3DDevice9* m_device;
 };
 
 FORCEINLINE HRESULT TOGLMETHODCALLTYPE IDirect3DDevice9::SetSamplerState( DWORD Sampler, D3DSAMPLERSTATETYPE Type, DWORD Value )
 {
-#if GLMDEBUG || GL_BATCH_PERF_ANALYSIS
-	return SetSamplerStateNonInline( Sampler, Type, Value );
-#else
-	Assert( GetCurrentOwnerThreadId() == ThreadGetCurrentId() );
-	Assert( Sampler < GLM_SAMPLER_COUNT );
-	
-	m_ctx->SetSamplerDirty( Sampler );
-
-	switch( Type )
-	{
-		case D3DSAMP_ADDRESSU:
-			m_ctx->SetSamplerAddressU( Sampler, Value );
-			break;
-		case D3DSAMP_ADDRESSV:
-			m_ctx->SetSamplerAddressV( Sampler, Value );
-			break;
-		case D3DSAMP_ADDRESSW:
-			m_ctx->SetSamplerAddressW( Sampler, Value );
-			break;
-		case D3DSAMP_BORDERCOLOR:
-			m_ctx->SetSamplerBorderColor( Sampler, Value );
-			break;
-		case D3DSAMP_MAGFILTER:
-			m_ctx->SetSamplerMagFilter( Sampler, Value );
-			break;
-		case D3DSAMP_MIPFILTER:	
-			m_ctx->SetSamplerMipFilter( Sampler, Value );
-			break;
-		case D3DSAMP_MINFILTER:	
-			m_ctx->SetSamplerMinFilter( Sampler, Value );
-			break;
-		case D3DSAMP_MIPMAPLODBIAS: 
-			m_ctx->SetSamplerMipMapLODBias( Sampler, Value );
-			break;		
-		case D3DSAMP_MAXMIPLEVEL: 
-			m_ctx->SetSamplerMaxMipLevel( Sampler, Value);
-			break;
-		case D3DSAMP_MAXANISOTROPY: 
-			m_ctx->SetSamplerMaxAnisotropy( Sampler, Value);
-			break;
-		case D3DSAMP_SRGBTEXTURE: 
-			//m_samplers[ Sampler ].m_srgb = Value;
-			m_ctx->SetSamplerSRGBTexture(Sampler, Value);
-			break;
-		case D3DSAMP_SHADOWFILTER: 
-			m_ctx->SetShadowFilter(Sampler, Value);
-			break;
-		
-		default: DXABSTRACT_BREAK_ON_ERROR(); break;
-	}
-	return S_OK;
-#endif
+	m_device->SetSamplerState(sampler, type, Value);
 }
 
 FORCEINLINE void TOGLMETHODCALLTYPE IDirect3DDevice9::SetSamplerStates(
 	DWORD Sampler, DWORD AddressU, DWORD AddressV, DWORD AddressW,
 	DWORD MinFilter, DWORD MagFilter, DWORD MipFilter )
 {
-#if GLMDEBUG || GL_BATCH_PERF_ANALYSIS
-	SetSamplerStatesNonInline( Sampler, AddressU, AddressV, AddressW, MinFilter, MagFilter, MipFilter );
-#else
-	Assert( GetCurrentOwnerThreadId() == ThreadGetCurrentId() );
-	Assert( Sampler < GLM_SAMPLER_COUNT);
-		
-	m_ctx->SetSamplerDirty( Sampler );
-		
-	m_ctx->SetSamplerStates( Sampler, AddressU, AddressV, AddressW, MinFilter, MagFilter, MipFilter );
-#endif
+	m_device->SetSamplerStates(Sampler, AddressU, AddressV, AddressW, MinFilter, MagFilter, MipFilter);
 }
 
 FORCEINLINE HRESULT TOGLMETHODCALLTYPE IDirect3DDevice9::SetTexture(DWORD Stage,IDirect3DBaseTexture9* pTexture)
 {
-#if GLMDEBUG || GL_BATCH_PERF_ANALYSIS
-	return SetTextureNonInline( Stage, pTexture );
-#else
-	Assert( GetCurrentOwnerThreadId() == ThreadGetCurrentId() );
-	Assert( Stage < GLM_SAMPLER_COUNT );
-	m_textures[Stage] = pTexture;
-	m_ctx->SetSamplerTex( Stage, pTexture ? pTexture->m_tex : NULL );
-	return S_OK;
-#endif
+	m_device->SetTexture(Stage, pTexture->m_tex);
 }
 
 inline GLenum D3DCompareFuncToGL( DWORD function )
@@ -905,329 +719,28 @@ FORCEINLINE GLenum D3DStencilOpToGL( DWORD operation )
 
 FORCEINLINE HRESULT TOGLMETHODCALLTYPE IDirect3DDevice9::SetRenderStateInline( D3DRENDERSTATETYPE State, DWORD Value )
 {
-#if GLMDEBUG || GL_BATCH_PERF_ANALYSIS
-	return SetRenderState( State, Value );
-#else
-	TOGL_NULL_DEVICE_CHECK;
-	Assert( GetCurrentOwnerThreadId() == ThreadGetCurrentId() );
-
-	switch (State)
-	{
-		case D3DRS_ZENABLE:				// kGLDepthTestEnable
-		{
-			gl.m_DepthTestEnable.enable = Value;
-			m_ctx->WriteDepthTestEnable( &gl.m_DepthTestEnable );
-			break;
-		}
-		case D3DRS_ZWRITEENABLE:			// kGLDepthMask
-		{
-			gl.m_DepthMask.mask = Value;
-			m_ctx->WriteDepthMask( &gl.m_DepthMask );
-			break;
-		}
-		case D3DRS_ZFUNC:	
-		{
-			// kGLDepthFunc
-			GLenum func = D3DCompareFuncToGL( Value );
-			gl.m_DepthFunc.func = func;
-			m_ctx->WriteDepthFunc( &gl.m_DepthFunc );
-			break;
-		}
-		case D3DRS_COLORWRITEENABLE:		// kGLColorMaskSingle
-		{
-			gl.m_ColorMaskSingle.r	=	((Value & D3DCOLORWRITEENABLE_RED)  != 0) ? 0xFF : 0x00;
-			gl.m_ColorMaskSingle.g	=	((Value & D3DCOLORWRITEENABLE_GREEN)!= 0) ? 0xFF : 0x00;	
-			gl.m_ColorMaskSingle.b	=	((Value & D3DCOLORWRITEENABLE_BLUE) != 0) ? 0xFF : 0x00;
-			gl.m_ColorMaskSingle.a	=	((Value & D3DCOLORWRITEENABLE_ALPHA)!= 0) ? 0xFF : 0x00;
-			m_ctx->WriteColorMaskSingle( &gl.m_ColorMaskSingle );
-			break;
-		}
-		case D3DRS_CULLMODE:				// kGLCullFaceEnable / kGLCullFrontFace
-		{
-			switch (Value)
-			{
-				case D3DCULL_NONE:
-				{
-					gl.m_CullFaceEnable.enable = false;
-					gl.m_CullFrontFace.value = GL_CCW;	//doesn't matter																
-
-					m_ctx->WriteCullFaceEnable( &gl.m_CullFaceEnable );
-					m_ctx->WriteCullFrontFace( &gl.m_CullFrontFace );
-					break;
-				}
-					
-				case D3DCULL_CW:
-				{
-					gl.m_CullFaceEnable.enable = true;
-					gl.m_CullFrontFace.value = GL_CW;	//origGL_CCW;
-
-					m_ctx->WriteCullFaceEnable( &gl.m_CullFaceEnable );
-					m_ctx->WriteCullFrontFace( &gl.m_CullFrontFace );
-					break;
-				}
-				case D3DCULL_CCW:
-				{
-					gl.m_CullFaceEnable.enable = true;
-					gl.m_CullFrontFace.value = GL_CCW;	//origGL_CW;
-
-					m_ctx->WriteCullFaceEnable( &gl.m_CullFaceEnable );
-					m_ctx->WriteCullFrontFace( &gl.m_CullFrontFace );
-					break;
-				}
-				default:	
-				{
-					DXABSTRACT_BREAK_ON_ERROR();	
-					break;
-				}
-			}
-			break;
-		}
-		//-------------------------------------------------------------------------------------------- alphablend stuff
-		case D3DRS_ALPHABLENDENABLE:		// kGLBlendEnable
-		{
-			gl.m_BlendEnable.enable = Value;
-			m_ctx->WriteBlendEnable( &gl.m_BlendEnable );
-			break;
-		}
-		case D3DRS_BLENDOP:				// kGLBlendEquation				// D3D blend-op ==> GL blend equation
-		{
-			GLenum	equation = D3DBlendOperationToGL( Value );
-			gl.m_BlendEquation.equation = equation;
-			m_ctx->WriteBlendEquation( &gl.m_BlendEquation );
-			break;
-		}
-		case D3DRS_SRCBLEND:				// kGLBlendFactor				// D3D blend-factor ==> GL blend factor
-		case D3DRS_DESTBLEND:			// kGLBlendFactor
-		{
-			GLenum	factor = D3DBlendFactorToGL( Value );
-
-			if (State==D3DRS_SRCBLEND)
-			{
-				gl.m_BlendFactor.srcfactor = factor;
-			}
-			else
-			{
-				gl.m_BlendFactor.dstfactor = factor;
-			}
-			m_ctx->WriteBlendFactor( &gl.m_BlendFactor );
-			break;
-		}
-		case D3DRS_SRGBWRITEENABLE:			// kGLBlendEnableSRGB
-		{
-			gl.m_BlendEnableSRGB.enable = Value;
-			m_ctx->WriteBlendEnableSRGB( &gl.m_BlendEnableSRGB );
-			break;					
-		}
-		//-------------------------------------------------------------------------------------------- alphatest stuff
-		case D3DRS_ALPHATESTENABLE:
-		{
-			gl.m_AlphaTestEnable.enable = Value;
-			m_ctx->WriteAlphaTestEnable( &gl.m_AlphaTestEnable );
-			break;
-		}
-		case D3DRS_ALPHAREF:
-		{
-			gl.m_AlphaTestFunc.ref = Value / 255.0f;
-			m_ctx->WriteAlphaTestFunc( &gl.m_AlphaTestFunc );
-			break;
-		}
-		case D3DRS_ALPHAFUNC:
-		{
-			GLenum func = D3DCompareFuncToGL( Value );;
-			gl.m_AlphaTestFunc.func = func;
-			m_ctx->WriteAlphaTestFunc( &gl.m_AlphaTestFunc );
-			break;
-		}
-		//-------------------------------------------------------------------------------------------- stencil stuff
-		case D3DRS_STENCILENABLE:		// GLStencilTestEnable_t
-		{
-			gl.m_StencilTestEnable.enable = Value;
-			m_ctx->WriteStencilTestEnable( &gl.m_StencilTestEnable );
-			break;
-		}
-		case D3DRS_STENCILFAIL:			// GLStencilOp_t		"what do you do if stencil test fails"
-		{
-			GLenum stencilop = D3DStencilOpToGL( Value );
-			gl.m_StencilOp.sfail = stencilop;
-
-			m_ctx->WriteStencilOp( &gl.m_StencilOp,0 );
-			m_ctx->WriteStencilOp( &gl.m_StencilOp,1 );		// ********* need to recheck this
-			break;
-		}
-		case D3DRS_STENCILZFAIL:			// GLStencilOp_t		"what do you do if stencil test passes *but* depth test fails, if depth test happened"
-		{
-			GLenum stencilop = D3DStencilOpToGL( Value );
-			gl.m_StencilOp.dpfail = stencilop;
-
-			m_ctx->WriteStencilOp( &gl.m_StencilOp,0 );
-			m_ctx->WriteStencilOp( &gl.m_StencilOp,1 );		// ********* need to recheck this
-			break;
-		}
-		case D3DRS_STENCILPASS:			// GLStencilOp_t		"what do you do if stencil test and depth test both pass"
-		{
-			GLenum stencilop = D3DStencilOpToGL( Value );
-			gl.m_StencilOp.dppass = stencilop;
-
-			m_ctx->WriteStencilOp( &gl.m_StencilOp,0 );
-			m_ctx->WriteStencilOp( &gl.m_StencilOp,1 );		// ********* need to recheck this
-			break;
-		}
-		case D3DRS_STENCILFUNC:			// GLStencilFunc_t
-		{
-			GLenum stencilfunc = D3DCompareFuncToGL( Value );
-			gl.m_StencilFunc.frontfunc = gl.m_StencilFunc.backfunc = stencilfunc;
-
-			m_ctx->WriteStencilFunc( &gl.m_StencilFunc );
-			break;
-		}
-		case D3DRS_STENCILREF:			// GLStencilFunc_t
-		{
-			gl.m_StencilFunc.ref = Value;
-			m_ctx->WriteStencilFunc( &gl.m_StencilFunc );
-			break;
-		}
-		case D3DRS_STENCILMASK:			// GLStencilFunc_t
-		{
-			gl.m_StencilFunc.mask = Value;
-			m_ctx->WriteStencilFunc( &gl.m_StencilFunc );
-			break;
-		}
-		case D3DRS_STENCILWRITEMASK:		// GLStencilWriteMask_t
-		{
-			gl.m_StencilWriteMask.mask = Value;
-			m_ctx->WriteStencilWriteMask( &gl.m_StencilWriteMask );
-			break;
-		}
-		case D3DRS_FOGENABLE:			// none of these are implemented yet... erk
-		{
-			gl.m_FogEnable = (Value != 0);
-			GLMPRINTF(("-D- fogenable = %d",Value ));
-			break;
-		}
-		case D3DRS_SCISSORTESTENABLE:	// kGLScissorEnable
-		{
-			gl.m_ScissorEnable.enable = Value;
-			m_ctx->WriteScissorEnable( &gl.m_ScissorEnable );
-			break;
-		}
-		case D3DRS_DEPTHBIAS:			// kGLDepthBias
-		{
-			// the value in the dword is actually a float
-			float	fvalue = *(float*)&Value;
-			gl.m_DepthBias.units = fvalue;
-
-			m_ctx->WriteDepthBias( &gl.m_DepthBias );
-			break;
-		}
-		// good ref on these: http://aras-p.info/blog/2008/06/12/depth-bias-and-the-power-of-deceiving-yourself/
-		case D3DRS_SLOPESCALEDEPTHBIAS:
-		{
-			// the value in the dword is actually a float
-			float	fvalue = *(float*)&Value;
-			gl.m_DepthBias.factor = fvalue;
-
-			m_ctx->WriteDepthBias( &gl.m_DepthBias );
-			break;
-		}
-		// Alpha to coverage
-		case D3DRS_ADAPTIVETESS_Y:
-		{
-			gl.m_AlphaToCoverageEnable.enable = Value;
-			m_ctx->WriteAlphaToCoverageEnable( &gl.m_AlphaToCoverageEnable );
-			break;
-		}
-		case D3DRS_CLIPPLANEENABLE:		// kGLClipPlaneEnable
-		{
-			// d3d packs all the enables into one word.
-			// we break that out so we don't do N glEnable calls to sync - 
-			// GLM is tracking one unique enable per plane.
-			for( int i=0; i<kGLMUserClipPlanes; i++)
-			{
-				gl.m_ClipPlaneEnable[i].enable = (Value & (1<<i)) != 0;
-			}
-
-			for( int x=0; x<kGLMUserClipPlanes; x++)
-				m_ctx->WriteClipPlaneEnable( &gl.m_ClipPlaneEnable[x], x );
-			break;
-		}
-		//-------------------------------------------------------------------------------------------- polygon/fill mode
-		case D3DRS_FILLMODE:
-		{
-			GLuint mode = 0;
-			switch(Value)
-			{
-				case D3DFILL_POINT:			mode = GL_POINT; break;
-				case D3DFILL_WIREFRAME:		mode = GL_LINE; break;
-				case D3DFILL_SOLID:			mode = GL_FILL; break;
-				default:					DXABSTRACT_BREAK_ON_ERROR(); break;
-			}
-			gl.m_PolygonMode.values[0] = gl.m_PolygonMode.values[1] = mode;						
-			m_ctx->WritePolygonMode( &gl.m_PolygonMode );
-			break;
-		}
-	}
-		
-	return S_OK;
-#endif
+	m_device->SetRenderState(State, Value);
 }
 
 FORCEINLINE HRESULT TOGLMETHODCALLTYPE IDirect3DDevice9::SetRenderStateConstInline( D3DRENDERSTATETYPE State, DWORD Value )
 {
 	// State is a compile time constant - luckily no need to do anything special to get the compiler to optimize this case.
-	return SetRenderStateInline( State, Value );
+	return SetRenderState( State, Value );
 }
 
 FORCEINLINE HRESULT TOGLMETHODCALLTYPE IDirect3DDevice9::SetIndices(IDirect3DIndexBuffer9* pIndexData)
 {
-#if GLMDEBUG || GL_BATCH_PERF_ANALYSIS
-	return SetIndicesNonInline( pIndexData );
-#else
-	Assert( GetCurrentOwnerThreadId() == ThreadGetCurrentId() );
-	// just latch it.
-	m_indices.m_idxBuffer = pIndexData;
-	return S_OK;
-#endif
+	m_device->SetIndices(pIndexData->m_ib);
 }
 
 FORCEINLINE HRESULT TOGLMETHODCALLTYPE IDirect3DDevice9::SetStreamSource(UINT StreamNumber,IDirect3DVertexBuffer9* pStreamData,UINT OffsetInBytes,UINT Stride)
 {
-#if GLMDEBUG || GL_BATCH_PERF_ANALYSIS
-	return SetStreamSourceNonInline( StreamNumber, pStreamData, OffsetInBytes, Stride );
-#else
-	Assert( GetCurrentOwnerThreadId() == ThreadGetCurrentId() );
-	Assert( StreamNumber < D3D_MAX_STREAMS );
-	Assert( ( Stride & 3 ) == 0 ); // we support non-DWORD aligned strides, but on some drivers (like AMD's) perf goes off a cliff 
-	
-	// perfectly legal to see a vertex buffer of NULL get passed in here.
-	// so we need an array to track these.
-	// OK, we are being given the stride, we don't need to calc it..
-
-	GLMPRINTF(("-X- IDirect3DDevice9::SetStreamSource setting stream #%d to D3D buf %p (GL name %d); offset %d, stride %d", StreamNumber, pStreamData, (pStreamData) ? pStreamData->m_vtxBuffer->m_name: -1, OffsetInBytes, Stride));
-	
-	if ( !pStreamData )
-	{
-		OffsetInBytes = 0;
-		Stride = 0;
-
-		m_vtx_buffers[ StreamNumber ] = m_pDummy_vtx_buffer;
-	}
-	else
-	{
-		// We do not support strides of 0
-		Assert( Stride > 0 );
-		m_vtx_buffers[ StreamNumber ] = pStreamData->m_vtxBuffer;
-	}
-
-	m_streams[ StreamNumber ].m_vtxBuffer = pStreamData;
-	m_streams[ StreamNumber ].m_offset	= OffsetInBytes;
-	m_streams[ StreamNumber ].m_stride	= Stride;
-
-	return S_OK;
-#endif
+	return m_device->SetStreamSource(StreamNumber, pStreamData->m_vb, OffsetInBytes, Stride);
 }
 
 FORCEINLINE HRESULT TOGLMETHODCALLTYPE IDirect3DDevice9::SetVertexShaderConstantF(UINT StartRegister,CONST float* pConstantData,UINT Vector4fCount)	// groups of 4 floats!
 {
+	return m_device->SetVertexShaderConstantF(StartRegister, pConstantData, Vector4fCount);
 #if GLMDEBUG || GL_BATCH_PERF_ANALYSIS
 	return SetVertexShaderConstantFNonInline( StartRegister, pConstantData, Vector4fCount );
 #else
@@ -1240,6 +753,7 @@ FORCEINLINE HRESULT TOGLMETHODCALLTYPE IDirect3DDevice9::SetVertexShaderConstant
 
 FORCEINLINE HRESULT TOGLMETHODCALLTYPE IDirect3DDevice9::SetVertexShaderConstantB(UINT StartRegister,CONST BOOL* pConstantData,UINT  BoolCount)
 {
+	return m_device->SetVertexShaderConstantB(StartRegister, pConstantData, BoolCount);
 #if GLMDEBUG || GL_BATCH_PERF_ANALYSIS
 	return SetVertexShaderConstantBNonInline( StartRegister, pConstantData, BoolCount );
 #else
@@ -1252,6 +766,7 @@ FORCEINLINE HRESULT TOGLMETHODCALLTYPE IDirect3DDevice9::SetVertexShaderConstant
 
 FORCEINLINE HRESULT IDirect3DDevice9::SetVertexShaderConstantI(UINT StartRegister,CONST int* pConstantData,UINT Vector4iCount)		// groups of 4 ints!
 {
+	return m_device->SetVertexShaderConstantI(StartRegister, pConstantData, Vector4iCount);
 #if GLMDEBUG || GL_BATCH_PERF_ANALYSIS
 	return SetVertexShaderConstantINonInline( StartRegister, pConstantData, Vector4iCount );
 #else
@@ -1264,6 +779,7 @@ FORCEINLINE HRESULT IDirect3DDevice9::SetVertexShaderConstantI(UINT StartRegiste
 
 FORCEINLINE HRESULT TOGLMETHODCALLTYPE IDirect3DDevice9::SetPixelShaderConstantF(UINT StartRegister,CONST float* pConstantData,UINT Vector4fCount)
 {
+	return m_device->SetPixelShaderConstantF(StartRegister, pConstantData, Vector4fCount);
 #if GLMDEBUG || GL_BATCH_PERF_ANALYSIS
 	return SetPixelShaderConstantFNonInline(StartRegister, pConstantData, Vector4fCount);
 #else
@@ -1276,6 +792,7 @@ FORCEINLINE HRESULT TOGLMETHODCALLTYPE IDirect3DDevice9::SetPixelShaderConstantF
 
 HRESULT IDirect3DDevice9::SetVertexShader(IDirect3DVertexShader9* pShader)
 {
+	return m_device->SetVertexShader(pShader->m_shader);
 #if GLMDEBUG || GL_BATCH_PERF_ANALYSIS
 	return SetVertexShaderNonInline(pShader);
 #else
@@ -1288,6 +805,7 @@ HRESULT IDirect3DDevice9::SetVertexShader(IDirect3DVertexShader9* pShader)
 
 FORCEINLINE HRESULT TOGLMETHODCALLTYPE IDirect3DDevice9::SetPixelShader(IDirect3DPixelShader9* pShader)
 {
+	return m_device->SetPixelShader(pShader->m_shader);
 #if GLMDEBUG || GL_BATCH_PERF_ANALYSIS
 	return SetPixelShaderNonInline(pShader);
 #else
@@ -1300,6 +818,7 @@ FORCEINLINE HRESULT TOGLMETHODCALLTYPE IDirect3DDevice9::SetPixelShader(IDirect3
 
 FORCEINLINE HRESULT IDirect3DDevice9::SetVertexDeclaration(IDirect3DVertexDeclaration9* pDecl)
 {
+	return m_device->SetVertexDeclaration(pDecl->m_decl);
 #if GLMDEBUG || GL_BATCH_PERF_ANALYSIS
 	return SetVertexDeclarationNonInline(pDecl);
 #else
@@ -1311,6 +830,7 @@ FORCEINLINE HRESULT IDirect3DDevice9::SetVertexDeclaration(IDirect3DVertexDeclar
 
 FORCEINLINE void IDirect3DDevice9::SetMaxUsedVertexShaderConstantsHint( uint nMaxReg )
 {
+	return m_device->SetMaxUsedVertexShaderConstantsHint(nMaxReg);
 #if GLMDEBUG || GL_BATCH_PERF_ANALYSIS
 	return SetMaxUsedVertexShaderConstantsHintNonInline( nMaxReg );
 #else
