@@ -72,7 +72,7 @@ __pycache__
 # kdevelop
 *.kdev4
 
-src/**.project
+*.project
 
 # Ignore most things in game
 ./game/
@@ -91,5 +91,5 @@ build/
 cmake-build*
 
 # Ignore everything except the mod directory
-game/
+./game/
 !game/mod_hl2mp

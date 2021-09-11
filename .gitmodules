@@ -10,3 +10,5 @@
 [submodule "src/thirdparty/dxvk-native"]
 	path = src/thirdparty/dxvk-native
 	url = https://github.com/ChaosInitiative/dxvk-native
+[submodule "dxvk-native"]
+	url = https://github.com/Joshua-Ashton/dxvk-native
