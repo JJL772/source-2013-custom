@@ -52,6 +52,8 @@ $Configuration
 		$PreprocessorDefinitions		"$BASE;PLATFORM_64BITS"		[$OSX64]
 		$GCC_ExtraCompilerFlags			"$BASE -arch x86_64"		[$OSX64]
 
+		$GCC_ExtraCompilerFlags			"$BASE -isystem $SRCDIR\common\dxvk"
+
 		$Create/UsePCHThroughFile	"stdafx.h"
 	}
 	
