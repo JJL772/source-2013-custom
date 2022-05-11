@@ -10,3 +10,6 @@
 [submodule "src/thirdparty/dxvk-native"]
 	path = src/thirdparty/dxvk-native
 	url = https://github.com/ChaosInitiative/dxvk-native
+[submodule "scripts"]
+	path = scripts
+	url = https://github.com/JJL772/source-sdk-scripts.git

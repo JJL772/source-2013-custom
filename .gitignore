@@ -1,6 +1,6 @@
 # Files to ignore when considering what GIT should commit.
 
-game/**/glshaders.cfg
+./game/**/glshaders.cfg
 
 content/maps.manifest
 content/mapsrc/*.bsp
@@ -91,5 +91,12 @@ build/
 cmake-build*
 
 # Ignore everything except the mod directory
-game/
 !game/mod_hl2mp
+*.so 
+*.dbg
+game/bin/
+game/mod_hl2mp/bin
+
+compile_commands.json
+*.bsp
+*.ain

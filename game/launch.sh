@@ -1,3 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-./hl2.sh -game mod_hl2mp -dev +sv_cheats 1 +sk_fraggrenade_debug 1 +map dm_lockdown 
+cd "$(dirname "$0")"
+
+export LD_PRELOAD="$PWD/bin/libtogl.so"
+export LD_LIBRARY_PATH="$PWD/bin"
+./hl2_linux -game mod_hl2mp -dev +sv_cheats 1 +map sdk_vehicles
