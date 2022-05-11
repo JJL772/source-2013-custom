@@ -938,8 +938,9 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	/* Loads the CScript module using the special loading system */
 	if ( (g_pCScript = LoadInterface<ICScript>("cscript", CSCRIPT_INTERFACE_VERSION, appSystemFactory)) == NULL )
 		return false;
-	if ((g_pVR = LoadInterface<IVRClient>("vr", VRCLIENT_MODULE_VERSION, appSystemFactory)) == NULL)
-		return false;
+	if ( CommandLine()->FindParm( "-vr" ) != 0 )
+		if ((g_pVR = LoadInterface<IVRClient>("vr", VRCLIENT_MODULE_VERSION, appSystemFactory)) == NULL)
+			return false;
 
 #ifndef _XBOX
 	if ( ( gamestatsuploader = (IUploadGameStats *)appSystemFactory( INTERFACEVERSION_UPLOADGAMESTATS, NULL )) == NULL )
@@ -987,7 +988,8 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	// Not fatal if the material system stub isn't around.
 	materials_stub = (IMaterialSystemStub*)appSystemFactory( MATERIAL_SYSTEM_STUB_INTERFACE_VERSION, NULL );
 
-	InitInterface<IVRClient>(g_pVR);
+	if ( g_pVR )
+	    InitInterface<IVRClient>(g_pVR);
 	InitInterface<ICScript>(g_pCScript); 
 
 	if( !g_pMaterialSystemHardwareConfig )
@@ -1029,7 +1031,8 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	IGameSystem::Add( ClientSoundscapeSystem() );
 	IGameSystem::Add( PerfVisualBenchmark() );
 	IGameSystem::Add( MumbleSystem() );
-	IGameSystem::Add( GetVRGameSystem(g_pVR->GetHooks()) );
+	if ( g_pVR )
+		IGameSystem::Add( GetVRGameSystem(g_pVR->GetHooks()) );
 	
 	#if defined( TF_CLIENT_DLL )
 	IGameSystem::Add( CustomTextureToolCacheGameSystem() );
