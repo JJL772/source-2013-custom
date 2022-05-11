@@ -1,6 +1,10 @@
 # Files to ignore when considering what GIT should commit.
 
-./game/**/glshaders.cfg
+# Misc game files
+glshaders.cfg
+modelsounds.cache
+sound.cache
+maps.manifest
 
 content/maps.manifest
 content/mapsrc/*.bsp
@@ -74,11 +78,7 @@ __pycache__
 
 src/**.project
 
-# Ignore most things in game
-./game/
-!game/mod_hl2mp
-!game/launch.sh
-
+*.a
 src/lib/public/
 **.project
 
