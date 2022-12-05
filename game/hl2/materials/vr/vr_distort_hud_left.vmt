@@ -1,0 +1,5 @@
+vr_distort_hud
+{
+	$basetexture	"_rt_gui"
+	$distortmap		"vr_distort_map_left"
+}

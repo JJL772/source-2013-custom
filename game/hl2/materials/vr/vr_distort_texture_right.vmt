@@ -1,0 +1,6 @@
+vr_distort_texture
+{
+	$basetexture	"_rt_vr_predistort"
+	$distortmap		"vr_distort_map_right"
+	$userendertarget "1"
+}

@@ -1,0 +1,6 @@
+vr_distort_texture
+{
+	$basetexture	"_rt_FullFrameFB1"
+	$distortmap		"vr_distort_map_left"
+	$userendertarget "0"
+}
