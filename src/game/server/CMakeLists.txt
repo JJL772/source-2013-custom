@@ -1143,7 +1143,6 @@ set(SRCS
     	#trigger_portal.cpp # WE dont need this?
    	# Custom physics stuff
 	physics_record.cpp
-	${ROOT}/game/shared/man_main.cpp
 )
 
 # Preprocessor defs

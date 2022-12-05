@@ -13,7 +13,6 @@
 #endif
 
 #include "mapentities.h"
-#include "cscript/cscript.h"
 
 class IReplayFactory;
 
@@ -224,8 +223,6 @@ public:
 
 };
 EXPOSE_SINGLE_INTERFACE( CServerGameTags, IServerGameTags, INTERFACEVERSION_SERVERGAMETAGS );
-
-extern ICScript* g_pCScript;
 
 #endif // GAMEINTERFACE_H
 

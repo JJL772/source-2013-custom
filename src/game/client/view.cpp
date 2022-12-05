@@ -45,7 +45,6 @@
 #include "ScreenSpaceEffects.h"
 #include "sourcevr/isourcevirtualreality.h"
 #include "client_virtualreality.h"
-#include "vr/vr.h"
 
 #if defined(REPLAY_ENABLED)
 #include "replay/ireplaysystem.h"
@@ -1096,11 +1095,6 @@ void CViewRender::Render(vrect_t *rect)
 		case STEREO_EYE_RIGHT:
 		case STEREO_EYE_LEFT:
 		{
-			EVRView vrView = EVRView::LEFT;
-			if(eEye == STEREO_EYE_RIGHT)
-				vrView = EVRView::RIGHT;
-			g_pVR->GetViewportBounds(vrView, view.x, view.y, view.width, view.height);
-		
 			view.m_nUnscaledWidth = view.width;
 			view.m_nUnscaledHeight = view.height;
 			view.m_nUnscaledX = view.x;

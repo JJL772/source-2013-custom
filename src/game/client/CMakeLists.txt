@@ -583,7 +583,6 @@ set(SRCS
     	game_controls/teammenu.cpp 
     	game_controls/vguitextwindow.cpp
 	${ROOT}/game/shared/tests/code_panel_test.cpp
-	${ROOT}/game/shared/man_main.cpp
 )
 
 # Preprocessor defs

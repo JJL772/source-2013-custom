@@ -87,10 +87,8 @@
 #include "ihudlcd.h"
 #include "toolframework_client.h"
 #include "hltvcamera.h"
-#include "vr/vr.h"
 #include "appframework/AppFramework.h"
 #include "tier1/appframeworkutils.h"
-#include "vr/vr_shared_support.h"
 #if defined( REPLAY_ENABLED )
 #include "replay/replaycamera.h"
 #include "replay/replay_ragdoll.h"
@@ -209,8 +207,6 @@ IXboxSystem *xboxsystem = NULL;	// Xbox 360 only
 IMatchmaking *matchmaking = NULL;
 IUploadGameStats *gamestatsuploader = NULL;
 IClientReplayContext *g_pClientReplayContext = NULL;
-ICScript* g_pCScript = NULL;
-IVRClient* g_pVR = NULL;
 #if defined( REPLAY_ENABLED )
 IReplayManager *g_pReplayManager = NULL;
 IReplayMovieManager *g_pReplayMovieManager = NULL;
@@ -935,13 +931,6 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	if ( IsX360() && (matchmaking = (IMatchmaking *)appSystemFactory( VENGINE_MATCHMAKING_VERSION, NULL )) == NULL )
 		return false;
 	
-	/* Loads the CScript module using the special loading system */
-	if ( (g_pCScript = LoadInterface<ICScript>("cscript", CSCRIPT_INTERFACE_VERSION, appSystemFactory)) == NULL )
-		return false;
-	if ( CommandLine()->FindParm( "-vr" ) != 0 )
-		if ((g_pVR = LoadInterface<IVRClient>("vr", VRCLIENT_MODULE_VERSION, appSystemFactory)) == NULL)
-			return false;
-
 #ifndef _XBOX
 	if ( ( gamestatsuploader = (IUploadGameStats *)appSystemFactory( INTERFACEVERSION_UPLOADGAMESTATS, NULL )) == NULL )
 		return false;
@@ -988,10 +977,6 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	// Not fatal if the material system stub isn't around.
 	materials_stub = (IMaterialSystemStub*)appSystemFactory( MATERIAL_SYSTEM_STUB_INTERFACE_VERSION, NULL );
 
-	if ( g_pVR )
-	    InitInterface<IVRClient>(g_pVR);
-	InitInterface<ICScript>(g_pCScript); 
-
 	if( !g_pMaterialSystemHardwareConfig )
 		return false;
 
@@ -1031,8 +1016,6 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	IGameSystem::Add( ClientSoundscapeSystem() );
 	IGameSystem::Add( PerfVisualBenchmark() );
 	IGameSystem::Add( MumbleSystem() );
-	if ( g_pVR )
-		IGameSystem::Add( GetVRGameSystem(g_pVR->GetHooks()) );
 	
 	#if defined( TF_CLIENT_DLL )
 	IGameSystem::Add( CustomTextureToolCacheGameSystem() );

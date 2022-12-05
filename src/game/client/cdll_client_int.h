@@ -15,7 +15,6 @@
 #include "utllinkedlist.h"
 #include "cdll_int.h"
 #include "eiface.h"
-#include "cscript/cscript.h"
 
 class IVModelRender;
 class IVEngineClient;
@@ -59,7 +58,6 @@ class IEngineReplay;
 class IEngineClientReplay;
 class IReplayScreenshotManager;
 class CSteamID;
-class IVRClient;
 
 //=============================================================================
 // HPE_BEGIN
@@ -111,8 +109,6 @@ extern IReplayManager *g_pReplayManager;
 extern IReplayScreenshotManager *g_pReplayScreenshotManager;
 extern IEngineReplay *g_pEngineReplay;
 extern IEngineClientReplay *g_pEngineClientReplay;
-extern ICScript* g_pCScript;
-extern IVRClient* g_pVR;
 
 //=============================================================================
 // HPE_BEGIN
