@@ -89,6 +89,7 @@
 #include "hltvcamera.h"
 #include "appframework/AppFramework.h"
 #include "tier1/appframeworkutils.h"
+#include "imgui/imgui_system.h"
 #if defined( REPLAY_ENABLED )
 #include "replay/replaycamera.h"
 #include "replay/replay_ragdoll.h"
@@ -1092,6 +1093,8 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	HookHapticMessages(); // Always hook the messages
 #endif
 
+	g_pImguiSystem->Init();
+
 	return true;
 }
 
@@ -1171,6 +1174,8 @@ void CHLClient::Shutdown( void )
         g_pAchievementsAndStatsInterface->ReleasePanel();
     }
 
+	g_pImguiSystem->Shutdown();
+	
 #ifdef SIXENSE
 	g_pSixenseInput->Shutdown();
 	delete g_pSixenseInput;

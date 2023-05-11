@@ -583,12 +583,36 @@ set(SRCS
     	game_controls/teammenu.cpp 
     	game_controls/vguitextwindow.cpp
 	${ROOT}/game/shared/tests/code_panel_test.cpp
+	
+	# Imgui sources
+	${ROOT}/thirdparty/imgui/imgui.cpp
+	${ROOT}/thirdparty/imgui/imgui_demo.cpp
+	${ROOT}/thirdparty/imgui/imgui_draw.cpp
+	${ROOT}/thirdparty/imgui/imgui_tables.cpp
+	${ROOT}/thirdparty/imgui/imgui_widgets.cpp
+	
+	# Devui sources
+	imgui/imgui_system.cpp
+	imgui/imgui_impl_source.cpp
+)
+
+set_source_files_properties(
+	${ROOT}/thirdparty/imgui/imgui.cpp
+	${ROOT}/thirdparty/imgui/imgui_demo.cpp
+	${ROOT}/thirdparty/imgui/imgui_draw.cpp
+	${ROOT}/thirdparty/imgui/imgui_tables.cpp
+	${ROOT}/thirdparty/imgui/imgui_widgets.cpp
+
+	PROPERTIES SKIP_PRECOMPILE_HEADERS ON
 )
 
 # Preprocessor defs
-set(DEFINES -DNO_STRING_T -DCLIENT_DLL -DVECTOR -DVERSION_SAFE_STEAM_API_INTERFACES -Dstrncpy=use_Q_strncpy_instead
-	-D_snprintf=use_Q_snprintf_instead -DHL2_CLIENT_DLL -DHL2MP
+set(DEFINES -DNO_STRING_T -DCLIENT_DLL -DVECTOR -DVERSION_SAFE_STEAM_API_INTERFACES
+	-DHL2_CLIENT_DLL -DHL2MP
 	-DVPCGAMECAPS=HL2MP -DPROJECTDIR=${CMAKE_CURRENT_SOURCE_DIR}
+	
+	IMGUI_DISABLE_INCLUDE_IMCONFIG_H
+	IMGUI_USER_CONFIG="${ROOT}/game/client/imgui/imconfig_source.h"
 )
 
 # Platform-specific preprocessor defines
@@ -681,6 +705,11 @@ endif(DEFINED WINDOWS)
 if(DEFINED POSIX)
 	target_link_libraries(client ${POSIX_LINK_LIBS})
 endif(DEFINED POSIX)
+
+target_include_directories(
+	client PRIVATE
+	${ROOT}/thirdparty
+)
 
 install(TARGETS client
 		RUNTIME DESTINATION ${MOD_DIR}/bin

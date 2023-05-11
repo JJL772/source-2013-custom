@@ -13,3 +13,6 @@
 [submodule "scripts"]
 	path = scripts
 	url = https://github.com/JJL772/source-sdk-scripts.git
+[submodule "src/thirdparty/imgui"]
+	path = src/thirdparty/imgui
+	url = https://github.com/StrataSource/imgui.git
